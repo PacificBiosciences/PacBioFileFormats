@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# FileFormats documentation build configuration file, created by
+# PacBioFileFormats documentation build configuration file, created by
 # sphinx-quickstart on Tue Apr 30 08:43:59 2013.
 #
 # This file is execfile()d with the current directory set to its containing dir.
@@ -42,7 +42,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'FileFormats'
+project = u'PacBioFileFormats'
 copyright = u'2015, Pacific Biosciences'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -166,7 +166,7 @@ html_static_path = ['_static']
 #html_file_suffix = None
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'FileFormatsdoc'
+htmlhelp_basename = 'PacBioFileFormatsdoc'
 
 
 # -- Options for LaTeX output --------------------------------------------------
@@ -185,7 +185,7 @@ latex_elements = {
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'FileFormats.tex', u'FileFormats Documentation',
+  ('index', 'PacBioFileFormats.tex', u'PacBioFileFormats Documentation',
    u'Pacific Biosciences', 'manual'),
 ]
 
@@ -215,7 +215,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'fileformats', u'FileFormats Documentation',
+    ('index', 'fileformats', u'PacBioFileFormats Documentation',
      [u'Pacific Biosciences'], 1)
 ]
 
@@ -229,8 +229,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  ('index', 'FileFormats', u'FileFormats Documentation',
-   u'Pacific Biosciences', 'FileFormats', 'One line description of project.',
+  ('index', 'PacBioFileFormats', u'PacBioFileFormats Documentation',
+   u'Pacific Biosciences', 'PacBioFileFormats', 'One line description of project.',
    'Miscellaneous'),
 ]
 
