@@ -1,3 +1,3 @@
 Documentation rendered here:
 ----------------------------
-http://pacificbiosciences.github.io/FileFormats/
+http://pacbiofileformats.readthedocs.org/en/latest/
