@@ -37,14 +37,15 @@ with open(schema_file, 'r') as f:
 xml_validator = etree.XMLSchema(xsd)
 
 
-filenames = ['subread.dataset.xml', 
-             'ccsread.dataset.xml', 
-             'barcode.dataset.xml',
-             'reference.dataset.xml',
-             'contig.dataset.xml',
-             'alignment.dataset.xml',
-	     'transformed_rs_subread.dataset.xml'
-             ]
+filenames = [
+  'subread.dataset.xml' ,
+  'ccsread.dataset.xml',
+  'barcode.dataset.xml',
+  'reference.dataset.xml',
+  'contig.dataset.xml',
+  'alignment.dataset.xml',
+  'transformed_rs_subread.dataset.xml'
+]
 
 print "Validating files"
 for filename in filenames:
