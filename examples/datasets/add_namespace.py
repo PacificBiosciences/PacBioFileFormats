@@ -49,6 +49,7 @@ tags = [
     "pbds:ReadQualDist",
     "pbds:ReadTypeDist",
     "pbds:ShortInsertFraction",
+    "pbds:HdfSubreadSet",
     "pbds:SubreadSet",
     "pbds:SummaryStats",
     "pbds:TotalLength",
