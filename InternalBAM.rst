@@ -98,27 +98,57 @@ per-read tags:
 
 
     +---------------------+---------+--------+--------------------+--------------------------------+
-    | Feature             | Tag name| Type   |     Example        | Comment                        |
+    | Feature             | Tag name| Type   |      Example       | Comment                        |
     +=====================+=========+========+====================+================================+
-    | Pulse call          | pc      |   Z    |     GATTaACA       | Lowercase used to indicate a   |
+    | Pulse call          | pc      | Z      |        GaAT        | Lowercase used to indicate a   |
     |                     |         |        |                    | pulsecall that was "squashed"  |
     |                     |         |        |                    | by P2B                         |
     +---------------------+---------+--------+--------------------+--------------------------------+
-    | Pulse mean signal   | pa      | B,S    |  2,3,2,4,4,2,3,3   | Will hopefully be eliminated   |
+    | LabelQV             | pq      | B,C    |    20,20,12,20     | TODO                           |
+    +---------------------+---------+--------+--------------------+--------------------------------+
+    | AltLabel            | pt      | Z      |        ---C        | "second best" label; '-' if no |
+    |                     |         |        |                    | alternative applicable         |
+    +---------------------+---------+--------+--------------------+--------------------------------+
+    | AltLabelQV          | pv      | B,C    |      0,0,0,3       | TODO                           |
+    +---------------------+---------+--------+--------------------+--------------------------------+
+    | MergeQV             | pg      | B,C    |                    | TODO                           |
+    +---------------------+---------+--------+--------------------+--------------------------------+
+    | Pulse mean signal   | pa      | B,S    |      2,3,2,4       | Will hopefully be eliminated   |
     | (pkmean)            |         |        |                    | once Dave investigates P2B     |
     +---------------------+---------+--------+--------------------+--------------------------------+
-    | Pulse median signal | pm      | B,S    |  3,3,4,3,2,2,2,3   |                                |
+    | Pulse median signal | pm      | B,S    |      3,3,4,3       | TODO                           |
     | (pkmid)             |         |        |                    |                                |
     +---------------------+---------+--------+--------------------+--------------------------------+
-    | Pre-pulse frames    | pd      | B,S    |  8,5,5,8,7,2,3,4   |                                |
+    | Pre-pulse frames    | pd      | B,S    |      8,5,5,8       | TODO                           |
     +---------------------+---------+--------+--------------------+--------------------------------+
-    | Pulse width (frames)| px      | B,S    |  2,2,4,5,2,3,2,2   |                                |
+    | Pulse width (frames)| px      | B,S    |      2,2,4,5       | TODO                           |
     +---------------------+---------+--------+--------------------+--------------------------------+
 
 
 Note that we encode the entire pulse stream and its attendant
 features, even though some of these are at least partially redundant
 with base-level features.
+
+
+Baseline sigma
+##############
+
+Additionally we need to encode the *baseline sigma* for each channel
+for a read.  The baseline sigma is a piecewise constant function of
+time, changing at an interval on the order of 10 to 100 seconds (i.e.,
+slowly!).  We tally the number of pulses in each interval ("block")
+and the baseline sigma for each channel during that block, as follows:
+
+- "bs" tag = BaselineSigma =
+  { A_0, C_0, G_0, T_0, A_1, C_1, G_1, T_1, ... } (as `float32[]` / `B,f`)
+   where subscript denotes block number.
+
+- "pb" tag = PulseBlockSize
+  = number of pulses in each block (`uint32[]`, `B,I`)
+
+Thus, for example, the first `pb[0]` pulses have baseline sigma
+`bs[0]` for the A channel.
+
 
 
 
