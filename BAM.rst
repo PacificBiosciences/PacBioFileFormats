@@ -269,6 +269,29 @@ SAM/BAM spec, we encode special information as follows.
       +---------------------+-----------------------------------------+----------------+
 
 
+      **Optional items:**
+
+      .. note::
+
+         These items are optional if there are no "bc" tags in the reads
+         belonging to this read-group, otherwise they are mandatory.
+
+      +---------------------+-----------------------------------------+----------------------------------+
+      | Key                 | Value spec                              | Value example                    |
+      +=====================+=========================================+==================================+
+      | BarcodeFile         | Name of the Fasta file containing the   | pacbio_384_barcodes.fasta        |
+      |                     | sequences of the barcodes used          |                                  |
+      +---------------------+-----------------------------------------+----------------------------------+
+      | BarcodeHash         | The MD5 hash of the content             | 0a294bb959fc6c766967fc8beeb4d88d |
+      |                     | file with the barcoding sequences       |                                  |
+      +---------------------+-----------------------------------------+----------------------------------+
+      | BarcodeNumber       | The number of barcode sequences in the  | 384                              |
+      |                     | Barcode File                            |                                  |
+      +---------------------+-----------------------------------------+----------------------------------+
+      | BarcodeMode         | Experimental design of the barcodes     | Symmetric                        |
+      |                     | Must be Symmetric/Asymmetric/None       |                                  |
+      +---------------------+-----------------------------------------+----------------------------------+
+
 
 
 Use of read tags for per-read information
