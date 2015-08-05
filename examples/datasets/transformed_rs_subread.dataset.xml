@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <pbds:HdfSubreadSet xmlns:pbds="http://pacificbiosciences.com/PacBioDatasets.xsd"
-                    UniqueId="a91487e7-7807-47d6-a35b-52df887916e5"
-                    TimeStampedName="hdfsubreadset_2015-08-03T12:54:53.467-08:00"
+                    UniqueId="a4040047-9ae2-4d77-8683-2ae1bd231c75"
+                    TimeStampedName="hdfsubreadset_2015-08-04T19:12:20.971-08:00"
                     MetaType="PacBio.DataSet.SubreadSet"
                     Name="Subreads from runr000004_42268_150307"
                     Tags="pacbio.secondary.instrument=RS"
                     Version="0.5">
    <pbbase:ExternalResources xmlns:pbbase="http://pacificbiosciences.com/PacBioBaseDataModel.xsd">
-      <pbbase:ExternalResource UniqueId="a29024df-e5c3-4df3-9bdb-73ed7a17bc8e"
-                               TimeStampedName="hdfsubread_file_2015-08-03T12:54:53.467-08:00"
+      <pbbase:ExternalResource UniqueId="afde5e9a-0461-4bd1-8bd1-476b87d4f70d"
+                               TimeStampedName="hdfsubread_file_2015-08-04T19:12:20.971-08:00"
                                MetaType="PacBio.SubreadFile.BaxFile"
-                               ResourceId="file:///C:/Users/aklammer/aklammer_laptop_2015/aklammer_laptop_2015/depot/software/smrtanalysis/bioinformatics/doc/FileFormats/examples/datasets/Analysis_Results/rs1.bax.h5"/>
-      <pbbase:ExternalResource UniqueId="a8c57a26-790b-4e1a-8997-1057df29d8f8"
-                               TimeStampedName="hdfsubread_file_2015-08-03T12:54:53.467-08:00"
+                               ResourceId="file:///C:/Users/aklammer/aklammer_laptop_2015/aklammer_laptop_2015/depot/software/smrtanalysis/bioinformatics/doc/FileFormats/examples/datasets/Analysis_Results/rs.1.bax.h5"/>
+      <pbbase:ExternalResource UniqueId="a0bc77b6-281c-47a3-a532-389c7d5c0736"
+                               TimeStampedName="hdfsubread_file_2015-08-04T19:12:20.971-08:00"
                                MetaType="PacBio.SubreadFile.BaxFile"
-                               ResourceId="file:///C:/Users/aklammer/aklammer_laptop_2015/aklammer_laptop_2015/depot/software/smrtanalysis/bioinformatics/doc/FileFormats/examples/datasets/Analysis_Results/rs2.bax.h5"/>
-      <pbbase:ExternalResource UniqueId="a47d91c8-26e9-47f5-b031-8669bee2ec3d"
-                               TimeStampedName="hdfsubreadset_file_2015-08-03T12:54:53.467-08:00"
+                               ResourceId="file:///C:/Users/aklammer/aklammer_laptop_2015/aklammer_laptop_2015/depot/software/smrtanalysis/bioinformatics/doc/FileFormats/examples/datasets/Analysis_Results/rs.2.bax.h5"/>
+      <pbbase:ExternalResource UniqueId="ac274355-9abd-4c45-9040-bb97241bb6e6"
+                               TimeStampedName="hdfsubreadset_file_2015-08-04T19:12:20.971-08:00"
                                MetaType="PacBio.SubreadFile.BaxFile"
-                               ResourceId="file:///C:/Users/aklammer/aklammer_laptop_2015/aklammer_laptop_2015/depot/software/smrtanalysis/bioinformatics/doc/FileFormats/examples/datasets/Analysis_Results/rs3.bax.h5"/>
+                               ResourceId="file:///C:/Users/aklammer/aklammer_laptop_2015/aklammer_laptop_2015/depot/software/smrtanalysis/bioinformatics/doc/FileFormats/examples/datasets/Analysis_Results/rs.3.bax.h5"/>
    </pbbase:ExternalResources>
    <pbds:DataSetMetadata>
       <pbds:TotalLength>50000000</pbds:TotalLength>
       <pbds:NumRecords>150000</pbds:NumRecords>
       <pbmeta:Collections xmlns:pbmeta="http://pacificbiosciences.com/PacBioCollectionMetadata.xsd">
-         <pbmeta:CollectionMetadata UniqueId="aad4a871-64d7-4b56-a34f-16a873cdf2d7" TimeStampedName="rs"
+         <pbmeta:CollectionMetadata UniqueId="ad41c283-cd37-455b-97a8-23dde1fd7cee" TimeStampedName="rs"
                                     MetaType="PacBio.Collection"
                                     Context="rs"
                                     InstrumentName="42268"
@@ -46,7 +46,7 @@
                             </pbmeta:SizeSelectionEnabled>
                <pbmeta:UseCount>1</pbmeta:UseCount>
                <pbsample:BioSamplePointers xmlns:pbsample="http://pacificbiosciences.com/PacBioSampleInfo.xsd">
-                  <pbsample:BioSamplePointer>a8e8ea84-2c0a-4da6-9fec-e1a7b553c706</pbsample:BioSamplePointer>
+                  <pbsample:BioSamplePointer>a0ad6e5b-a522-405b-8e50-d622e1ca9858</pbsample:BioSamplePointer>
                </pbsample:BioSamplePointers>
             </pbmeta:WellSample>
             <pbmeta:Automation>
@@ -74,8 +74,8 @@
          </pbmeta:CollectionMetadata>
       </pbmeta:Collections>
       <pbsample:BioSamples xmlns:pbsample="http://pacificbiosciences.com/PacBioSampleInfo.xsd">
-         <pbsample:BioSample UniqueId="a8e8ea84-2c0a-4da6-9fec-e1a7b553c706"
-                             TimeStampedName="biosample_2015-08-03T12:54:53.467-08:00"
+         <pbsample:BioSample UniqueId="a0ad6e5b-a522-405b-8e50-d622e1ca9858"
+                             TimeStampedName="biosample_2015-08-04T19:12:20.971-08:00"
                              MetaType="PacBio.Sample"
                              Name="Inst42268-030715-2kb-P4-0.05nM-2Chips-FAT3"
                              Description="Inst42268-030715-2kb-P4-0.05nM-2Chips-FAT3"/>

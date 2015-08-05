@@ -1,12 +1,11 @@
 Example CcsreadSet XML::
 
   <?xml version="1.0" encoding="utf-8"?>
-  <pbsec:ConsensusReadSet 
-      xmlns="http://pacificbiosciences.com/PacBioSecondaryDataModel.xsd" 
+  <pbds:ConsensusReadSet 
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
       xsi:schemaLocation="http://pacificbiosciences.com/PacBioDataModel.xsd" 
       xmlns:pbbase="http://pacificbiosciences.com/PacBioBaseDataModel.xsd" 
-      xmlns:pbsec="http://pacificbiosciences.com/PacBioSecondaryDataModel.xsd" 
+      xmlns:pbds="http://pacificbiosciences.com/PacBioDatasets.xsd" 
       UniqueId="b095d0a3-94b8-4918-b3af-a3f81bbe519c" 
       TimeStampedName="consensusreadset_150304_231155" 
       MetaType="PacBio.DataSet.ConsensusReadSet" 
@@ -48,4 +47,4 @@ Example CcsreadSet XML::
               </pbbase:FileIndices>
           </pbbase:ExternalResource>
       </pbbase:ExternalResources>
-  </pbsec:ConsensusReadSet>
+  </pbds:ConsensusReadSet>

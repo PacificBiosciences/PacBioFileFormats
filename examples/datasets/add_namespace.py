@@ -29,10 +29,10 @@ tags = [
     "pbbase:SampleSize",
     "pbbase:SampleStd",
     "pbds:AdapterDimerFraction",
-    "pbsec:BarcodeConstruction",
+    "pbds:BarcodeConstruction",
     "pbds:ControlReadLenDist",
     "pbds:ControlReadQualDist",
-    "pbsec:DataSetMetadata",
+    "pbds:DataSetMetadata",
     "pbds:DataSet",
     "pbds:DataSets",
     "pbds:Filter",
@@ -87,21 +87,21 @@ tags = [
     "pbsample:BioSamplePointer",
     "pbsample:BioSamplePointers",
     "pbsample:BioSamples",
-    "pbsec:AlignmentSet",
-    "pbsec:BarcodeSet",
-    "pbsec:ConsensusReadSet",
-    "pbsec:ContigSet",
-    "pbsec:ReferenceSet",
-    "pbsec:Ploidy",
-    "pbsec:Organism",
-    "pbsec:Contig",
-    "pbsec:Contigs"
+    "pbds:AlignmentSet",
+    "pbds:BarcodeSet",
+    "pbds:ConsensusReadSet",
+    "pbds:ContigSet",
+    "pbds:ReferenceSet",
+    "pbds:Ploidy",
+    "pbds:Organism",
+    "pbds:Contig",
+    "pbds:Contigs"
 ]
 
 
 
-namespaces = ( ' xmlns:pbbase="http://pacificbiosciences.com/PacBioBaseDataModel.xsd"  xmlns:pbsample="http://pacificbiosciences.com/PacBioSampleInfo.xsd" xmlns:pbmeta="http://pacificbiosciences.com/PacBioCollectionMetadata.xsd" xmlns:pbds="http://pacificbiosciences.com/PacBioDatasets.xsd" xmlns:pbsec="http://pacificbiosciences.com/PacBioSecondaryDataModel.xsd" '
-)
+namespaces = ( ' xmlns:pbbase="http://pacificbiosciences.com/PacBioBaseDataModel.xsd"  xmlns:pbsample="http://pacificbiosciences.com/PacBioSampleInfo.xsd" xmlns:pbmeta="http://pacificbiosciences.com/PacBioCollectionMetadata.xsd" xmlns:pbds="http://pacificbiosciences.com/PacBioDatasets.xsd" ' )
+
 
 def update_xml(file):
     with open(file) as infile:

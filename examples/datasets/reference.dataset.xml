@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<pbsec:ReferenceSet 
+<pbds:ReferenceSet 
     xmlns:pbbase="http://pacificbiosciences.com/PacBioBaseDataModel.xsd"  
     xmlns:pbds="http://pacificbiosciences.com/PacBioDatasets.xsd" 
-    xmlns:pbsec="http://pacificbiosciences.com/PacBioSecondaryDataModel.xsd" 
     xmlns="http://pacificbiosciences.com/PacBioDataModel.xsd" 
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
     xsi:schemaLocation="http://pacificbiosciences.com/PacBioDataModel.xsd"
@@ -36,17 +35,17 @@
             </pbbase:FileIndices>
         </pbbase:ExternalResource>
     </pbbase:ExternalResources>
-    <pbsec:DataSetMetadata>
+    <pbds:DataSetMetadata>
         <pbds:TotalLength>5000000</pbds:TotalLength>
         <pbds:NumRecords>500</pbds:NumRecords>
-        <pbsec:Organism>Tribble</pbsec:Organism>
-        <pbsec:Ploidy>Diploid</pbsec:Ploidy>
-        <pbsec:Contigs>
-            <pbsec:Contig 
+        <pbds:Organism>Tribble</pbds:Organism>
+        <pbds:Ploidy>Diploid</pbds:Ploidy>
+        <pbds:Contigs>
+            <pbds:Contig 
                 Name="gi|229359445|emb|AM181176.4|" 
                 Description="Pseudomonas fluorescens SBW25 complete genome|quiver" 
                 Length="6722109" 
                 Digest="f627c795efad7ce0050ed42b942d408e"/>
-        </pbsec:Contigs>
-    </pbsec:DataSetMetadata>
-</pbsec:ReferenceSet>
+        </pbds:Contigs>
+    </pbds:DataSetMetadata>
+</pbds:ReferenceSet>

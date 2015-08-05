@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<pbsec:BarcodeSet 
+<pbds:BarcodeSet 
     xmlns:pbbase="http://pacificbiosciences.com/PacBioBaseDataModel.xsd" 
     xmlns:pbds="http://pacificbiosciences.com/PacBioDatasets.xsd" 
-    xmlns:pbsec="http://pacificbiosciences.com/PacBioSecondaryDataModel.xsd" 
     xmlns="http://pacificbiosciences.com/PacBioDataModel.xsd" 
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
     xsi:schemaLocation="http://pacificbiosciences.com/PacBioDataModel.xsd"
@@ -23,9 +22,9 @@
             ResourceId="file:///mnt/path/to/barcode.fasta" 
             Tags="Example"/>
     </pbbase:ExternalResources>
-    <pbsec:DataSetMetadata>
+    <pbds:DataSetMetadata>
         <pbds:TotalLength>400</pbds:TotalLength>
         <pbds:NumRecords>30</pbds:NumRecords>
-        <pbsec:BarcodeConstruction>paired</pbsec:BarcodeConstruction>
-    </pbsec:DataSetMetadata>
-</pbsec:BarcodeSet>
+        <pbds:BarcodeConstruction>paired</pbds:BarcodeConstruction>
+    </pbds:DataSetMetadata>
+</pbds:BarcodeSet>

@@ -1,12 +1,11 @@
 Example AlignmentSet XML::
 
   <?xml version="1.0" encoding="utf-8"?>
-  <pbsec:AlignmentSet 
+  <pbds:AlignmentSet 
       xmlns:pbbase="http://pacificbiosciences.com/PacBioBaseDataModel.xsd"  
       xmlns:pbsample="http://pacificbiosciences.com/PacBioSampleInfo.xsd" 
       xmlns:pbmeta="http://pacificbiosciences.com/PacBioCollectionMetadata.xsd" 
       xmlns:pbds="http://pacificbiosciences.com/PacBioDatasets.xsd" 
-      xmlns:pbsec="http://pacificbiosciences.com/PacBioSecondaryDataModel.xsd" 
       xmlns="http://pacificbiosciences.com/PacBioDataModel.xsd" 
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pacificbiosciences.com/PacBioDataModel.xsd"
       Tags="barcode moreTags mapping mytags" 
@@ -98,11 +97,11 @@ Example AlignmentSet XML::
           </pbds:DataSet>
       </pbds:DataSets>
       -->
-      <pbsec:DataSetMetadata>
+      <pbds:DataSetMetadata>
           <pbds:TotalLength>50000</pbds:TotalLength>
           <pbds:NumRecords>5000</pbds:NumRecords>
           <pbds:Provenance CreatedBy="AnalysisJob">
               <pbds:ParentTool Name="pbalign" Version="0.1.0" Description="pbalign subreads.dataset.xml reference.dataset.xml"/>
           </pbds:Provenance>
-      </pbsec:DataSetMetadata>
-  </pbsec:AlignmentSet>
+      </pbds:DataSetMetadata>
+  </pbds:AlignmentSet>
