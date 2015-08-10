@@ -213,7 +213,7 @@ SAM/BAM spec, we encode special information as follows.
       +-------------------+----------------------------------------+----------------+
       | Key               | Value spec                             | Value example  |
       +===================+========================================+================+
-      | READTYPE          | One of POLYMERASE, HQREGION, LQREGION, | SUBREAD        |
+      | READTYPE          | One of POLYMERASE, HQREGION,           | SUBREAD        |
       |                   | SUBREAD, CCS, SCRAP, or UNKNOWN        |                |
       +-------------------+----------------------------------------+----------------+
       | BINDINGKIT        | Binding kit part number                | 100236500      |
