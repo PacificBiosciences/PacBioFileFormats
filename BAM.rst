@@ -522,12 +522,12 @@ internal analysis use cases:
 - *Exact* frame-level resolution for small durations (up to 64 frames)
 - Maximal representable duration is 9.52 seconds (at 100fps), which is
   reasonably far into the tail of the distributions of these metrics.
-  Analyses of "pausing" phenomena may still need to account for his
+  Analyses of "pausing" phenomena may still need to account for this
   censoring.
 
-A reference implementation of this encoding/decoding scheme can be found here::
+A reference implementation of this encoding/decoding scheme can be
+found in `pbcore`.
 
-  //depot/software/smrtanalysis/bioinformatics/tools/kineticsTools/kineticsTools/_downsampling.py
 
 Unresolved issues
 =================
