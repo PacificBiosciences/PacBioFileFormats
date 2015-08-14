@@ -286,7 +286,7 @@ Use of read tags for per-read information
   | np        | i          | NumPasses (1 for subreads, variable for CCS---encodes number of  |
   |           |            | *complete* passes of the insert)                                 |
   +-----------+------------+------------------------------------------------------------------+
-  | rq        | i          | Integer in [0, 1000] encoding expected accuracy                  |
+  | rq        | f          | Float in [0, 1] encoding expected accuracy                       |
   +-----------+------------+------------------------------------------------------------------+
   | sn        | B,f        | 4 floats for the average signal-to-noise ratio of A, C, G, and T |
   |           |            | (in that order) over the HQRegion                                |
@@ -355,13 +355,15 @@ QUAL
 
 The ``QUAL`` field in BAM alignments is intended to reflect the
 probability of a basecall being an error.  For PacBio, the utility of
-the overally QV is limited; PacBio applications make use of the more
+the overall QV is limited; PacBio applications make use of the more
 specific QV tracks reflecting probabilities of specific error types.
 
 Thus we populate the ``QUAL`` field of each record with a string of
 "0xFF" bytes in the BAM (corresponding to "*" in the SAM record).
 APIs may provide an overall QV metric by averaging probabilities
 implied by individual QV metrics, then converting back to QV scale.
+
+The ``QUAL`` field will be populated with real values for READTYPE=CCS.
 
 
 Barcodes and adapters
