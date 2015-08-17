@@ -282,10 +282,11 @@ SAM/BAM spec, we encode special information as follows.
       | BarcodeFile         | Name of the Fasta file containing the   | pacbio_384_barcodes.fasta        |
       |                     | sequences of the barcodes used          |                                  |
       +---------------------+-----------------------------------------+----------------------------------+
-      | BarcodeHash         | The MD5 hash of the content             | 0a294bb959fc6c766967fc8beeb4d88d |
-      |                     | file with the barcoding sequences       |                                  |
+      | BarcodeHash         | The MD5 hash of the contents of the     | 0a294bb959fc6c766967fc8beeb4d88d |
+      |                     | barcoding sequence file, as generated   |                                  |
+      |                     | by the *md5sum* commandline tool        |                                  |
       +---------------------+-----------------------------------------+----------------------------------+
-      | BarcodeNumber       | The number of barcode sequences in the  | 384                              |
+      | BarcodeCount        | The number of barcode sequences in the  | 384                              |
       |                     | Barcode File                            |                                  |
       +---------------------+-----------------------------------------+----------------------------------+
       | BarcodeMode         | Experimental design of the barcodes     | Symmetric                        |
