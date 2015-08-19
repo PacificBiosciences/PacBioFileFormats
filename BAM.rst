@@ -30,8 +30,8 @@ the *pbcore* Python library.
 Version
 =======
 
-The PacBio BAM specification version described here is 3.0b7. PacBio
-BAM files adhering to this spec contain the tag ``pb:3.0b7`` in the
+The PacBio BAM specification version described here is 3.0b8. PacBio
+BAM files adhering to this spec contain the tag ``pb:3.0b8`` in the
 ``@HD`` header.
 
 
