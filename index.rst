@@ -21,6 +21,7 @@ legacy `cmp.h5` format.
    BAM
    PacBioBamIndex
    FASTA
+   DataSet
 
 
 Legacy formats
