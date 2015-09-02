@@ -405,6 +405,74 @@ entities consumed and produced by Secondary Analysis pipelines
     them DataSets allows us to treat them as just another subtype of the
     general DataSet concept.
 
+DataSet file naming standard
+++++++++++++++++++++++++++++
+DataSet XML file names should end with a suffix consistent with the type of
+that DataSet, following a <prefix>.<type>.xml pattern. A few examples:
+
+    - SubreadSet - <prefix>.subreadset.xml
+    - ConsensusReadSet - <prefix>.consensusreadset.xml
+    - AlignmentSet - <prefix>.alignmentset.xml
+    - ReferenceSet - <prefix>.referenceset.xml
+    - ContigSet - <prefix>.contigset.xml
+    - BarcodeSet - <prefix>.barcodeset.xml
+
+DataSet ExternalResource MetaTypes
+++++++++++++++++++++++++++++++++++
+DataSets may contain references to a variety of file types depending on DataSet
+type. MetaType attributes are used identify these files in their context. The
+following table is a non-exhaustive overview of possible MetaTypes:
+
++-----------------------+------------------------------------------------+
+| DataSet               | ExternalResource MetaType                      |
++=======================+================================================+
+| SubreadSet            | PacBio.SubreadFile.SubreadBamFile              |
++-----------------------+------------------------------------------------+
+| HdfSubreadSet         | PacBio.SubreadFile.BaxFile                     |
++-----------------------+------------------------------------------------+
+| AlignmentSet          | PacBio.AlignmentFile.AlignmentBamFile          |
++-----------------------+------------------------------------------------+
+| BarcodeSet            | PacBio.BarcodeFile.BarcodeFastaFile            |
++-----------------------+------------------------------------------------+
+| ConsensusReadSet      | PacBio.ConsensusReadFile.ConsensusReadBamFile  |
++-----------------------+------------------------------------------------+
+| ConsensusAlignmentSet | PacBio.AlignmentFile.ConsensusAlignmentBamFile |
++-----------------------+------------------------------------------------+
+| ContigSet             | PacBio.ContigFile.ContigFastaFile              |
++-----------------------+------------------------------------------------+
+| ReferenceSet          | PacBio.ReferenceFile.ReferenceFastaFile        |
++-----------------------+------------------------------------------------+
+
+Many other MetaTypes exist. The following are MetaTypes that exist most
+frequently in specific contexts:
+
+DataSet Types:
+    - PacBio.DataSet.SubreadSet
+    - PacBio.DataSet.HdfSubreadSet
+    - PacBio.DataSet.AlignmentSet
+    - PacBio.DataSet.BarcodeSet
+    - PacBio.DataSet.ConsensusReadSet
+    - PacBio.DataSet.ConsensusAlignmentSet
+    - PacBio.DataSet.ContigSet
+    - PacBio.DataSet.ReferenceSet
+
+SubreadSet Special Purpose ExternalResources:
+    - PacBio.SubreadFile.ScrapsBamFile
+    - PacBio.SubreadFile.HqRegionBamFile
+    - PacBio.SubreadFile.HqScrapsBamFile
+    - PacBio.SubreadFile.LqRegionBamFile
+    - PacBio.SubreadFile.LqScrapsBamFile
+    - PacBio.SubreadFile.PolymeraseBamFile
+    - PacBio.SubreadFile.PolymeraseScrapsBamFile
+
+Bam Related Special Purpose ExternalResources:
+    - PacBio.Index.BamIndex (.bai)
+    - PacBio.Index.PacBioIndex (.pbi)
+
+Fasta Related Special Purpose ExternalResources:
+    - PacBio.Index.SamIndex (.fai)
+    - PacBio.Index.SaWriterIndex (.sa)
+
 
 3.6 Support for the DataSet XML
 --------------------------------------------------------
