@@ -405,56 +405,53 @@ entities consumed and produced by Secondary Analysis pipelines
     them DataSets allows us to treat them as just another subtype of the
     general DataSet concept.
 
-DataSet file naming standard
-++++++++++++++++++++++++++++
-DataSet XML file names should end with a suffix consistent with the type of
-that DataSet, following a <prefix>.<type>.xml pattern. A few examples:
 
-    - SubreadSet - <prefix>.subreadset.xml
-    - ConsensusReadSet - <prefix>.consensusreadset.xml
-    - AlignmentSet - <prefix>.alignmentset.xml
-    - ReferenceSet - <prefix>.referenceset.xml
-    - ContigSet - <prefix>.contigset.xml
-    - BarcodeSet - <prefix>.barcodeset.xml
+DataSet MetaTypes and File Extensions
++++++++++++++++++++++++++++++++++++++
 
-DataSet ExternalResource MetaTypes
-++++++++++++++++++++++++++++++++++
-DataSets may contain references to a variety of file types depending on DataSet
-type. MetaType attributes are used identify these files in their context. The
-following table is a non-exhaustive overview of possible MetaTypes:
++-----------------------+------------------------------------------------+---------------------------+
+| DataSet               | DataSet MetaType                               | DataSet XML File Extension|
++=======================+================================================+===========================+
+| SubreadSet            | PacBio.DataSet.SubreadSet                      | .subreadset.xml           |
++-----------------------+------------------------------------------------+---------------------------+
+| HdfSubreadSet         | PacBio.DataSet.HdfSubreadSet                   | .hdfsubreadset.xml        |
++-----------------------+------------------------------------------------+---------------------------+
+| AlignmentSet          | PacBio.DataSet.AlignmentSet                    | .alignmentset.xml         |
++-----------------------+------------------------------------------------+---------------------------+
+| BarcodeSet            | PacBio.DataSet.BarcodeSet                      | .barcodeset.xml           |
++-----------------------+------------------------------------------------+---------------------------+
+| ConsensusReadSet      | PacBio.DataSet.ConsensusReadSet                | .consensusreadset.xml     |
++-----------------------+------------------------------------------------+---------------------------+
+| ConsensusAlignmentSet | PacBio.DataSet.ConsensusAlignmentSet           | .consensusalignmentset.xml|
++-----------------------+------------------------------------------------+---------------------------+
+| ContigSet             | PacBio.DataSet.ContigSet                       | .contigset.xml            |
++-----------------------+------------------------------------------------+---------------------------+
+| ReferenceSet          | PacBio.DataSet.ReferenceSet                    | .referenceset.xml         |
++-----------------------+------------------------------------------------+---------------------------+
 
-+-----------------------+------------------------------------------------+
-| DataSet               | ExternalResource MetaType                      |
-+=======================+================================================+
-| SubreadSet            | PacBio.SubreadFile.SubreadBamFile              |
-+-----------------------+------------------------------------------------+
-| HdfSubreadSet         | PacBio.SubreadFile.BaxFile                     |
-+-----------------------+------------------------------------------------+
-| AlignmentSet          | PacBio.AlignmentFile.AlignmentBamFile          |
-+-----------------------+------------------------------------------------+
-| BarcodeSet            | PacBio.BarcodeFile.BarcodeFastaFile            |
-+-----------------------+------------------------------------------------+
-| ConsensusReadSet      | PacBio.ConsensusReadFile.ConsensusReadBamFile  |
-+-----------------------+------------------------------------------------+
-| ConsensusAlignmentSet | PacBio.AlignmentFile.ConsensusAlignmentBamFile |
-+-----------------------+------------------------------------------------+
-| ContigSet             | PacBio.ContigFile.ContigFastaFile              |
-+-----------------------+------------------------------------------------+
-| ReferenceSet          | PacBio.ReferenceFile.ReferenceFastaFile        |
-+-----------------------+------------------------------------------------+
 
-Many other MetaTypes exist. The following are MetaTypes that exist most
-frequently in specific contexts:
+DataSet External Resource MetaTypes and File Extensions
++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-DataSet Types:
-    - PacBio.DataSet.SubreadSet
-    - PacBio.DataSet.HdfSubreadSet
-    - PacBio.DataSet.AlignmentSet
-    - PacBio.DataSet.BarcodeSet
-    - PacBio.DataSet.ConsensusReadSet
-    - PacBio.DataSet.ConsensusAlignmentSet
-    - PacBio.DataSet.ContigSet
-    - PacBio.DataSet.ReferenceSet
++-----------------------+------------------------------------------------+---------------------------+
+| DataSet               | ExternalResource MetaType                      | File Extensions           |
++=======================+================================================+===========================+
+| SubreadSet            | PacBio.SubreadFile.SubreadBamFile              | .bam                      |
++-----------------------+------------------------------------------------+---------------------------+
+| HdfSubreadSet         | PacBio.SubreadFile.BaxFile                     | .bax.h5                   |
++-----------------------+------------------------------------------------+---------------------------+
+| AlignmentSet          | PacBio.AlignmentFile.AlignmentBamFile          | .bam, .cmp.h5             |
++-----------------------+------------------------------------------------+---------------------------+
+| BarcodeSet            | PacBio.BarcodeFile.BarcodeFastaFile            | .fasta                    |
++-----------------------+------------------------------------------------+---------------------------+
+| ConsensusReadSet      | PacBio.ConsensusReadFile.ConsensusReadBamFile  | .bam                      |
++-----------------------+------------------------------------------------+---------------------------+
+| ConsensusAlignmentSet | PacBio.AlignmentFile.ConsensusAlignmentBamFile | .bam                      |
++-----------------------+------------------------------------------------+---------------------------+
+| ContigSet             | PacBio.ContigFile.ContigFastaFile              | .fasta                    |
++-----------------------+------------------------------------------------+---------------------------+
+| ReferenceSet          | PacBio.ReferenceFile.ReferenceFastaFile        | .fasta                    |
++-----------------------+------------------------------------------------+---------------------------+
 
 SubreadSet Special Purpose ExternalResources:
     - PacBio.SubreadFile.ScrapsBamFile
@@ -472,6 +469,37 @@ Bam Related Special Purpose ExternalResources:
 Fasta Related Special Purpose ExternalResources:
     - PacBio.Index.SamIndex (.fai)
     - PacBio.Index.SaWriterIndex (.sa)
+
+DataSet UI Name and Time Stamped Name
++++++++++++++++++++++++++++++++++++++
+
+The pattern for time stamped names generated by secondary should be:
+
+<metatype>-<yymmdd_HHmmssttt>
+
+Where metatype has been transformed into a lowercase, underscore separated
+string and the time string format directives map to the following entities:
+year, month, day, hour, minute, second, millisecond.
+
++-----------------------+--------------------------------------------------------+-------------------+
+| DataSet               | TimeStampedName                                        | DataSet UI Name   |
++=======================+========================================================+===================+
+| SubreadSet            | pacbio_dataset_subreadset-<yymmdd_HHmmssttt>           | TBD               |
++-----------------------+--------------------------------------------------------+-------------------+
+| HdfSubreadSet         | pacbio_dataset_hdfsubreadset-<yymmdd_HHmmssttt>        | TBD               |
++-----------------------+--------------------------------------------------------+-------------------+
+| AlignmentSet          | pacbio_dataset_alignmentset-<yymmdd_HHmmssttt>         | TBD               |
++-----------------------+--------------------------------------------------------+-------------------+
+| BarcodeSet            | pacbio_dataset_barcodeset-<yymmdd_HHmmssttt>           | TBD               |
++-----------------------+--------------------------------------------------------+-------------------+
+| ConsensusReadSet      | pacbio_dataset_consensusreadset-<yymmdd_HHmmssttt>     | TBD               |
++-----------------------+--------------------------------------------------------+-------------------+
+| ConsensusAlignmentSet | pacbio_dataset_consensusalignmentset-<yymmdd_HHmmssttt>| TBD               |
++-----------------------+--------------------------------------------------------+-------------------+
+| ContigSet             | pacbio_dataset_contigset-<yymmdd_HHmmssttt>            | TBD               |
++-----------------------+--------------------------------------------------------+-------------------+
+| ReferenceSet          | pacbio_dataset_referenceset-<yymmdd_HHmmssttt>         | TBD               |
++-----------------------+--------------------------------------------------------+-------------------+
 
 
 3.6 Support for the DataSet XML
