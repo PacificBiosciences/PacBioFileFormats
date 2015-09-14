@@ -292,6 +292,9 @@ SAM/BAM spec, we encode special information as follows.
       | BarcodeMode         | Experimental design of the barcodes     | Symmetric                        |
       |                     | Must be Symmetric/Asymmetric/None       |                                  |
       +---------------------+-----------------------------------------+----------------------------------+
+      | BarcodeQuality      | The type of value encoded by the BQ tag | Probability                      |
+      |                     | Must be Score/Probability/None          |                                  |
+      +---------------------+-----------------------------------------+----------------------------------+
 
 
 

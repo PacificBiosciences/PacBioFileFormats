@@ -59,6 +59,10 @@ Format
 
 | All multi-byte numbers in PBI are stored little-endian. 
 
+| All optional columns in PBI are either present for all rows or for none of them,
+  and always present in the order described in this document. This is important 
+  for correctly accessing specific values by column index.
+
 * Layout - file sections follow each other immediately in the file and are described below.
 
   * `PBI Header`_ 
@@ -97,10 +101,12 @@ PBI Header
  +-------------------+--------+-----------------------------------------------+
  | Coordinate Sorted | 0x0002 | CoordinateSortedData section present          |
  +-------------------+--------+-----------------------------------------------+
- | Barcode/Adapter   | 0x0004 | BarcodeAdapterData section present            |
+ | Adapter           | 0x0004 | AdapterData section present                   |
+ +-------------------+--------+-----------------------------------------------+
+ | Barcode           | 0x0008 | BarcodeData section present                                              |
  +-------------------+--------+-----------------------------------------------+
   
- (0x0008 - 0x8000) are available to mark future data modifiers, add'l sections, etc.  
+ (0x0010 - 0x8000) are available to mark future data modifiers, add'l sections, etc.  
   
 .. _Subread Data:  
   
@@ -252,24 +258,46 @@ a contiguous block of row numbers.
   with *tId* of *t*.  If no BAM records are aligned to *t*, then we
   should have ``beginRow, endRow = -1``.
 
-.. _`Barcode/Adapter Data`:
+.. _`Adapter Data`:
 
-Barcode/Adapter Data
-------------------------    
-    
+Adapter Data
+---------------    
+
 +--------------+----------+----------------------------------------------+
-| BarcodeAdapterData                                                     |
+| AdapterData :sup:`1`                                                   |
 +--------------+----------+----------------------------------------------+
 | Field        | Size     | Definition                                   | 
 +==============+==========+==============================================+
 | for 0..n_reads                                                         |
 |  +-----------+----------+--------------------------------------------+ |
-|  | bc_left   | uint16_t | B_L from 'bc' tag (index to barcode FASTA) | |
+|  | ctxt_flag | uint8_t  | Local context of subread ('cx' tag)        | |
+|  +-----------+----------+--------------------------------------------+ |
++--------------+----------+----------------------------------------------+
+
+:sup:`1`
+    If the Adapter flag is set in the header, this column must be present
+    in all rows, otherwise it should be present for none of them.
+
+.. _`Barcode Data`:
+
+Barcode Data
+---------------
+
++--------------+----------+----------------------------------------------+
+| BarcodeData :sup:`1`                                            |
++--------------+----------+----------------------------------------------+
+| Field        | Size     | Definition                                   | 
++==============+==========+==============================================+
+| for 0..n_reads                                                         |
+|  +-----------+----------+--------------------------------------------+ |
+|  | bc_left   | int16_t  | B_F from 'bc' tag (index to barcode FASTA) | |
+|  |           |          | -1 if not present                          | |
 |  +-----------+----------+--------------------------------------------+ |
 +--------------+----------+----------------------------------------------+
 | for 0..n_reads                                                         |
 |  +-----------+----------+--------------------------------------------+ |
-|  | bc_right  | uint16_t | B_R from 'bc' tag (index to barcode FASTA) | |
+|  | bc_right  | int16_t  | B_R from 'bc' tag (index to barcode FASTA) | |
+|  |           |          | -1 if not present                          | |
 |  +-----------+----------+--------------------------------------------+ |
 +--------------+----------+----------------------------------------------+
 | for 0..n_reads                                                         |
@@ -277,10 +305,9 @@ Barcode/Adapter Data
 |  | bc_qual   | uint8_t  | barcode call confidence ('bq' tag)         | |
 |  +-----------+----------+--------------------------------------------+ |
 +--------------+----------+----------------------------------------------+
-| for 0..n_reads                                                         |
-|  +-----------+----------+--------------------------------------------+ |
-|  | ctxt_flag | uint8_t  | Local context of subread ('cx' tag)        | |
-|  +-----------+----------+--------------------------------------------+ |
-+--------------+----------+----------------------------------------------+
+
+:sup:`1`
+    If the Barcode flag is set in the header, this column must be present
+    in all rows, otherwise it should be present for none of them.
 
  .. _`SAM/BAM spec`: http://samtools.github.io/hts-specs/SAMv1.pdf
