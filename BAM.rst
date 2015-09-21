@@ -559,8 +559,6 @@ found in `pbcore`.
 Unresolved issues
 =================
 
-- Need to move from strings to proper array types for QVs
-- Need better dynamic range in `rq`, esp. for CCS
 - '/' preferable to ':' in "IPD:CodecV1"
 - Desire for spec for shorter movienames, especially if these are
   ending up in QNAMEs.
