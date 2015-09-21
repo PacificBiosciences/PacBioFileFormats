@@ -132,9 +132,11 @@ use a ``suffix.bam`` filename convention:
   +====================================+==============================+
   | Polymerase reads from movie        | *movieName*.polymerase.bam   |
   +------------------------------------+------------------------------+
-  | Subreads from movie                | *movieName*.subreads.bam     |
+  | Analysis-ready subreads :sup:`1`   | *movieName*.subreads.bam     |
+  |  from movie                        |                              |
   +------------------------------------+------------------------------+
-  | Excised adapters and barcodes      | *movieName*.scraps.bam       |
+  | Excised adapters, barcodes, and    | *movieName*.scraps.bam       |
+  |  rejected subreads                 |                              |
   +------------------------------------+------------------------------+
   | CCS reads computed from movie      | *movieName*.ccs.bam          |
   +------------------------------------+------------------------------+
@@ -143,6 +145,13 @@ use a ``suffix.bam`` filename convention:
   | Aligned CCS in a job               | *jobID*.aligned_ccs.bam      |
   +------------------------------------+------------------------------+
 
+  :sup:`1`
+    Data in a ``subreads.bam`` file should be ``analysis ready``, meaning
+    that all of the data present is expected to be useful for down-stream
+    analyses.  Any subreads for which we have strong evidence will not
+    be useful (e.g. double-adapter inserts, single-molecule artifacts)
+    should be excluded from this file and placed in ``scraps.bam`` as
+    a ``Filtered`` with an SC tag of ``F``.
 
 BAM sorting conventions
 =======================
@@ -370,9 +379,17 @@ with the following tag:
   | **Tag**   | **Type**      |**Description**                          |
   +===========+===============+=========================================+
   | sc        | A             | Scrap type annotation, one of           |
-  |           |               | A:=Adapter, B:=Barcode, or L:=LQRegion  |
+  |           |               | A:=Adapter, B:=Barcode, L:=LQRegion,    |
+  |           |               | or F:=Filtered :sup:`1`                 |
   +-----------+---------------+-----------------------------------------+
 
+  :sup:`1`
+    SC tags 'A', 'B', and 'L' denote specific classes of non-subread data,
+    and therefore should only be in records with no subread-specific
+    information like CX, BC, or BQ tags.  The 'F' tag, in contrast, should
+    be reserved for subreads that are undesirable for some reason, for
+    example being artifactual or representing a 1bp insert in 
+    adapter-dimer.
 
 QUAL
 ====
