@@ -101,12 +101,10 @@ PBI Header
  +-------------------+--------+-----------------------------------------------+
  | Coordinate Sorted | 0x0002 | CoordinateSortedData section present          |
  +-------------------+--------+-----------------------------------------------+
- | Adapter           | 0x0004 | AdapterData section present                   |
- +-------------------+--------+-----------------------------------------------+
- | Barcode           | 0x0008 | BarcodeData section present                   |
+ | Barcode           | 0x0004 | BarcodeData section present                   |
  +-------------------+--------+-----------------------------------------------+
   
- (0x0020 - 0x8000) are available to mark future data modifiers, add'l sections, etc.  
+ (0x0008 - 0x8000) are available to mark future data modifiers, add'l sections, etc.  
   
 .. _Record Data:  
   
