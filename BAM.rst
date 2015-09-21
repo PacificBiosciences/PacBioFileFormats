@@ -360,8 +360,28 @@ Notes:
 
 
 
-Use of sc read tag to annotate scraps
-=====================================
+``scraps.bam`` file contents; sc tag
+====================================
+
+The "scraps.bam" file corresponding to a movie contains readgroups
+with READTYPE=SCRAP.  The records in the "scraps.bam" file can be
+categorized as follows:
+
+  1.  Polymerase read sequences not belonging to the HQ region for its
+      ZMW (thus, preceding or following the HQ region).  We casually
+      refer to these records as /LQRegion/ sequences here.
+
+  2.  Read sequence corresponding to /adapter/ hits
+
+  3.  Read sequence corresponding to /barcode/ hits, if barcoding
+      analysis is performed.
+
+  4.  Subreads that are /filtered/ because there are deemed to be
+      unusable for downstream analysis.  For example, extremely short reads
+
+We strictly adhere to this rule: the entire polymerase read sequence
+for a ZMW can be reconstituted from the ``subreads.bam`` and
+``scraps.bam`` content.
 
 Reads that belong to a read group with READTYPE=SCRAP have to be annotated
 with the following tag:
@@ -370,7 +390,8 @@ with the following tag:
   | **Tag**   | **Type**      |**Description**                          |
   +===========+===============+=========================================+
   | sc        | A             | Scrap type annotation, one of           |
-  |           |               | A:=Adapter, B:=Barcode, or L:=LQRegion  |
+  |           |               | A:=Adapter, B:=Barcode, L:=LQRegion, or |
+  |           |               | F:="filtered"                           |
   +-----------+---------------+-----------------------------------------+
 
 
