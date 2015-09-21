@@ -103,10 +103,13 @@ PBI Header
  +-------------------+--------+-----------------------------------------------+
  | Adapter           | 0x0004 | AdapterData section present                   |
  +-------------------+--------+-----------------------------------------------+
- | Barcode           | 0x0008 | BarcodeData section present                                              |
+ | Barcode           | 0x0008 | BarcodeData section present                   |
+ +-------------------+--------+-----------------------------------------------+
+ | BarcodeQuality    | 0x0010 | BarcodeQuality flag is a probability,         |
+ |                   |        |  otherwise it is a Smith-Waterman score       |
  +-------------------+--------+-----------------------------------------------+
   
- (0x0010 - 0x8000) are available to mark future data modifiers, add'l sections, etc.  
+ (0x0020 - 0x8000) are available to mark future data modifiers, add'l sections, etc.  
   
 .. _Subread Data:  
   
@@ -302,7 +305,7 @@ Barcode Data
 +--------------+----------+----------------------------------------------+
 | for 0..n_reads                                                         |
 |  +-----------+----------+--------------------------------------------+ |
-|  | bc_qual   | uint8_t  | barcode call confidence ('bq' tag)         | |
+|  | bc_qual   | double   | barcode call confidence ('bq' tag)         | |
 |  +-----------+----------+--------------------------------------------+ |
 +--------------+----------+----------------------------------------------+
 
