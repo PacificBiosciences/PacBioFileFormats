@@ -331,28 +331,29 @@ read record has been aligned to the reverse strand.
   +-----------+---------------+----------------------------------------------------+
   | **Tag**   | **Type**      |**Description**                                     |
   +===========+===============+====================================================+
-  | dq        | Z             | DeletionQV                                         |
+  | dq        | B,C           | DeletionQV                                         |
   +-----------+---------------+----------------------------------------------------+
   | dt        | Z             | DeletionTag                                        |
   +-----------+---------------+----------------------------------------------------+
-  | iq        | Z             | InsertionQV                                        |
+  | iq        | B,C           | InsertionQV                                        |
   +-----------+---------------+----------------------------------------------------+
-  | mq        | Z             | MergeQV                                            |
+  | mq        | B,C           | MergeQV                                            |
   +-----------+---------------+----------------------------------------------------+
-  | sq        | Z             | SubstitutionQV                                     |
+  | sq        | B,C           | SubstitutionQV                                     |
   +-----------+---------------+----------------------------------------------------+
   | st        | Z             | SubstitutionTag                                    |
   +-----------+---------------+----------------------------------------------------+
-  | ip        | B,C *or* B,S  | IPD (raw frames or codec V1)                       |
+  | ip        | B,C *or* B,S  | IPD (codec V1 or raw frames)                       |
   +-----------+---------------+----------------------------------------------------+
-  | pw        | B,C *or* B,S  | PulseWidth (raw frames or codec V1;                |
+  | pw        | B,C *or* B,S  | PulseWidth (codec V1 or raw frames;                |
   |           |               | **PacBio-internal**)                               |
   +-----------+---------------+----------------------------------------------------+
 
 
 Notes:
 
-- QV metrics are ASCII+33 encoded as strings
+- QV metric tags are stored as arrays of unsigned 8-bit integers. This differs from 
+  the SAM/BAM standard ``QUAL`` field, which contains FASTQ-formatted string data.
 - *DeletionTag* and *SubstitutionTag* represent alternate basecalls,
   or "N" when there is no alternate basecall available.  In other
   words, they are strings over the alphabet "ACGTN".
