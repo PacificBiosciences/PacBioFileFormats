@@ -148,8 +148,8 @@ Subread Data
      RGID_STRING := md5(movieName + "//" + readType)) [:8]
      RGID_INT    := int32.Parse(RGID_STRING)
 
-     RGID_STRING is used in the @RG header.
-     RGID_INT is used in the RG tag of BAM records and here in the PBI index.  
+     RGID_STRING is used in the @RG header and in the `RG` tag of BAM
+     records.  RGID_INT is used here in the PBI index.
 
      Note that RGID_INT may be negative.
 

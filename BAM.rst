@@ -178,7 +178,7 @@ SAM/BAM spec, we encode special information as follows.
          Read group identifiers for PacBio data are calculated as follows::
 
            RGID_STRING := md5(movieName + "//" + readType))[:8]
-           RGID_INT     := int32.Parse(RGID_STRING)
+           RGID_INT    := int32.Parse(RGID_STRING)
 
          where `movieName` is the moviename (@RG::PU) and `readType`
          is the read type (found in @RG::DS).  Note that `movieName`
@@ -186,14 +186,15 @@ SAM/BAM spec, we encode special information as follows.
          understood to be the (lowercase) hex md5 digest of the input
          string.
 
-         RGID_STRING is used in the @RG header, while RGID_INT is used
-         in the RG tag of BAM records.
+         RGID_STRING is used in the @RG header and in the `RG` tag of
+         BAM records, while RGID_INT is used in the PacBio BAM index
+         file.
 
          Note that RGID_INT may be negative.
 
          Example: CCS reads for a movie named "movie32" would have
              - RGID_STRING = "f5b4ffb6"
-             - RGID_ID     = -172687434
+             - RGID_INT    = -172687434
 
   ``PL`` tag ("platform"):
       contains ``"PACBIO"``
