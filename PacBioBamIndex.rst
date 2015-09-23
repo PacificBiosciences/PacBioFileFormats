@@ -66,10 +66,10 @@ Format
 * Layout - file sections follow each other immediately in the file and are described below.
 
   * `PBI Header`_ 
-  * `Record Data`_
+  * `Basic Data`_
   * `Mapped Data`_ (optional)
   * `Coordinate-Sorted Data`_ (optional)
-  * `Barcode/Adapter Data`_ (optional)
+  * `Barcode Data`_ (optional)
 
 .. _PBI Header:
 
@@ -95,7 +95,7 @@ PBI Header
  +-------------------+--------+-----------------------------------------------+
  | Flag              | Value  | Description                                   |
  +===================+========+===============================================+
- | Basic             | 0x0000 | PbiHeader & RecordData only                   |
+ | Basic             | 0x0000 | PbiHeader & BasicData only                    |
  +-------------------+--------+-----------------------------------------------+
  | Mapped            | 0x0001 | MappedData section present                    |
  +-------------------+--------+-----------------------------------------------+
@@ -106,13 +106,13 @@ PBI Header
   
  (0x0008 - 0x8000) are available to mark future data modifiers, add'l sections, etc.  
   
-.. _Record Data:  
+.. _Basic Data:  
   
-Record Data
-------------
+Basic Data
+----------
 
 +----------------+----------+-----------------------------------------------+
-| RecordData                                                               |
+| BasicData                                                                 |
 +----------------+----------+-----------------------------------------------+
 | Field          | Size     | Definition                                    |
 +================+==========+===============================================+
