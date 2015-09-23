@@ -26,7 +26,7 @@ the *PacBio BAM index*, which supports the two use cases above.
 Version
 =======
 
-This is version ``3.0.0`` of the ``bam.pbi`` specification.
+This is version ``3.0.1`` of the ``bam.pbi`` specification.
 
 *Changelog will go here in the future*
 
