@@ -30,8 +30,8 @@ the *pbcore* Python library.
 Version
 =======
 
-The PacBio BAM specification version described here is 3.0b7. PacBio
-BAM files adhering to this spec contain the tag ``pb:3.0b7`` in the
+The PacBio BAM specification version described here is 3.0.1. PacBio
+BAM files adhering to this spec contain the tag ``pb:3.0.1`` in the
 ``@HD`` header.
 
 
@@ -132,9 +132,11 @@ use a ``suffix.bam`` filename convention:
   +====================================+==============================+
   | Polymerase reads from movie        | *movieName*.polymerase.bam   |
   +------------------------------------+------------------------------+
-  | Subreads from movie                | *movieName*.subreads.bam     |
+  | Analysis-ready subreads :sup:`1`   | *movieName*.subreads.bam     |
+  |  from movie                        |                              |
   +------------------------------------+------------------------------+
-  | Excised adapters and barcodes      | *movieName*.scraps.bam       |
+  | Excised adapters, barcodes, and    | *movieName*.scraps.bam       |
+  |  rejected subreads                 |                              |
   +------------------------------------+------------------------------+
   | CCS reads computed from movie      | *movieName*.ccs.bam          |
   +------------------------------------+------------------------------+
@@ -143,6 +145,13 @@ use a ``suffix.bam`` filename convention:
   | Aligned CCS in a job               | *jobID*.aligned_ccs.bam      |
   +------------------------------------+------------------------------+
 
+  :sup:`1`
+    Data in a ``subreads.bam`` file should be ``analysis ready``, meaning
+    that all of the data present is expected to be useful for down-stream
+    analyses.  Any subreads for which we have strong evidence will not
+    be useful (e.g. double-adapter inserts, single-molecule artifacts)
+    should be excluded from this file and placed in ``scraps.bam`` as
+    a ``Filtered`` with an SC tag of ``F``.
 
 BAM sorting conventions
 =======================
@@ -270,6 +279,33 @@ SAM/BAM spec, we encode special information as follows.
       +---------------------+-----------------------------------------+----------------+
 
 
+      **Optional items:**
+
+      .. note::
+
+         These items are optional if there are no "bc" tags in the reads
+         belonging to this read-group, otherwise they are mandatory.
+
+      +---------------------+-----------------------------------------+----------------------------------+
+      | Key                 | Value spec                              | Value example                    |
+      +=====================+=========================================+==================================+
+      | BarcodeFile         | Name of the Fasta file containing the   | pacbio_384_barcodes.fasta        |
+      |                     | sequences of the barcodes used          |                                  |
+      +---------------------+-----------------------------------------+----------------------------------+
+      | BarcodeHash         | The MD5 hash of the contents of the     | 0a294bb959fc6c766967fc8beeb4d88d |
+      |                     | barcoding sequence file, as generated   |                                  |
+      |                     | by the *md5sum* commandline tool        |                                  |
+      +---------------------+-----------------------------------------+----------------------------------+
+      | BarcodeCount        | The number of barcode sequences in the  | 384                              |
+      |                     | Barcode File                            |                                  |
+      +---------------------+-----------------------------------------+----------------------------------+
+      | BarcodeMode         | Experimental design of the barcodes     | Symmetric                        |
+      |                     | Must be Symmetric/Asymmetric/None       |                                  |
+      +---------------------+-----------------------------------------+----------------------------------+
+      | BarcodeQuality      | The type of value encoded by the BQ tag | Probability                      |
+      |                     | Must be Score/Probability/None          |                                  |
+      +---------------------+-----------------------------------------+----------------------------------+
+
 
 
 Use of read tags for per-read information
@@ -287,7 +323,7 @@ Use of read tags for per-read information
   | np        | i          | NumPasses (1 for subreads, variable for CCS---encodes number of  |
   |           |            | *complete* passes of the insert)                                 |
   +-----------+------------+------------------------------------------------------------------+
-  | rq        | i          | Integer in [0, 1000] encoding expected accuracy                  |
+  | rq        | f          | Float in [0, 1] encoding expected accuracy                       |
   +-----------+------------+------------------------------------------------------------------+
   | sn        | B,f        | 4 floats for the average signal-to-noise ratio of A, C, G, and T |
   |           |            | (in that order) over the HQRegion                                |
@@ -347,22 +383,32 @@ with the following tag:
   | **Tag**   | **Type**      |**Description**                          |
   +===========+===============+=========================================+
   | sc        | A             | Scrap type annotation, one of           |
-  |           |               | A:=Adapter, B:=Barcode, or L:=LQRegion  |
+  |           |               | A:=Adapter, B:=Barcode, L:=LQRegion,    |
+  |           |               | or F:=Filtered :sup:`1`                 |
   +-----------+---------------+-----------------------------------------+
 
+  :sup:`1`
+    SC tags 'A', 'B', and 'L' denote specific classes of non-subread data,
+    and therefore should only be in records with no subread-specific
+    information like CX, BC, or BQ tags.  The 'F' tag, in contrast, should
+    be reserved for subreads that are undesirable for some reason, for
+    example being artifactual or representing a 1bp insert in 
+    adapter-dimer.
 
 QUAL
 ====
 
 The ``QUAL`` field in BAM alignments is intended to reflect the
 probability of a basecall being an error.  For PacBio, the utility of
-the overally QV is limited; PacBio applications make use of the more
+the overall QV is limited; PacBio applications make use of the more
 specific QV tracks reflecting probabilities of specific error types.
 
 Thus we populate the ``QUAL`` field of each record with a string of
 "0xFF" bytes in the BAM (corresponding to "*" in the SAM record).
 APIs may provide an overall QV metric by averaging probabilities
 implied by individual QV metrics, then converting back to QV scale.
+
+The ``QUAL`` field will be populated with real values for READTYPE=CCS.
 
 
 Barcodes and adapters
@@ -380,16 +426,38 @@ example, to repeat barcode calling with different options.
 Each subread (or CCS read, as the case may be) contains three
 additional tags reflecting information about the barcodes and
 adapters: ``bc``, ``bq``, and ``cx``.
+  
+  +-----------+---------------+----------------------------------------------------+
+  | **Tag**   | **Type**      |**Description**                                     |
+  +===========+===============+====================================================+
+  | cx        | i             | Context Flags                                      |
+  +-----------+---------------+----------------------------------------------------+
+  | bc        | B,S           | Barcode Calls (per-ZMW)                            |
+  +-----------+---------------+----------------------------------------------------+
+  | bq        | i             | Barcode Quality (per-ZMW)                          |
+  +-----------+---------------+----------------------------------------------------+
+
+- Both the ``bc`` and ``bq`` tags are calculated ``per-ZMW``, so every 
+  subread belonging to a given ZMW should share identical ``bc`` and
+  ``bq`` values.  The tags are also inter-depedent, so if a subread
+  has the ``bc`` tag, it must also have a ``bq`` tag and vise-versa.  
+  If the tags are present for any subread in a ZMW, they must be present 
+  for all of them.  In the absence of barcodes, both the ``bc`` and 
+  ``bq`` tags will be absent
 
 - The ``bc`` tag contains the *barcode call*, a ``uint16[2]``
-  representing the inferred barcodes sequences :math:`B_L, B_R`.
-  Integer codes represent position in a FASTA file of barcodes. The
-  integer (``uint8``) ``bq`` tag contains the barcode call confidence,
-  a Phred-scaled posterior probability that the barcode call in ``bc``
-  is correct.  Note that these tags will be computed per-ZMW, not per
-  subread, since we can combine information across the multiple
-  instances of the barcode sequences in the polymerase read.  In the
-  absence of barcodes, ``bc`` and ``bq`` tags will be absent.
+  representing the inferred forward and reverse barcodes sequences
+  (as determined by their ordering in the Barcode FASTA), or more
+  succinctly, it contains the integer pair :math:`B_F, B_R`.
+  Integer codes represent position in a FASTA file of barcodes. 
+  
+- The integer (``uint8``) ``bq`` tag contains the barcode call confidence.
+  If the ``BarcodeQuality`` element of the header is set to ``Score``,
+  then the tag represents the sum of the calculated Smith-Waterman scores 
+  that support the call in the ``bc`` tag across.  On the other hand,
+  if the value of the header-tag is ``Probability`` instead, then the 
+  tag value is a the Phred-scaled posterior probability that the  barcode 
+  call in ``bc`` is correct
 
 - The ``cx`` tag contains a ``uint8`` value encoding the *local
   context* of the subread, indicating information about the
