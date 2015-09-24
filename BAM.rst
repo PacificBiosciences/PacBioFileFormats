@@ -433,7 +433,7 @@ adapters: ``bc``, ``bq``, and ``cx``.
   +-----------+---------------+----------------------------------------------------+
   | bc        | B,S           | Barcode Calls (per-ZMW)                            |
   +-----------+---------------+----------------------------------------------------+
-  | bq        | f             | Barcode Quality (per-ZMW)                          |
+  | bq        | i             | Barcode Quality (per-ZMW)                          |
   +-----------+---------------+----------------------------------------------------+
 
 - Both the ``bc`` and ``bq`` tags are calculated ``per-ZMW``, so every 
@@ -450,12 +450,13 @@ adapters: ``bc``, ``bq``, and ``cx``.
   succinctly, it contains the integer pair :math:`B_F, B_R`.
   Integer codes represent position in a FASTA file of barcodes. 
   
-- The floating-point ``bq`` tag contains the barcode call confidence.
+- The integer (``uint8``) ``bq`` tag contains the barcode call confidence.
   If the ``BarcodeQuality`` element of the header is set to ``Score``,
-  then the tag represents a Phred-scaled posterior probability that the 
-  barcode call in ``bc`` is correct.  If the ``BarcodeQuality`` is 
-  instead ``Probability``, then the tag is a simple posterior probability
-  that the barcode call is correct, in the range [0..1]
+  then the tag represents the sum of the calculated Smith-Waterman scores 
+  that support the call in the ``bc`` tag across.  On the other hand,
+  if the value of the header-tag is ``Probability`` instead, then the 
+  tag value is a the Phred-scaled posterior probability that the  barcode 
+  call in ``bc`` is correct
 
 - The ``cx`` tag contains a ``uint8`` value encoding the *local
   context* of the subread, indicating information about the
