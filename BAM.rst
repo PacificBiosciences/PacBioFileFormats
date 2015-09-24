@@ -425,16 +425,37 @@ example, to repeat barcode calling with different options.
 Each subread (or CCS read, as the case may be) contains three
 additional tags reflecting information about the barcodes and
 adapters: ``bc``, ``bq``, and ``cx``.
+  
+  +-----------+---------------+----------------------------------------------------+
+  | **Tag**   | **Type**      |**Description**                                     |
+  +===========+===============+====================================================+
+  | cx        | i             | Context Flags                                      |
+  +-----------+---------------+----------------------------------------------------+
+  | bc        | B,S           | Barcode Calls (per-ZMW)                            |
+  +-----------+---------------+----------------------------------------------------+
+  | bq        | f             | Barcode Quality (per-ZMW)                          |
+  +-----------+---------------+----------------------------------------------------+
+
+- Both the ``bc`` and ``bq`` tags are calculated ``per-ZMW``, so every 
+  subread belonging to a given ZMW should share identical ``bc`` and
+  ``bq`` values.  The tags are also inter-depedent, so if a subread
+  has the ``bc`` tag, it must also have a ``bq`` tag and vise-versa.  
+  If the tags are present for any subread in a ZMW, they must be present 
+  for all of them.  In the absence of barcodes, both the ``bc`` and 
+  ``bq`` tags will be absent
 
 - The ``bc`` tag contains the *barcode call*, a ``uint16[2]``
-  representing the inferred barcodes sequences :math:`B_L, B_R`.
-  Integer codes represent position in a FASTA file of barcodes. The
-  integer (``uint8``) ``bq`` tag contains the barcode call confidence,
-  a Phred-scaled posterior probability that the barcode call in ``bc``
-  is correct.  Note that these tags will be computed per-ZMW, not per
-  subread, since we can combine information across the multiple
-  instances of the barcode sequences in the polymerase read.  In the
-  absence of barcodes, ``bc`` and ``bq`` tags will be absent.
+  representing the inferred forward and reverse barcodes sequences
+  (as determined by their ordering in the Barcode FASTA), or more
+  succinctly, it contains the integer pair :math:`B_F, B_R`.
+  Integer codes represent position in a FASTA file of barcodes. 
+  
+- The floating-point ``bq`` tag contains the barcode call confidence.
+  If the ``BarcodeQuality`` element of the header is set to ``Score``,
+  then the tag represents a Phred-scaled posterior probability that the 
+  barcode call in ``bc`` is correct.  If the ``BarcodeQuality`` is 
+  instead ``Probability``, then the tag is a simple posterior probability
+  that the barcode call is correct, in the range [0..1]
 
 - The ``cx`` tag contains a ``uint8`` value encoding the *local
   context* of the subread, indicating information about the
