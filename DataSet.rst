@@ -462,13 +462,15 @@ SubreadSet Special Purpose ExternalResources:
     - PacBio.SubreadFile.PolymeraseBamFile
     - PacBio.SubreadFile.PolymeraseScrapsBamFile
 
-Bam Related Special Purpose ExternalResources:
-    - PacBio.Index.BamIndex (.bai)
-    - PacBio.Index.PacBioIndex (.pbi)
+Bam-Related Special Purpose ExternalResources:
+    - PacBio.Index.BamIndex (.bam.bai)
+    - PacBio.Index.PacBioIndex (.bam.pbi)
 
-Fasta Related Special Purpose ExternalResources:
-    - PacBio.Index.SamIndex (.fai)
-    - PacBio.Index.SaWriterIndex (.sa)
+Fasta-Related Special Purpose ExternalResources:
+    - PacBio.Index.SamIndex (.fasta.fai)
+    - PacBio.Index.SaWriterIndex (.fasta.sa)
+    - PacBio.Index.Indexer (.fasta.index)
+    - PacBio.Index.FastaContigIndex (.fasta.contig.index)
 
 DataSet UI Name and Time Stamped Name
 +++++++++++++++++++++++++++++++++++++
