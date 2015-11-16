@@ -92,6 +92,13 @@ per-read tags:
     | Pulse width (frames)| px      | B,S    |      2,2,4,5       | TODO                           |
     +---------------------+---------+--------+--------------------+--------------------------------+
 
+Question: 
+    * Tag LabelQV has type B,C (*uint16_t* array) in BAM, and is not defined in PulseAndBaseICD.xls. However, according to an existing pls.h5 file, its type is *uint8_t* array. Is uint8_t array sufficient? Or is it a typical QV such that its type can be Z in BAM?
+    * Tag AltLabelQV has type B,C (*uint16_t* array) in BAM, and is not found in any pls.h5 file. What is the expected value range?
+    * Tag MergeQV has type B,C (*uint16_t* array) in BAM, and is not defined in PulseAndBaseICD.xls. However, according to an existing pls.h5 file, its type is *uint8_t* array. Is MergeQV a typical QV such that its type can be Z in BAM?
+    * Tag Pre-pulse frames has type B,C (*uint16_t* array) in BAM, and has type *uint32_t* array in PulseAndBaseICD.xml.
+    * Frame tags are described as TagName:Codeype (such as IPD:Frames or IPD:CodecV1) in BAM header read group. Should we follow this convention and describe Pre-pulse Frames as *PrePulseFrames:Frames* and Pulse width as *PulseWidthFrames:Frames*?
+    * Tag pkmean and pkmid are defined by channel per pulse (which means for each pulse, there are four values, each per channel). However, it sounds like there is exactly one pkmean or pkmid value for each pulse in BAM?
 
 Note that we encode the entire pulse stream and its attendant
 features, even though some of these are at least partially redundant
@@ -112,7 +119,9 @@ and the baseline sigma for each channel during that block, as follows:
 - "bs" tag = BaselineSigma = `{ A_0, C_0, G_0, T_0, A_1, C_1, G_1, T_1, ... }` (as `float32[]` / `B,f`), where subscript denotes block number.
 
 - "pb" tag = PulseBlockSize
-  = number of pulses in each block (`uint32[]`, `B,I`)
+  = number of pulses in each block (`uint32`, `i`)
+
+Question: should type of "pb" tag be "i" instead of "B,I"?
 
 Thus, for example, the first `pb[0]` pulses have baseline sigma
 `bs[0]` for the A channel.
