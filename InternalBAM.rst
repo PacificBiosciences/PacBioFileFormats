@@ -21,40 +21,27 @@ include additional per-read tags containing additional information.
 Kinetic information
 ===================
 
-The internal metrics BAM **requires** that IPD and Pulsewidth are stored
-**losslessy** (for both *base* and *pulse* level tracks).
+The internal BAM format **requires** that IPD and Pulsewidth are
+stored **losslessy** (for both *base* and *pulse* level tracks).
 
-There are some common use cases where we will need to identify read
-records that satisfy some constraint on the start/end times of the
-corresponding events.  For example, we might be interested in only
-reads that occurred within the first hour of sequencing.  To make this
-efficient (for example, eliminating the need to chase IPD/PW
-information in different subread/scrap records in order to sum all the
-event durations since the movie start), each BAM record will have
-additional tags ``bf`` (begin frame) and ``ef`` (end frame).
+Additionally, in order to identify the precise start frame
+corresponding to a pulse/base event, records in the internal BAM
+format includes a vector tag recording the start frame of each pulse.
 
+    +-------------+-----+----------+----------+-----------------------------+
+    | Feature     | Tag | Type     | Example  | Comment                     |
+    +=============+=====+==========+==========+=============================+
+    | Start frame | sf  | B,I      | 10, 15,  | Array containing the first  |
+    |             |     |          |  23, 28  | frame number in the pulse,  |
+    |             |     |          |          | for every pulse.            |
+    +-------------+-----+----------+----------+-----------------------------+
 
-    +------------+-----+----------+----------+---------------------------+
-    |Feature     | Tag | Type     | Example  | Comment                   |
-    +============+=====+==========+==========+===========================+
-    |Begin frame | bf  | i        |   351    | First frame number        |
-    |            |     |          |          | considered to be "in" the |
-    |            |     |          |          | read record, including    |
-    |            |     |          |          | pre-pulse interval        |
-    |            |     |          |          | preceding the first pulse |
-    |            |     |          |          | event "in" the record.    |
-    +------------+-----+----------+----------+---------------------------+
-    |End frame   | ef  | i        |  20671   | 1+last frame number       |
-    |            |     |          |          | considered to be "in" the |
-    |            |     |          |          | read record (last frame in|
-    |            |     |          |          | last pulse)               |
-    +------------+-----+----------+----------+---------------------------+
-
-These ``[bf, ef)`` intervals for the records from a given ZMW
-partition the frames in the entire polymerase read
-
-
-
+Note that the precise start frame of a pulse or base event must be
+identified using this tag; it *cannot* safely be identified by doing a
+cumulative sum of (pulse-width-in-frames + pre-pulse-frames), because
+occasionally the pre-pulse-frames cannot be represented exactly due to
+the truncation to max(uint16) before storage in the BAM.  (The same
+held true for RS bas/pls .h5 files).
 
 
 Pulse features
@@ -77,8 +64,6 @@ per-read tags:
     | AltLabel            | pt      | Z      |        ---C        | "second best" label; '-' if no |
     |                     |         |        |                    | alternative applicable         |
     +---------------------+---------+--------+--------------------+--------------------------------+
-    | AltLabelQV          | pv      | Z      |      0,0,0,3       | TODO                           |
-    +---------------------+---------+--------+--------------------+--------------------------------+
     | MergeQV             | pg      | Z      |                    | TODO                           |
     +---------------------+---------+--------+--------------------+--------------------------------+
     | Pulse mean signal   | pa      | B,S    |      2,3,2,4       | Only includes signal measure   |
@@ -87,9 +72,11 @@ per-read tags:
     | Pulse mid signal    | pm      | B,S    |      3,3,4,3       | Mean, omitting edge frames     |
     | (pkmid)             |         |        |                    |                                |
     +---------------------+---------+--------+--------------------+--------------------------------+
-    | Pre-pulse frames    | pd      | B,S    |      8,5,5,8       | TODO                           |
+    | Pre-pulse frames    | pd      | B,S    |      8,5,5,8       | Pre-pulse frames, truncated to |
+    |                     |         |        |                    | max(uint16).                   |
     +---------------------+---------+--------+--------------------+--------------------------------+
-    | Pulse width (frames)| px      | B,S    |      2,2,4,5       | TODO                           |
+    | Pulse width (frames)| px      | B,S    |      2,2,4,5       | Pulse width in frames,         |
+    |                     |         |        |                    | truncated to max(uint16).      |
     +---------------------+---------+--------+--------------------+--------------------------------+
 
 
