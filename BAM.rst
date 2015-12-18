@@ -286,7 +286,7 @@ Use of read tags for per-read information
   | np        | i          | NumPasses (1 for subreads, variable for CCS---encodes number of  |
   |           |            | *complete* passes of the insert)                                 |
   +-----------+------------+------------------------------------------------------------------+
-  | rq        | i          | Integer in [0, 1000] encoding expected accuracy                  |
+  | rq        | f          | Float in [0, 1] encoding expected accuracy                  |
   +-----------+------------+------------------------------------------------------------------+
   | sn        | B,f        | 4 floats for the average signal-to-noise ratio of A, C, G, and T |
   |           |            | (in that order) over the HQRegion                                |
