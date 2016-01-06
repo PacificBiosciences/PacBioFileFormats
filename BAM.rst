@@ -400,16 +400,18 @@ QUAL
 ====
 
 The ``QUAL`` field in BAM alignments is intended to reflect the
-probability of a basecall being an error.  For PacBio, the utility of
-the overall QV is limited; PacBio applications make use of the more
-specific QV tracks reflecting probabilities of specific error types.
+reliability of a basecall, using the Phred-encoding convention, as
+described in the `SAM spec`__.
 
-Thus we populate the ``QUAL`` field of each record with a string of
-"0xFF" bytes in the BAM (corresponding to "*" in the SAM record).
-APIs may provide an overall QV metric by averaging probabilities
-implied by individual QV metrics, then converting back to QV scale.
+Both CCS and raw read BAM files respect this convention; historically,
+and for the present moment, the encoded probability reflects the
+confidence of a basecall against alternatives including substitution,
+deletion, and insertion.
 
-The ``QUAL`` field will be populated with real values for READTYPE=CCS.
+*We expect that more details will follow here in a later spec
+ revision.*
+
+__ `specifications for BAM/SAM`
 
 
 Subread local context
