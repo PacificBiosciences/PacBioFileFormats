@@ -130,31 +130,16 @@ with base-level features.
 Baseline sigma
 ##############
 
-Additionally we need to encode the *baseline sigma* for each channel
-for a read.  The baseline sigma is a piecewise constant function of
-time, changing at an interval on the order of 10 to 100 seconds (i.e.,
-slowly!).  We tally the number of pulses in each interval ("block")
-and the baseline sigma for each channel during that block, as follows:
-
-- "bs" tag = BaselineSigma = `{ A_0, C_0, G_0, T_0, A_1, C_1, G_1, T_1, ... }` (as `float32[]` / `B,f`), where subscript denotes block number.
-
-- "pb" tag = PulseBlockSize
-  = number of pulses in each block (`uint32[]`, `B,I`)
-
-Thus, for example, the first `pb[0]` pulses have baseline sigma
-`bs[0]` for the A channel.
-
-Note that for RS data, baseline sigma is only calculated once per ZMW;
-for Sequel, it is calculated per-time-block per-ZMW, hence the need
-for an array.
+We encode the *baseline sigma* for each channel for a read, for
+compatibility with tools like PulseRecognizer.  The baseline sigma is
+a piecewise constant function of time, changing at an interval on the
+order of 10 to 100 seconds (i.e., slowly!), **however, in the BAM file
+we only record a time average over the trace.**
 
 Baseline measures recorded here are in **DWS space**.  Camera trace
-baseline metrics are available in the DME dump.
+baseline metrics---as well as more a more detailed view of the time
+evolution of the baseline---are available in the DME dump.
 
 
-
-Unresolved questions
-====================
-
-- Where will baseline information be stored?  Current plan is to store
-  it in ``sts.h5`` file (which needs a spec of its own).
+- "bs" tag = BaselineSigma = `{mean green baseline, mean read baseline}`
+  (as `float32[]` / `B,f`)
