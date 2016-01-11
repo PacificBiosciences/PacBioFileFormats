@@ -30,8 +30,8 @@ the *pbcore* Python library.
 Version
 =======
 
-The PacBio BAM specification version described here is 3.0.1. PacBio
-BAM files adhering to this spec contain the tag ``pb:3.0.1`` in the
+The PacBio BAM specification version described here is 3.0.2. PacBio
+BAM files adhering to this spec contain the tag ``pb:3.0.2`` in the
 ``@HD`` header.
 
 
@@ -207,6 +207,10 @@ SAM/BAM spec, we encode special information as follows.
 
   ``PL`` tag ("platform"):
       contains ``"PACBIO"``
+
+  ``PM`` tag ("platform model")
+      contains ``"ASTRO"``, ``"RS"``, or ``"SEQUEL"``, reflecting the
+      PacBio instrument series
 
   ``PU`` tag ("platform unit"):
       contains the PacBio movie name.
