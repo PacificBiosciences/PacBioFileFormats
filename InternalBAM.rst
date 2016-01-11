@@ -65,6 +65,14 @@ It's important to recall these distinctions when processing the signal
 intensity measures.
 
 
+Nominal channel order
+=====================
+
+For four-camera systems, the nominal channel order is (T, G, A, C).
+
+For two-camera systems, the nominal channel order is (green, red).
+
+
 Pulse features
 ==============
 
