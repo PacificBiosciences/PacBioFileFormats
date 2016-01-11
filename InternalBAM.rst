@@ -44,6 +44,27 @@ the truncation to max(uint16) before storage in the BAM.  (The same
 held true for RS bas/pls .h5 files).
 
 
+Signal intensity measures
+=========================
+
+Some of the signal intensity measure recorded in the file are in
+*dye-weighted-sum* (DWS) space, while others are in *camera* space.
+
+Some of the intensity measures are scalars, reflecting only a single
+channel---the "called" channel for a pulse, which is the nominal
+channel assigned to the pulse label of the call.  For example: *pkmid*
+(``pm``) and *pkmean* (``pa``).  Other intensity measures reflect all
+`nCam` channels, for example *pkmid2*.  We refer to these recordings
+as **nCam-vectors**.  An nCam-vector metric for a two-camera system
+with nominal channel order (green, red) would be stored as follows in
+a 1-d BAM array::
+
+   [green_0, red_0, green_1, red_1, ...]
+
+It's important to recall these distinctions when processing the signal
+intensity measures.
+
+
 Pulse features
 ==============
 
@@ -66,11 +87,22 @@ per-read tags:
     +---------------------+---------+--------+--------------------+--------------------------------+
     | MergeQV             | pg      | Z      |                    | TODO                           |
     +---------------------+---------+--------+--------------------+--------------------------------+
-    | Pulse mean signal   | pa      | B,S    |      2,3,2,4       | Only includes signal measure   |
-    | (pkmean)            |         |        |                    | for the "called" channel       |
+    | Pulse mean signal   | pa      | B,S    |      2,3,2,4       | Scalar--only includes signal   |
+    | (pkmean)            |         |        |                    | measure for the "called"       |
+    |                     |         |        |                    | channel.                       |
+    |                     |         |        |                    | **Scalar, DWS space.**         |
     +---------------------+---------+--------+--------------------+--------------------------------+
-    | Pulse mid signal    | pm      | B,S    |      3,3,4,3       | Mean, omitting edge frames     |
-    | (pkmid)             |         |        |                    |                                |
+    | Pulse mid signal    | pm      | B,S    |      3,3,4,3       | Scalar.  Mean, omitting edge   |
+    | (pkmid)             |         |        |                    | frames.                        |
+    |                     |         |        |                    | **Scalar, DWS space.**         |
+    +---------------------+---------+--------+--------------------+--------------------------------+
+    | Pulse mean signal 2 | ps      | B,S    |  40,50,41,52,60,44,| Pulse signal measure for all   |
+    | (pkmean2)           |         |        |  44,50             | channels.                      |
+    |                     |         |        |                    | **nCam-vector, camera space**. |
+    +---------------------+---------+--------+--------------------+--------------------------------+
+    | Pulse mid signal 2  | pi      | B,S    |  40,50,41,52,60,44,| Like `pkmean2`, but averaging  |
+    | (pkmid2)            |         |        |  44,50             | done over pulse interior only. |
+    |                     |         |        |                    | **nCam-vector, camera space**  |
     +---------------------+---------+--------+--------------------+--------------------------------+
     | Pre-pulse frames    | pd      | B,S    |      8,5,5,8       | Pre-pulse frames, truncated to |
     |                     |         |        |                    | max(uint16).                   |
@@ -108,6 +140,8 @@ Note that for RS data, baseline sigma is only calculated once per ZMW;
 for Sequel, it is calculated per-time-block per-ZMW, hence the need
 for an array.
 
+Baseline measures recorded here are in **DWS space**.  Camera trace
+baseline metrics are available in the DME dump.
 
 
 
