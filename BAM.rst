@@ -5,13 +5,6 @@ BAM format specification for PacBio
 .. moduleauthor:: David Alexander, Marcus Kinsella, Derek Barnett,
                   Armin Toepfer, Brett Bowman
 
-
-.. warning::
-   This specification, while close to being final, is still subject to
-   change.  We will provide no support for BAM files until the 3.0
-   spec is finalized.
-
-
 The BAM format is a binary, compressed, record-oriented container
 format for raw or aligned sequence reads.  The associated SAM format
 is a text representation of the same data.  The `specifications for
