@@ -23,8 +23,8 @@ the *pbcore* Python library.
 Version
 =======
 
-The PacBio BAM specification version described here is 3.0.2. PacBio
-BAM files adhering to this spec contain the tag ``pb:3.0.2`` in the
+The PacBio BAM specification version described here is 3.0.3. PacBio
+BAM files adhering to this spec contain the tag ``pb:3.0.3`` in the
 ``@HD`` header.
 
 
@@ -371,27 +371,38 @@ Notes:
 
 
 
-Use of sc read tag to annotate scraps
-=====================================
+How to annotate scrap reads
+===========================
 
 Reads that belong to a read group with READTYPE=SCRAP have to be annotated
-with the following tag:
+in a hierarchical fashion:
+
+1) Classification with tag *sz* occurs on a per ZMW level, distinguishing 
+   between spike-in controls, sentinels of the basecaller, malformed ZMWs, 
+   and user-defined templates.
+2) A region-wise annotation with tag *sr* to label adapters, barcodes, 
+   low-quality regions, and filtered subreads.
 
   +-----------+---------------+-----------------------------------------+
   | **Tag**   | **Type**      |**Description**                          |
   +===========+===============+=========================================+
-  | sc        | A             | Scrap type annotation, one of           |
+  | sz        | A             | ZMW classification annotation, one of   |
+  |           |               | N:=Normal, C:=Control, M:=Malformed,    |
+  |           |               | or S:=Sentinel :sup:`1`                 |
+  +-----------+---------------+-----------------------------------------+
+  | sr        | A             | Scrap region-type annotation, one of    |
   |           |               | A:=Adapter, B:=Barcode, L:=LQRegion,    |
-  |           |               | or F:=Filtered :sup:`1`                 |
+  |           |               | or F:=Filtered :sup:`2`                 |
   +-----------+---------------+-----------------------------------------+
 
   :sup:`1`
+    reads in the subreads/hqregions/polymerase.bam file are implicitly
+    marked as Normal, as they stem from user-defined templates.
+
+  :sup:`2`
     sc tags 'A', 'B', and 'L' denote specific classes of non-subread data,
-    and therefore should only be in records with no subread-specific
-    information like cx, bc, or bq tags.  The 'F' tag, in contrast, should
-    be reserved for subreads that are undesirable for some reason, for
-    example being artifactual or representing a 1bp insert in 
-    adapter-dimer.
+    whereas the 'F' tag is reserved for subreads that are undesirable for
+    downstream analysis, e.g., being artifactual or too short.
 
 QUAL
 ====
