@@ -380,7 +380,7 @@ in a hierarchical fashion:
 1) Classification with tag *sz* occurs on a per ZMW level, distinguishing 
    between spike-in controls, sentinels of the basecaller, malformed ZMWs, 
    and user-defined templates.
-2) A region-wise annotation with tag *sr* to label adapters, barcodes, 
+2) A region-wise annotation with tag *sc* to label adapters, barcodes, 
    low-quality regions, and filtered subreads.
 
   +-----------+---------------+-----------------------------------------+
@@ -390,7 +390,7 @@ in a hierarchical fashion:
   |           |               | N:=Normal, C:=Control, M:=Malformed,    |
   |           |               | or S:=Sentinel :sup:`1`                 |
   +-----------+---------------+-----------------------------------------+
-  | sr        | A             | Scrap region-type annotation, one of    |
+  | sc        | A             | Scrap region-type annotation, one of    |
   |           |               | A:=Adapter, B:=Barcode, L:=LQRegion,    |
   |           |               | or F:=Filtered :sup:`2`                 |
   +-----------+---------------+-----------------------------------------+
