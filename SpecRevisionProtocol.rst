@@ -67,5 +67,4 @@ We will adhere to the following protocol to revise a format specification:
 5. If no flaws are uncovered during the cooling-off period, go forward
    with the revision by:
    - merging the spec revision pull request;
-   - record the items in the plan of action as bugs in bugzilla and
-     begin implementation work
+   - record the items in the plan of action as bugs in bugzilla and begin implementation work
