@@ -461,6 +461,7 @@ SubreadSet Special Purpose ExternalResources:
     - PacBio.SubreadFile.LqScrapsBamFile
     - PacBio.SubreadFile.PolymeraseBamFile
     - PacBio.SubreadFile.PolymeraseScrapsBamFile
+    - PacBio.SubreadFile.ChipStatsFile (.sts.xml)
 
 Bam-Related Special Purpose ExternalResources:
     - PacBio.Index.BamIndex (.bam.bai)
