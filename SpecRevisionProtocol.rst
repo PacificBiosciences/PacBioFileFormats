@@ -41,7 +41,7 @@ People
 ======
 
 The following stakeholders are considered the **core team**: Aaron,
-Armin, Brett, Dave, Jim Drake, Nat, Martin, Yuan.  Decisions should be
+Armin, Brett, Dave, Derek, Jim Drake, Nat, Martin, Yuan.  Decisions should be
 reached by unanimous consent.
 
 Aaron and Dave are the **sudoer team** and may waive cooling-off
