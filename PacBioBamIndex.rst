@@ -230,6 +230,10 @@ Mapped Data
     nIns = aEnd - aStart - nM - nMM
     nDel = tEnd - tStart - nM - nMM
     
+  Alignment length is computed as nM + nMM + nIns + nDel, which is::
+
+    aEnd - aStart + tEnd - tStart - nM - nMM
+
 .. _Coordinate-Sorted Data:
 
 Coordinate-Sorted Data
