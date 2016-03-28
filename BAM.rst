@@ -544,6 +544,19 @@ Examples (subreads)
 
 
 
+Alignment: the contract for a mapper
+====================================
+
+An aligner is expected to accept BAM input and produce aligned BAM
+output, where each aligned BAM record in the output preserves intact
+all tags present in the original record.  The aligner should not
+attempt to orient or complement any of the tags.
+
+(Note that this contrasts with the handling of `SEQ` and `QUAL`, which
+are mandated by the BAM/SAM specification to be (respectively)
+reverse-complemented, and reversed, for reverse strand alignments.)
+
+
 Alignment: soft-clipping
 ========================
 
