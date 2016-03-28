@@ -18,6 +18,7 @@ legacy `cmp.h5` format.
 .. toctree::
    :maxdepth: 1
 
+   Primer
    BAM
    PacBioBamIndex
    FASTA
