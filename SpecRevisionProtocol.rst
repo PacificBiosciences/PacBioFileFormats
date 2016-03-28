@@ -68,3 +68,24 @@ We will adhere to the following protocol to revise a format specification:
    with the revision by:
       - merging the spec revision pull request;
       - record the items in the plan of action as bugs in bugzilla and begin implementation work
+
+Suggested order-of-updates
+==========================
+
+The "plan of action" has to consider the order of software changes to
+be performed.  Here is a typical, suggested order of operations that
+has worked well for us in staging changes to the BAM format, at least
+for changes that respect software compatibility with older BAM files:
+
+  1. Core library updates: `pbbam`, `pbcore`
+  2. Testing: `pbvalidate`
+  3. Data producers: `baz2bam`, `bax2bam`
+  4. Data consumers: `bam2bax`, `bam2bam`
+
+It's advisable to do development on a branch until ready for
+integration.
+
+Specification changes that declare older BAM files to be invalid are
+much more difficult because they require regeneration of test
+datasets; such changes need to be negotiated more carefully or avoided
+entirely.
