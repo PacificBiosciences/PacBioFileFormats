@@ -31,8 +31,8 @@ Legacy formats
 .. toctree::
    :maxdepth: 1
 
-   BasH5Spec
-   CmpH5Spec
+   legacy/BasH5Spec
+   legacy/CmpH5Spec
 
 
 
