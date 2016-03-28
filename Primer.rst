@@ -73,7 +73,7 @@ only output the subreads detected within the HQ region.
 
 
 BAM everywhere
-==============
+--------------
 
 *Unaligned* BAM files representing the *subreads* will be produced
 natively by the PacBio instrument.  The subreads BAM will be the
