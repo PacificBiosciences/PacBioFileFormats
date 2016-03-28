@@ -43,8 +43,8 @@ APIs available
 We occasionally make changes to these file format specifications so we
 recommend using PacBio-authored APIs to access these file types.
 
+- C++: pbbam_
 - Python: pbcore_
-- R: R-pbh5_
 
+.. _pbbam: https://github.com/PacificBiosciences/pbbam
 .. _pbcore: https://github.com/PacificBiosciences/pbcore
-.. _R-pbh5: https://github.com/PacificBiosciences/R-pbh5
