@@ -59,7 +59,7 @@ sequencing reaction is taking place.  This region is designated the
 **HQ region**, and in the standard mode of operation, PostPrimary will
 only output the subreads detected within the HQ region.
 
-.. figure:: img/polymeraseread.*
+.. figure:: img/zmwread.*
    :width: 100%
 
    A schematic of the regions designated within a polymerase read
