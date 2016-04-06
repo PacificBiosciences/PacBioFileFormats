@@ -23,8 +23,8 @@ the *pbcore* Python library.
 Version
 =======
 
-The PacBio BAM specification version described here is 3.0.3. PacBio
-BAM files adhering to this spec contain the tag ``pb:3.0.3`` in the
+The PacBio BAM specification version described here is 3.0.4. PacBio
+BAM files adhering to this spec contain the tag ``pb:3.0.4`` in the
 ``@HD`` header.
 
 
@@ -36,7 +36,7 @@ and intervals on the reference.
 
 PacBio also uses a 0-based coordinate system to refer to positions and
 intervals within sequence reads.  Positions in PacBio reads are
-reckoned from the first polymerase read base (as base 0), *not* the
+reckoned from the first ZMW read base (as base 0), *not* the
 first base in the HQ region.
 
 Perhaps confusingly, the text SAM format uses 1-based coordinate
@@ -54,7 +54,7 @@ intervals are closed.
 ==========================================
 
 A sequence read presented to an aligner is termed a *query*; typically
-this query will be a subsequence of an entire PacBio polymerase
+this query will be a subsequence of an entire PacBio ZMW
 read---most commonly, it will be a *subread*, which is basecalls from
 a single pass of the insert DNA molecule.
 
@@ -64,13 +64,13 @@ to the reference genome, and that subsequence is referred to as the
 stored in the aligned BAM, but the CIGAR field indicates that some
 bases at either end are excluded from the alignment.
 
-Abstractly, we denote the extent of the *query* in polymerase read as
+Abstractly, we denote the extent of the *query* in ZMW read as
 `[qStart, qEnd)` and the extent of the aligned subinterval as `[aStart, aEnd)`
 The following graphic illustrates these intervals::
 
               qStart                         qEnd
     0         |  aStart                aEnd  |
-    [--...----*--*---------------------*-----*-----...------)  < "polymerase read" coord. system
+    [--...----*--*---------------------*-----*-----...------)  < "ZMW read" coord. system
               ~~~----------------------~~~~~~                  <  query; "-" = aligning subseq.
     [--...-------*---------...---------*-----------...------)  < "ref." / "target" coord. system
     0            tStart                tEnd
@@ -78,7 +78,7 @@ The following graphic illustrates these intervals::
 
 In our BAM files, the qStart, qEnd are contained in the ``qs`` and
 ``qe`` tags, (and reflected in the ``QNAME``); the bounds of the
-*aligned query* in the polymerase read can be determined by adjusting
+*aligned query* in the ZMW read can be determined by adjusting
 ``qs`` and ``qe`` by the number of soft-clipped bases at the ends of
 the alignment (as found in the CIGAR).
 
@@ -98,7 +98,7 @@ and subreads is in the following format::
    {movieName}/{holeNumber}/{qStart}_{qEnd}
 
 where ``[qStart, qEnd)`` is the 0-based coordinate interval
-representing the span of the *query* in the polymerase read, as above.
+representing the span of the *query* in the ZMW read, as above.
 
 For CCS reads, the ``QNAME`` convention is::
 
@@ -123,7 +123,7 @@ use a ``suffix.bam`` filename convention:
   +------------------------------------+------------------------------+
   | Data type                          | Filename template            |
   +====================================+==============================+
-  | Polymerase reads from movie        | *movieName*.polymerase.bam   |
+  | ZMW reads from movie               | *movieName*.zmws.bam         |
   +------------------------------------+------------------------------+
   | Analysis-ready subreads :sup:`1`   | *movieName*.subreads.bam     |
   |  from movie                        |                              |
@@ -220,7 +220,7 @@ SAM/BAM spec, we encode special information as follows.
       +-------------------+----------------------------------------+----------------+
       | Key               | Value spec                             | Value example  |
       +===================+========================================+================+
-      | READTYPE          | One of POLYMERASE, HQREGION,           | SUBREAD        |
+      | READTYPE          | One of ZMW, HQREGION,                  | SUBREAD        |
       |                   | SUBREAD, CCS, SCRAP, or UNKNOWN        |                |
       +-------------------+----------------------------------------+----------------+
       | BINDINGKIT        | Binding kit part number                | 100236500      |
@@ -312,9 +312,9 @@ Use of read tags for per-read information
   +-----------+------------+------------------------------------------------------------------+
   | **Tag**   | **Type**   | **Description**                                                  |
   +===========+============+==================================================================+
-  | qs        | i          | 0-based start of query in the polymerase read (absent in CCS)    |
+  | qs        | i          | 0-based start of query in the ZMW read (absent in CCS)           |
   +-----------+------------+------------------------------------------------------------------+
-  | qe        | i          | 0-based end of query in the polymerase read (absent in CCS)      |
+  | qe        | i          | 0-based end of query in the ZMW read (absent in CCS)             |
   +-----------+------------+------------------------------------------------------------------+
   | zm        | i          | ZMW hole number                                                  |
   +-----------+------------+------------------------------------------------------------------+
@@ -396,7 +396,7 @@ in a hierarchical fashion:
   +-----------+---------------+-----------------------------------------+
 
   :sup:`1`
-    reads in the subreads/hqregions/polymerase.bam file are implicitly
+    reads in the subreads/hqregions/zmws.bam file are implicitly
     marked as Normal, as they stem from user-defined templates.
 
   :sup:`2`
@@ -464,7 +464,7 @@ The ``ADAPTER_*`` and ``BARCODE_*`` flags reflect whether the
 subread is flanked by adapters or barcodes at the ends.
 
 This tag is mandatory for subread records, but will be absent from
-non-subread records (scraps, polymerase read, CCS read, etc.)
+non-subread records (scraps, ZMW read, CCS read, etc.)
 
 
   +-----------+---------------+----------------------------------------------------+
@@ -482,7 +482,7 @@ barcode call and a score representing the confidence of that call.
 The actual data used to inform the barcode calls---the barcode
 sequences and associated pulse features---will be retained in the
 associated ``scraps.bam`` file, so that ``bam2bam`` can be used at a
-later time to reconstitute the full-length polymerase reads in order,
+later time to reconstitute the full-length ZMW reads in order,
 for example, to repeat barcode calling with different options.
 
 
