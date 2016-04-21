@@ -40,12 +40,12 @@ reverse-complementation):
 
 (note the identity :math:`(x^{RC})^C = x^R`).
 
-The **polymerase read** or **unrolled read** is the output of the
-instrument/basecaller upon observing this series of incorporations,
-subject to errors due to optical and other limitations.  **Adapter
-regions** and **barcode regions** are the spans of the polymerase read
-corresponding to the adapter and barcode DNA.  The **subreads** are
-the spans of the polymerase read corresponding to the DNA insert.
+The **ZMW read** is the full output of the instrument/basecaller upon
+observing this series of incorporations, subject to errors due to
+optical and other limitations.  **Adapter regions** and **barcode
+regions** are the spans of the ZMW read corresponding to the adapter
+and barcode DNA.  The **subreads** are the spans of the ZMW read
+corresponding to the DNA insert.
 
 One complication arises when one considers the possibility that a ZMW
 might not contain a single sequencing reaction.  Indeed it could could
@@ -54,19 +54,19 @@ background noise---or it could contain more than one, in which case
 the basecall sequence represents two intercalated reads, effectively
 appearing as noise.  To remove such noisy sequence, the **high quality
 (HQ) region finder** in PostPrimary algorithmically detects a maximal
-interval of the polymerase read where it appears that a single
-sequencing reaction is taking place.  This region is designated the
-**HQ region**, and in the standard mode of operation, PostPrimary will
-only output the subreads detected within the HQ region.
+interval of the ZMW read where it appears that a single sequencing
+reaction is taking place.  This region is designated the **HQ
+region**, and in the standard mode of operation, PostPrimary will only
+output the subreads detected within the HQ region.
 
 .. figure:: img/zmwread.*
    :width: 100%
 
-   A schematic of the regions designated within a polymerase read
+   A schematic of the regions designated within a ZMW read
 
 .. note::
    Our coordinate system begins at the first basecall in the
-   polymerase read (deemed base 0)---i.e., it is *not* relative to the
+   ZMW read (deemed base 0)---i.e., it is *not* relative to the
    HQ region.  Intervals in PacBio reads are given in end-exclusive
    ("half-open") coordinates.  This style of coordinate system should
    be familiar to Python or C++ STL programmers.
@@ -80,7 +80,7 @@ natively by the PacBio instrument.  The subreads BAM will be the
 starting point for secondary analysis.  In addition, the *scraps*
 arising from cutting out adapter and barcode sequences will be
 retained in a ``scraps.bam`` file, to enable reconstruction of HQ
-regions of the polymerase reads, in case the customer needs to rerun
+regions of the ZMW reads, in case the customer needs to rerun
 barcode finding with a different option.
 
 The circular consensus tool/workflow (CCS) will take as input an
