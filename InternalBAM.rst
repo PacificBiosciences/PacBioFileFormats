@@ -68,9 +68,10 @@ per-read tags:
     +---------------------+---------+--------+--------------------+--------------------------------+
     | Pulse mean signal   | pa      | B,S    |      2,3,2,4       | Only includes signal measure   |
     | (pkmean)            |         |        |                    | for the "called" channel       |
+    |                     |         |        |                    | *Units:* photoelectron         |
     +---------------------+---------+--------+--------------------+--------------------------------+
     | Pulse mid signal    | pm      | B,S    |      3,3,4,3       | Mean, omitting edge frames     |
-    | (pkmid)             |         |        |                    |                                |
+    | (pkmid)             |         |        |                    | *Units:* photoelectron         |
     +---------------------+---------+--------+--------------------+--------------------------------+
     | Pre-pulse frames    | pd      | B,S    |      8,5,5,8       | Pre-pulse frames, truncated to |
     |                     |         |        |                    | max(uint16).                   |
@@ -116,3 +117,7 @@ Unresolved questions
 
 - Where will baseline information be stored?  Current plan is to store
   it in ``sts.h5`` file (which needs a spec of its own).
+- The pkmid/pkmean values are stored in photoelections, which means we need 
+  the gain in order to compute the values in counts.  This has internal value 
+  when back-converting internal BAMs to pls.h5 files, which uses counts to 
+  represent pk values.
