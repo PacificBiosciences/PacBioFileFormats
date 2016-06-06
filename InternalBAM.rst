@@ -47,17 +47,24 @@ held true for RS bas/pls .h5 files).
 Pulse features
 ==============
 
+Background: A spike in the trace can be identified as a pulse and
+a pulse can be called as a base. Thus, the number of pulse calls is at 
+least equal the number of base calls, as they are also pulses.
+As some pulses do not qualify as bases, the number of pulses is
+possibly greater than the number of bases.
 
-The pulse BAM extends the vanilla PacBio BAM format with the following
-per-read tags:
-
+The pulse BAM extends the vanilla PacBio BAM format with additional
+per-read tags. These new pulse tags are of equal length, 
+one entry per pulse:
 
     +---------------------+---------+--------+--------------------+--------------------------------+
     | Feature             | Tag name| Type   |      Example       | Comment                        |
     +=====================+=========+========+====================+================================+
     | Pulse call          | pc      | Z      |        GaAT        | Lowercase used to indicate a   |
     |                     |         |        |                    | pulsecall that was "squashed"  |
-    |                     |         |        |                    | by P2B                         |
+    |                     |         |        |                    | by P2B, uppercases are         |
+    |                     |         |        |                    | the respective                 |
+    |                     |         |        |                    | base calls from the SEQ field  |
     +---------------------+---------+--------+--------------------+--------------------------------+
     | LabelQV             | pq      | Z      |    20,20,12,20     | TODO                           |
     +---------------------+---------+--------+--------------------+--------------------------------+
