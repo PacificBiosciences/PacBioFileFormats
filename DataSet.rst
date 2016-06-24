@@ -477,7 +477,7 @@ Fasta-Related Special Purpose ExternalResources:
     - PacBio.Index.SaWriterIndex (.fasta.sa)
     - PacBio.Index.Indexer (.fasta.index)
     - PacBio.Index.FastaContigIndex (.fasta.contig.index)
-    - PacBio.GmapDB.GmapDBPath (a file indicating the location of a gmap db)
+    - PacBio.GmapDB.GmapDBSummary (a file indicating the location of a gmap db)
 
 DataSet UI Name and Time Stamped Name
 +++++++++++++++++++++++++++++++++++++
