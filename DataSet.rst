@@ -390,6 +390,7 @@ entities consumed and produced by Secondary Analysis pipelines
     - AlignmentSet - Aligned reads in BAM format.
     - ReferenceSet - The FASTA reference used by Resequencing, Base Mods, 
       Minor Variants. Replaces the reference repository entries.
+    - GmapReferenceSet - A FASTA ReferenceSet with a GMAP database.
     - ContigSet - Produced by HGAP or AHA.
     - BarcodeSet - The FASTA file used by barcode detection.
 
@@ -428,6 +429,8 @@ DataSet MetaTypes and File Extensions
 +-----------------------+------------------------------------------------+---------------------------+
 | ReferenceSet          | PacBio.DataSet.ReferenceSet                    | .referenceset.xml         |
 +-----------------------+------------------------------------------------+---------------------------+
+| GmapReferenceSet      | PacBio.DataSet.GmapReferenceSet                | .gmapreferenceset.xml     |
++-----------------------+------------------------------------------------+---------------------------+
 
 
 DataSet External Resource MetaTypes and File Extensions
@@ -462,6 +465,8 @@ SubreadSet Special Purpose ExternalResources:
     - PacBio.SubreadFile.PolymeraseBamFile
     - PacBio.SubreadFile.PolymeraseScrapsBamFile
     - PacBio.SubreadFile.ChipStatsFile (.sts.xml)
+    - PacBio.SubreadFile.AdapterFastaFile
+    - PacBio.SubreadFile.ControlFastaFile
 
 Bam-Related Special Purpose ExternalResources:
     - PacBio.Index.BamIndex (.bam.bai)
@@ -472,6 +477,7 @@ Fasta-Related Special Purpose ExternalResources:
     - PacBio.Index.SaWriterIndex (.fasta.sa)
     - PacBio.Index.Indexer (.fasta.index)
     - PacBio.Index.FastaContigIndex (.fasta.contig.index)
+    - PacBio.GmapDB.GmapDBSummary (a file indicating the location of a gmap db)
 
 DataSet UI Name and Time Stamped Name
 +++++++++++++++++++++++++++++++++++++
