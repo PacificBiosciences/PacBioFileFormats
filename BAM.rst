@@ -508,13 +508,19 @@ for example, to repeat barcode calling with different options.
   succinctly, it contains the integer pair :math:`B_F, B_R`.  Integer
   codes represent 0-based position in the FASTA file of barcodes.
 
-- The integer (``uint8``) ``bq`` tag contains the barcode call confidence.
+- The integer (``int``) ``bq`` tag contains the barcode call confidence.
   If the ``BarcodeQuality`` element of the header is set to ``Score``,
-  then the tag represents the sum of the calculated Smith-Waterman scores
-  that support the call in the ``bc`` tag across.  On the other hand,
-  if the value of the header-tag is ``Probability`` instead, then the
-  tag value is a the Phred-scaled posterior probability that the  barcode
-  call in ``bc`` is correct
+  then the tag represents the mean normalized sum of the calculated 
+  Smith-Waterman scores that support the call in the ``bc`` tag across all 
+  subreads. For each barcode, the sum of the Smith-Waterman score is normalized
+  by the length of the barcode times the match score, then multiplied by 100
+  and rounded; this provides an integer value between 0 - 100.
+  On the other hand, if the value of the header-tag is ``Probability`` instead, 
+  then the tag value is a the Phred-scaled posterior probability that the 
+  barcode call in ``bc`` is correct.
+  In both cases, the value will never exceed the ``int8`` range, but for 
+  backward-compatibility reasons we keep the BAM ``bq`` as ``int``.
+  This contract allows the PBI to store ``bq`` as a much smaller `int8``.
 
 Barcode information will follow the same convention in CCS output
 (``ccs.bam`` files).
