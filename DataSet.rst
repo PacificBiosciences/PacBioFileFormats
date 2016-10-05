@@ -465,6 +465,7 @@ SubreadSet Special Purpose ExternalResources:
     - PacBio.SubreadFile.PolymeraseBamFile
     - PacBio.SubreadFile.PolymeraseScrapsBamFile
     - PacBio.SubreadFile.ChipStatsFile (.sts.xml)
+    - PacBio.SubreadFile.ChipStatsH5File (.sts.h5)
     - PacBio.SubreadFile.AdapterFastaFile
     - PacBio.SubreadFile.ControlFastaFile
 
