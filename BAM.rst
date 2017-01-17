@@ -356,8 +356,7 @@ read record has been aligned to the reverse strand.
   +-----------+---------------+----------------------------------------------------+
   | ip        | B,C *or* B,S  | IPD (raw frames or codec V1)                       |
   +-----------+---------------+----------------------------------------------------+
-  | pw        | B,C *or* B,S  | PulseWidth (raw frames or codec V1;                |
-  |           |               | **PacBio-internal**)                               |
+  | pw        | B,C *or* B,S  | PulseWidth (raw frames or codec V1)                |
   +-----------+---------------+----------------------------------------------------+
 
 
