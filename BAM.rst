@@ -591,10 +591,6 @@ will be used.  The instrument can be switched into a mode
 (PacBio-internal mode) where it will emit the full lossless kinetic
 features.
 
-Similarly, PulseWidth will *not* be included in the BAM file in the
-default production instrument configuration, but it will be available
-in "PacBio-internal instrument" mode.
-
 The lossy encoding for IPD and pulsewidth values into the available 256
 codepoints is as follows (**codec v1**):
 
