@@ -35,61 +35,40 @@ PacBio DataSet File Format Specification
 
 This document defines the 3.0.0 Secondary DataSet abstraction and its
 XML file representation. A DataSet is a set of a particular
-data type, such as subreads, references or alignments.
+data type, such as subreads, references or aligned subreads.
 
 2.1 Motivating Use Cases
 --------------------------
 
 The concept of a homogenous set of elements of a particular data type is
-used throughout Secondary Analysis.  These sets of data are represented
+used throughout Pacific Biosciences Secondary Analysis. 
+These "sets of data" are represented
 in many different ways, sometimes explicitly by creating large files
-that contain all the data in the set (e.g. filtered_subreads.fasta),
-and sometimes implicitly by using pointers to the data, such as with
-the ubiquitous FOFN (file of file names).
+that contain all the data in the set (e.g. a FASTA file of subreads),
+and sometimes implicitly by using pointers to the data, such as with a FOFN 
+(file of file names). 
 
-Here is a incomplete survey of the uses of cases of sets of fundamental
-data types and how they are solved in pre-3.0.0 Secondary Analysis:
-
-- Refer to a **set of subreads** in multiple bax.h5 files 
-    - FOFN of bax.h5 files (for blasr)
-    - input.xml of bax.h5 files (for SMRT Pipe)
-
-- Refer to a **subset of subreads** by id from one or more bas.h5 files
-    - Whitelist option to P_Filter to generate a FOFN of rgn.h5 files + FOFN of
-      bas.h5 files
-
-- Refer to a **set of alignments** from multiple different references or movies
-    - Explicitly merge the alignments into a larger (cmp.h5) alignment file
-    - Create FOFN of cmp.h5 files
-
-- Run algorithms such as HGAP on a **subset of subreads** (e.g. that align to a   contaminant such as E. coli)
-    - Awkward, but supported indirectly though whitelist option to P_Filter
-
-- Run algorithms such as Quiver on a **subset of alignments** (e.g. on a
-  particular chromosome, or a particular chromosome region, or from reads
-  labeled with a particular barcode)
-    - Command line options to Quiver (to e.g. specify a particular
-      reference). Not currently supported on other algorithms.
-
-- Refer to a **subset of alignments** that obey certain criteria. In particular,  the extractBy reference or accuracy functionality used in Milhouse.
-    - Explicit creation of cmp.h5 files using cmph5tools.py select.
-
-
-- Perform any analysis that can be performed on an entire file of a particular 
-  data type (reads, read regions, alignments) on a **subset of that data type**   without creating a new file.
-    - Not supported pre-3.0.
-
-In many cases the pre-3.0 solutions are serviceable, but they have
+In many cases these solutions are serviceable, but they have
 disadvantages. The reliance on explicit file creation imposes a heavy
-burden that will be exacerbated as instrument throughput increases. The
+burden that is exacerbated by instrument throughput increases. The
 FOFN partially breaks the tight coupling between explicit files and
 sets of data, but it fails to allow facile subsetting of files. Tools
 are forced to reimplement filtering or subsetting logic in their own
 idiosyncratic ways.
 
-The DataSet XML attempts to satisfy these use cases in a unified way
+The DataSet XML abstraction (or DataSet for short) satisfies these use cases in a unified way
 using a canonical representation that can by used throughout the Secondary
-Analysis system.
+Analysis system. Here is a sampling of the uses of cases for DataSets:
+
+- Refer to a **set of subreads** in multiple BAM files 
+- Refer to a **subset of subreads** by id from one or more BAM files
+- Refer to a **set of alignments** from multiple different references or movies
+- Run algorithms such as Arrow on a **subset of alignments** (e.g. on a
+  particular chromosome, or a particular chromosome region, or from reads
+  labeled with a particular barcode)
+- Refer to a **subset of alignments** that obey certain criteria (such as a length minimum).
+- Perform any analysis that can be performed on an entire file of a particular 
+  data type (reads, read regions, alignments) on a **subset of that data type**  without creating a new file.
 
 
 3. Data Format Definition
@@ -98,7 +77,7 @@ Analysis system.
 3.1 XML Representation
 ----------------------
 
-The canonical representation of a DataSet is an XML file that contains
+The canonical representation of a DataSet is an XML file that 
 contains a single DataSet element with four major sections, one mandatory
 and three optional:
 
@@ -592,6 +571,38 @@ Here are some example XML files for each of the above DataSets
 .. include:: examples/datasets/reference.rst
 .. include:: examples/datasets/contig.rst
 .. include:: examples/datasets/barcode.rst
+
+Appendix 2: Use cases from pre-3.0 Secondary Analysis satisfied by the DataSet XML files
+========================================================================================
+
+- Refer to a **set of subreads** in multiple bax.h5 files 
+    - FOFN of bax.h5 files (for blasr)
+    - input.xml of bax.h5 files (for SMRT Pipe)
+
+- Refer to a **subset of subreads** by id from one or more bas.h5 files
+    - Whitelist option to P_Filter to generate a FOFN of rgn.h5 files + FOFN of
+      bas.h5 files
+
+- Refer to a **set of alignments** from multiple different references or movies
+    - Explicitly merge the alignments into a larger (cmp.h5) alignment file
+    - Create FOFN of cmp.h5 files
+
+- Run algorithms such as HGAP on a **subset of subreads** (e.g. that align to a   contaminant such as E. coli)
+    - Awkward, but supported indirectly though whitelist option to P_Filter
+
+- Run algorithms such as Quiver on a **subset of alignments** (e.g. on a
+  particular chromosome, or a particular chromosome region, or from reads
+  labeled with a particular barcode)
+    - Command line options to Quiver (to e.g. specify a particular
+      reference). Not currently supported on other algorithms.
+
+- Refer to a **subset of alignments** that obey certain criteria. In particular,  the extractBy reference or accuracy functionality used in Milhouse.
+    - Explicit creation of cmp.h5 files using cmph5tools.py select.
+
+
+- Perform any analysis that can be performed on an entire file of a particular 
+  data type (reads, read regions, alignments) on a **subset of that data type**   without creating a new file.
+    - Not supported pre-3.0.
 
 
 .. _W3C compatible timestamp: http://www.w3.org/TR/NOTE-datetime
