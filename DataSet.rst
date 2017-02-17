@@ -2,42 +2,14 @@
 PacBio DataSet File Format Specification
 ===================================================
 
-
-1. Revision History
-===================
-
- 
-+---------+------------+--------------------+-------------------------------+
-| Version |    Date    |      Authors       | Comments                      |
-+=========+============+====================+===============================+
-| 0.5     | 06/26/2015 | Aaron Klammer      | Incorporate latest XSD changes|
-+---------+------------+--------------------+-------------------------------+
-| 0.5     | 02/24/2015 | Aaron Klammer      | Incorporate changes from      | 
-|         |            |                    | design review. Attendees:     |
-|         |            |                    | Marco, Dave, Elias, Michael,  | 
-|         |            |                    | Jim D.                        |
-+---------+------------+--------------------+-------------------------------+
-| 0.4     | 02/20/2015 | Aaron Klammer      | Incorporated Dave's feedback. |
-|         |            |                    | Resolve operation changed to  |
-|         |            |                    | Consolidate                   |   
-+---------+------------+--------------------+-------------------------------+
-| 0.3     | 02/13/2015 | Aaron Klammer      | Incorporated Derek's feedback |
-+---------+------------+--------------------+-------------------------------+
-| 0.2     | 02/12/2015 | Aaron Klammer      | Added example XMLs            |
-+---------+------------+--------------------+-------------------------------+
-| 0.1     | 02/04/2015 | Aaron Klammer      | First draft                   |
-+---------+------------+--------------------+-------------------------------+
-
-
-
-2. Introduction
+1. Introduction
 ===============
 
-This document defines the 3.0.0 Secondary DataSet abstraction and its
+This document defines the 2.0.0 Secondary DataSet abstraction and its
 XML file representation. A DataSet is a set of a particular
 data type, such as subreads, references or aligned subreads.
 
-2.1 Motivating Use Cases
+1.1 Motivating Use Cases
 --------------------------
 
 The concept of a homogenous set of elements of a particular data type is
@@ -71,10 +43,10 @@ Analysis system. Here is a sampling of the uses of cases for DataSets:
   data type (reads, read regions, alignments) on a **subset of that data type**  without creating a new file.
 
 
-3. Data Format Definition
+2. Data Format Definition
 =========================
 
-3.1 XML Representation
+2.1 XML Representation
 ----------------------
 
 The canonical representation of a DataSet is an XML file that 
@@ -88,7 +60,7 @@ and three optional:
     2.  An optional ``<Filters>`` section that filters or subsets the elements 
         of the set in the above files, for example by length.
 
-    3.  An optional ``<DataSetMetadata>`` section that contains metadata about 
+    2.  An optional ``<DataSetMetadata>`` section that contains metadata about 
         the DataSet, usually at minimum the number of records and their total 
         length, but possibly much more. For example, subread and CCS
         read DataSets have metadata regarding instrument collection or
@@ -133,7 +105,7 @@ BAM records and labels a subset of the subreads as "Extra Long Reads"::
         </DataSets>
     </SubreadSet>
 
-3.2 Operations on DataSets
+2.2 Operations on DataSets
 --------------------------
 
 DataSets support operations that would naively be expected of sets, such
@@ -250,6 +222,7 @@ cost of increased disk usage.
 
 Labelling subsets of DataSets
 +++++++++++++++++++++++++++++
+# TODO is this still valid?
 
 DataSets can contain other DataSets. These DataSets are defined relative
 to the parent DataSet, and provide the ability to label subsets of the
@@ -272,7 +245,7 @@ DataSet ``Name`` field::
          ...
     </AlignmentSet>
 
-3.3 I/O trade-offs using DataSets
+2.3 I/O trade-offs using DataSets
 ---------------------------------
 The DataSet model defers I/O operations by replacing up-front file merges
 with downstream I/O operations that hit many different files. This allows
@@ -287,7 +260,7 @@ provides the means for using the form of DataSet that best fits a
 particular use case.
 
 
-3.4 Examples satisfying the motivating use cases
+2.4 Examples satisfying the motivating use cases
 ------------------------------------------------
 
 - Refer to a **set of subreads** in multiple bax.h5 files. The SubreadSet
@@ -358,7 +331,7 @@ particular use case.
     - Relies on tools using common APIs to access DataSets.
 
 
-3.5 Types of DataSets
+2.5 Types of DataSets
 ---------------------
 
 DataSets subtypes are defined for the most common "bread-and-butter"
@@ -491,7 +464,7 @@ year, month, day, hour, minute, second, millisecond.
 +-----------------------+--------------------------------------------------------+-------------------+
 
 
-3.6 Support for the DataSet XML
+2.6 Support for the DataSet XML
 --------------------------------------------------------
 
 Support for using the DataSet XML throughout the Secondary Analysis stack:
@@ -505,7 +478,7 @@ underlying files such as BAM as burden-free as possible.
 Command-line tools for manipulating DataSets
 ++++++++++++++++++++++++++++++++++++++++++++
 
-At minimum, 3.0.0 will have the following command-line support::
+At minimum, 2.0.0 will have the following command-line support::
 
     dataset.py create subreads.fofn > subreads.xml
     dataset.py filter subreads.xml --parameter "name=rq,value=>0.75" > filtered_subreads.xml
@@ -538,7 +511,7 @@ references) in SMRT Portal and for chunking in the distributed pipelines
 using pbsmrtpipe. Moreover, for these applications the DataSetMetadata
 field is mandatory, not optional.
 
-3.7 DataSet mutability and equality
+2.7 DataSet mutability and equality
 -----------------------------------
 To allow user editing of attributes such as Name without affecting the
 underlying DataSet we define the Core DataSet as the XML with the user
@@ -550,15 +523,15 @@ a new UniqueId. Operations such as md5 checksum should be performed on
 the Core DataSet unless otherwise specified.
 
 
-4. Outstanding Issues and Future Directions
+3. Outstanding Issues and Future Directions
 ===========================================
 
-- These DataSet types may need to be added post-3.0.0
+- These DataSet types may need to be added post-2.0.0
 
     - ConsensusAlignmentSet
     - OverlapSet (for incremental HGAP)
 
-- Subread region slicing, while desirable, is not strictly necessary in version 3.0.0, and so will be delayed to a future release
+- Subread region slicing, while desirable, is not strictly necessary in version 2.0.0, and so will be delayed to a future release
 
 Appendix 1: Example DataSet XML files
 =====================================
@@ -572,7 +545,7 @@ Here are some example XML files for each of the above DataSets
 .. include:: examples/datasets/contig.rst
 .. include:: examples/datasets/barcode.rst
 
-Appendix 2: Use cases from pre-3.0 Secondary Analysis satisfied by the DataSet XML files
+Appendix 2: Use cases from pre-2.0 Secondary Analysis satisfied by the DataSet XML files
 ========================================================================================
 
 - Refer to a **set of subreads** in multiple bax.h5 files 
@@ -602,7 +575,7 @@ Appendix 2: Use cases from pre-3.0 Secondary Analysis satisfied by the DataSet X
 
 - Perform any analysis that can be performed on an entire file of a particular 
   data type (reads, read regions, alignments) on a **subset of that data type**   without creating a new file.
-    - Not supported pre-3.0.
+    - Not supported pre-2.0.
 
 
-.. _W3C compatible timestamp: http://www.w3.org/TR/NOTE-datetime
+.. _W3C compatible timestamp: http://www.w2.org/TR/NOTE-datetime
