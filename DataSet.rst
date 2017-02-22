@@ -5,7 +5,7 @@ PacBio DataSet File Format Specification
 1. Introduction
 ===============
 
-This document defines the 2.0.0 Secondary DataSet abstraction and its
+This document defines the 4.0.0 Secondary DataSet abstraction and its
 XML file representation. A DataSet is a set of a particular
 data type, such as subreads, references or aligned subreads.
 
@@ -53,57 +53,109 @@ The canonical representation of a DataSet is an XML file that
 contains a single DataSet element with four major sections, one mandatory
 and three optional:
 
-    1.  A mandatory ``<ExternalResources>`` section with references to external
+    1.  A mandatory ``<pbbase:ExternalResources>`` section with references to external
         data sources, typically in BAM or FASTA format. The records in these 
         files are the elements of the set of data represented by the DataSet. 
 
-    2.  An optional ``<Filters>`` section that filters or subsets the elements 
+    2.  An optional ``<pbds:Filters>`` section that filters or subsets the elements 
         of the set in the above files, for example by length.
 
-    2.  An optional ``<DataSetMetadata>`` section that contains metadata about 
+    2.  An optional ``<pbds:DataSetMetadata>`` section that contains metadata about 
         the DataSet, usually at minimum the number of records and their total 
         length, but possibly much more. For example, subread and CCS
         read DataSets have metadata regarding instrument collection or
         biological samples. The Metadata section should be considered
         to refer to the DataSet elements prior to applying Filters.
 
-    4.  An optional ``<DataSets>`` section that labels subsets of the
+    4.  An optional ``<pbds:DataSets>`` section that labels subsets of the
         DataSet, for example labelling reads from a particular file as
         "High SNR."
-
 
 Here is a simple example of a DataSet XML file containing all four
 sections. It creates a set of subreads from two subread BAM files,
 filters the subreads by quality using the ``rq`` field of the underlying
 BAM records and labels a subset of the subreads as "Extra Long Reads"::
 
-    <?xml version="1.0" encoding="utf-8" ?>
-    <SubreadSet xmlns="http://pacificbiosciences.com/PacBioDataModel.xsd">
-        <ExternalResources>
-            <ExternalResource MetaType="SubreadFile.SubreadBamFile"
-                               ResourceId="file:/mnt/path/to/subreads0.bam"/>
-            <ExternalResource MetaType="SubreadFile.SubreadBamFile"
-                               ResourceId="file:/mnt/path/to/subreads1.bam"/>
-        </ExternalResources>
-        <Filters>
-            <Filter>
-                <Parameter Name="rq" Value=">0.75"/>
-            </Filter>
-        </Filters>    
-        <DataSetMetadata>
-            <TotalLength>5000</TotalLength>
-            <NumRecords>500</NumRecords>
-        </DataSetMetadata>
-        <DataSets>
-            <SubreadSet Name="Long Reads">
-                <Filters>
-                    <Filter>
-                        <Parameter Name="length" Value=">10000"/>
-                    </Filter>
-                </Filters>
-            </SubreadSet>
-        </DataSets>
-    </SubreadSet>
+    <?xml version="1.0" encoding="utf-8"?>
+    <pbds:SubreadSet 
+        xmlns="http://pacificbiosciences.com/PacBioDatasets.xsd" 
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+        xmlns:pbbase="http://pacificbiosciences.com/PacBioBaseDataModel.xsd"
+        xmlns:pbsample="http://pacificbiosciences.com/PacBioSampleInfo.xsd"
+        xmlns:pbmeta="http://pacificbiosciences.com/PacBioCollectionMetadata.xsd"
+        xmlns:pbds="http://pacificbiosciences.com/PacBioDatasets.xsd"
+        xsi:schemaLocation="http://pacificbiosciences.com/PacBioDataModel.xsd" 
+        UniqueId="b095d0a3-94b8-4918-b3af-a3f81bbe519c" 
+        TimeStampedName="subreadset_150304_231155" 
+        MetaType="PacBio.DataSet.SubreadSet" 
+        Name="DataSet_SubreadSet" 
+        Tags="" 
+        Version="4.0.0" 
+        CreatedAt="2015-01-27T09:00:01"> 
+        <pbbase:ExternalResources>
+            <pbbase:ExternalResource 
+                UniqueId="b095d0a3-94b8-4918-b3af-a3f81bbe5193" 
+                TimeStampedName="subread_bam_150304_231155" 
+                MetaType="PacBio.SubreadFile.SubreadBamFile" 
+                ResourceId="m150404_101626_42267_s1_p0.1.subreads.bam">
+                <pbbase:FileIndices>
+                    <pbbase:FileIndex 
+                        UniqueId="b095d0a3-94b8-4918-b3af-a3f81bbe5194" 
+                        TimeStampedName="bam_index_150304_231155" 
+                        MetaType="PacBio.Index.PacBioIndex" 
+                        ResourceId="m150404_101626_42267_s1_p0.1.subreads.bam.pbi"/>
+                </pbbase:FileIndices>
+            </pbbase:ExternalResource>
+            <pbbase:ExternalResource 
+                UniqueId="b095d0a3-94b8-4918-b3af-a3f81bbe5197" 
+                TimeStampedName="subread_bam_150304_231155" 
+                MetaType="PacBio.SubreadFile.SubreadBamFile" 
+                ResourceId="m150404_101626_42267_s1_p0.2.subreads.bam">
+                <pbbase:FileIndices>
+                    <pbbase:FileIndex 
+                        UniqueId="b096d0a3-94b8-4918-b3af-a3f81bbe5198" 
+                        TimeStampedName="bam_index_150304_231155" 
+                        MetaType="PacBio.Index.PacBioIndex" 
+                        ResourceId="m150404_101626_42267_s1_p0.2.subreads.bam.pbi"/>
+                </pbbase:FileIndices>
+            </pbbase:ExternalResource>
+            <pbbase:ExternalResource 
+                UniqueId="b095d0a3-94b8-4918-b3af-a3f81bbe5195" 
+                TimeStampedName="subread_bam_150304_231155" 
+                MetaType="PacBio.SubreadFile.SubreadBamFile" 
+                ResourceId="m150404_101626_42267_s1_p0.3.subreads.bam">
+                <pbbase:FileIndices>
+                    <pbbase:FileIndex 
+                        UniqueId="b096d0a3-94b8-4918-b3af-a3f81bbe5196" 
+                        TimeStampedName="bam_index_150304_231155" 
+                        MetaType="PacBio.Index.PacBioIndex" 
+                        ResourceId="m150404_101626_42267_s1_p0.3.subreads.bam.pbi"/>
+                </pbbase:FileIndices>
+            </pbbase:ExternalResource>
+        </pbbase:ExternalResources>
+        <pbds:Filters>
+            <pbds:Filter>
+                <pbbase:Properties>
+                    <pbbase:Property Name="rq" Operator="gt" Value="0.80"/>
+                </pbbase:Properties>
+            </pbds:Filter>
+        </pbds:Filters>
+        <pbds:DataSetMetadata>
+            <pbbase:TotalLength>5000</pbbase:TotalLength>
+            <pbbase:NumRecords>500</pbbase:NumRecords>
+        </pbds:DataSetMetadata>
+        <pbds:DataSets>
+            <pbds:SubreadSet Name="Long Reads">
+                <pbds:Filters>
+                    <pbds:Filter>
+                        <pbbase:Properties>
+                            <pbbase:Property Name="length" Operator="gte" Value="10000"/>
+                        </pbbase:Properties>
+                    </pbds:Filter>
+                </pbds:Filters>
+            </pbds:SubreadSet>
+        </pbds:DataSets>
+    </pbds:SubreadSet>
 
 2.2 Operations on DataSets
 --------------------------
@@ -118,38 +170,94 @@ Subsetting (Filtering) DataSets
 The initial example SubreadSet above can be subset by adding additional 
 Filter tags::
 
-    <SubreadSet>
-         ...
-        <Filters>
-            <Filter>
-                <Parameter Name="rq" Value=">0.75"/>
-                <Parameter Name="length" Value=">100"/>
-            </Filter>
-        </Filters>    
-         ...
+    <pbds:SubreadSet>
+        ...
+        <pbds:Filters>
+            ...
+            <pbds:Filter>
+                <pbbase:Properties>
+                    <pbbase:Property Name="length" Operator="gte" Value="10000"/>
+                </pbbase:Properties>
+            </pbds:Filter>
+            ...
+        </pbds:Filters>
+        ...
     </SubreadSet>
 
-Supported filtering operations are defined in the XSD, but examples include
+Individual Filter tags are logically "ORed" while individual Property tags within a Filter are "ANDed" together.
+Property tags are defined by three attributes: Name, Operator and Value, where the Name refers to a field or derived
+value from individual BAM records, and the Operator is used to compare that field's value with the Value attribute. 
+
+Supported Property Names include the following (with those that allow list values in bold):
+
++---------------+------------------------------------------------+---------------------------+----------+
+| Property Name | Description                                    | Other allowed Names       | Type     |
++===============+================================================+===========================+==========+
+| as            | Alignment start                                | astart, readStart         | uint32_t |
+| ae            | Alignment end                                  | aend                      | uint32_t |
+| alignedlength | Alignment length                               |                           | uint32_t |
+| identity      | Alignment identity                             | accuracy                  | float    |
+| qname         | Query name                                     |                           | string   |
+| qs            | Query start                                    | qs                        | int      |
+| qe            | Query end                                      | qend                      | int      |
+| length        | Query length                                   | querylength               | int      |
+| rname         | Reference name  (TODO same as reference id?)   |                           | string   | 
+| ts            | Reference start                                | tstart, pos               | uint32_t |
+| te            | Reference end                                  | tend                      | uint32_t |
+| qname_file    | Query names from a file                        |                           | filename |
+| rq            | Predicted read quality                         |                           | float    | 
+| zm            | ZMW (TODO format?)                             | zmw                       | string[] |
+| movie         | Movie name  (TODO format, same as read group?) |                           | string   | 
+| bc            | Barcode name                                   | barcode                   | string[] |
+| bq            | Barcode quality                                | bcq                       | uint8_t  |
+| bcf           | Barcode forward                                |                           | string[] |
+| bcr           | Barcode reverse                                |                           | string[] |
+| cx            | Local context (TODO see below)                 |                           | string[] | 
+================+================================================+===========================+==========+
+
+Supported Operator values include:
+
+     "==",    Compare::EQUAL ,
+     "=",     Compare::EQUAL ,
+     "eq",    Compare::EQUAL ,
+     "!=",    Compare::NOT_EQUAL ,
+     "ne",    Compare::NOT_EQUAL ,
+     "<",     Compare::LESS_THAN ,
+     "lt",    Compare::LESS_THAN ,
+     "&lt;",  Compare::LESS_THAN ,
+     "<=",    Compare::LESS_THAN_EQUAL ,
+     "lte",   Compare::LESS_THAN_EQUAL ,
+     "&lt;=", Compare::LESS_THAN_EQUAL ,
+     ">",     Compare::GREATER_THAN ,
+     "gt",    Compare::GREATER_THAN ,
+     "&gt;",  Compare::GREATER_THAN ,
+     ">=",    Compare::GREATER_THAN_EQUAL ,
+     "gte",   Compare::GREATER_THAN_EQUAL ,
+     "&gt;=", Compare::GREATER_THAN_EQUAL ,
+     "&",     Compare::CONTAINS ,
+     "and",   Compare::CONTAINS ,
+     "~",     Compare::NOT_CONTAINS 
+     "not",   Compare::NOT_CONTAINS 
+
+bitwise operators for the 'cx' tag
+    { "NO_LOCAL_CONTEXT", LocalContextFlags::NO_LOCAL_CONTEXT },
+    { "ADAPTER_BEFORE",   LocalContextFlags::ADAPTER_BEFORE },
+    { "ADAPTER_AFTER",    LocalContextFlags::ADAPTER_AFTER },
+    { "BARCODE_BEFORE",   LocalContextFlags::BARCODE_BEFORE },
+    { "BARCODE_AFTER",    LocalContextFlags::BARCODE_AFTER },
+    { "FORWARD_PASS",     LocalContextFlags::FORWARD_PASS },
+    { "REVERSE_PASS",     LocalContextFlags::REVERSE_PASS }
+
+
+            
 
 For BAM files, filtering by
 
-    - QNAME (aka Subread Id)
-    - zm (aka ZMW)
-    - rq (aka Read Quality)
-    - bc (aka Barcode)
-    - length = qs - qe BAM fields (aka ReadLength in Milhouse extractBy)
-    - qs (aka MoleculeReadStart in Milhouse extractBy)
 
 For FASTA files, filtering by
 
-    - id 
-    - length
 
 For Aligned BAM files
-    - RNAME (aka Reference by Milhouse extractBy)
-    - POS (aka TemplateStart by Milhouse extractBy)
-    - Accuracy (derived from Cigar string)
-    - ReadStart (for Milhouse extractBy. derived from qs and Cigar string)
 
 
 Union of DataSets
@@ -222,7 +330,6 @@ cost of increased disk usage.
 
 Labelling subsets of DataSets
 +++++++++++++++++++++++++++++
-# TODO is this still valid?
 
 DataSets can contain other DataSets. These DataSets are defined relative
 to the parent DataSet, and provide the ability to label subsets of the
