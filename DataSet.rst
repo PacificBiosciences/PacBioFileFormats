@@ -7,39 +7,41 @@ PacBio DataSet File Format Specification
 
 This document defines the 4.0.0 Secondary DataSet abstraction and its
 XML file representation. A DataSet is a set of a particular
-data type, such as subreads, references or aligned subreads.
+sequence data type, such as subreads, references or aligned subreads.
+The actual data is stored in files external to the XML, usually in FASTA
+or BAM files.
 
 1.1 Motivating Use Cases
 --------------------------
 
 The concept of a homogenous set of elements of a particular data type is
-used throughout Pacific Biosciences Secondary Analysis. 
-These "sets of data" are represented
-in many different ways, sometimes explicitly by creating large files
+used throughout Pacific Biosciences Secondary Analysis.
+These "sets of data" have historically been represented in
+different ways, sometimes explicitly by creating large files
 that contain all the data in the set (e.g. a FASTA file of subreads),
-and sometimes implicitly by using pointers to the data, such as with a FOFN 
-(file of file names). 
+and sometimes implicitly by using pointers to the data, such as with a FOFN
+(file of file names).
 
 In many cases these solutions are serviceable, but they have
 disadvantages. The reliance on explicit file creation imposes a heavy
-burden that is exacerbated by instrument throughput increases. The
+burden that will exacerbated by future instrument throughput increases. The
 FOFN partially breaks the tight coupling between explicit files and
 sets of data, but it fails to allow facile subsetting of files. Tools
 are forced to reimplement filtering or subsetting logic in their own
 idiosyncratic ways.
 
 The DataSet XML abstraction (or DataSet for short) satisfies these use cases in a unified way
-using a canonical representation that can by used throughout the Secondary
-Analysis system. Here is a sampling of the uses of cases for DataSets:
+using a canonical representation used throughout SMRT Link 4.0
+and the associated. Here is a sampling of the uses of cases for DataSets:
 
-- Refer to a **set of subreads** in multiple BAM files 
+- Refer to a **set of subreads** in multiple BAM files
 - Refer to a **subset of subreads** by id from one or more BAM files
 - Refer to a **set of alignments** from multiple different references or movies
 - Run algorithms such as Arrow on a **subset of alignments** (e.g. on a
   particular chromosome, or a particular chromosome region, or from reads
   labeled with a particular barcode)
 - Refer to a **subset of alignments** that obey certain criteria (such as a length minimum).
-- Perform any analysis that can be performed on an entire file of a particular 
+- Perform any analysis that can be performed on an entire file of a particular
   data type (reads, read regions, alignments) on a **subset of that data type**  without creating a new file.
 
 
@@ -49,19 +51,19 @@ Analysis system. Here is a sampling of the uses of cases for DataSets:
 2.1 XML Representation
 ----------------------
 
-The canonical representation of a DataSet is an XML file that 
+The canonical representation of a DataSet is an XML file that
 contains a single DataSet element with four major sections, one mandatory
 and three optional:
 
     1.  A mandatory ``<pbbase:ExternalResources>`` section with references to external
-        data sources, typically in BAM or FASTA format. The records in these 
-        files are the elements of the set of data represented by the DataSet. 
+        data sources, typically in BAM or FASTA format. The records in these
+        files are the elements of the set of data represented by the DataSet.
 
-    2.  An optional ``<pbds:Filters>`` section that filters or subsets the elements 
+    2.  An optional ``<pbds:Filters>`` section that filters or subsets the elements
         of the set in the above files, for example by length.
 
-    2.  An optional ``<pbds:DataSetMetadata>`` section that contains metadata about 
-        the DataSet, usually at minimum the number of records and their total 
+    3.  An optional ``<pbds:DataSetMetadata>`` section that contains metadata about
+        the DataSet, usually at minimum the number of records and their total
         length, but possibly much more. For example, subread and CCS
         read DataSets have metadata regarding instrument collection or
         biological samples. The Metadata section should be considered
@@ -72,64 +74,51 @@ and three optional:
         "High SNR."
 
 Here is a simple example of a DataSet XML file containing all four
-sections. It creates a set of subreads from two subread BAM files,
-filters the subreads by quality using the ``rq`` field of the underlying
-BAM records and labels a subset of the subreads as "Extra Long Reads"::
+sections. It creates a set of subreads from two subread BAM files and
+associated indices, filters the subreads by quality using the ``rq`` field of the underlying
+BAM records and labels a subset of the subreads as "Long Reads"::
 
     <?xml version="1.0" encoding="utf-8"?>
-    <pbds:SubreadSet 
-        xmlns="http://pacificbiosciences.com/PacBioDatasets.xsd" 
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    <pbds:SubreadSet
+        xmlns="http://pacificbiosciences.com/PacBioDatasets.xsd"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns:pbbase="http://pacificbiosciences.com/PacBioBaseDataModel.xsd"
         xmlns:pbsample="http://pacificbiosciences.com/PacBioSampleInfo.xsd"
         xmlns:pbmeta="http://pacificbiosciences.com/PacBioCollectionMetadata.xsd"
         xmlns:pbds="http://pacificbiosciences.com/PacBioDatasets.xsd"
-        xsi:schemaLocation="http://pacificbiosciences.com/PacBioDataModel.xsd" 
-        UniqueId="b095d0a3-94b8-4918-b3af-a3f81bbe519c" 
-        TimeStampedName="subreadset_150304_231155" 
-        MetaType="PacBio.DataSet.SubreadSet" 
-        Name="DataSet_SubreadSet" 
-        Tags="" 
-        Version="4.0.0" 
-        CreatedAt="2015-01-27T09:00:01"> 
+        xsi:schemaLocation="http://pacificbiosciences.com/PacBioDataModel.xsd"
+        UniqueId="b095d0a3-94b8-4918-b3af-a3f81bbe519c"
+        TimeStampedName="subreadset_150304_231155"
+        MetaType="PacBio.DataSet.SubreadSet"
+        Name="DataSet_SubreadSet"
+        Tags=""
+        Version="4.0.0"
+        CreatedAt="2015-01-27T09:00:01">
         <pbbase:ExternalResources>
-            <pbbase:ExternalResource 
-                UniqueId="b095d0a3-94b8-4918-b3af-a3f81bbe5193" 
-                TimeStampedName="subread_bam_150304_231155" 
-                MetaType="PacBio.SubreadFile.SubreadBamFile" 
+            <pbbase:ExternalResource
+                UniqueId="b095d0a3-94b8-4918-b3af-a3f81bbe5193"
+                TimeStampedName="subread_bam_150304_231155"
+                MetaType="PacBio.SubreadFile.SubreadBamFile"
                 ResourceId="m150404_101626_42267_s1_p0.1.subreads.bam">
                 <pbbase:FileIndices>
-                    <pbbase:FileIndex 
-                        UniqueId="b095d0a3-94b8-4918-b3af-a3f81bbe5194" 
-                        TimeStampedName="bam_index_150304_231155" 
-                        MetaType="PacBio.Index.PacBioIndex" 
+                    <pbbase:FileIndex
+                        UniqueId="b095d0a3-94b8-4918-b3af-a3f81bbe5194"
+                        TimeStampedName="bam_index_150304_231155"
+                        MetaType="PacBio.Index.PacBioIndex"
                         ResourceId="m150404_101626_42267_s1_p0.1.subreads.bam.pbi"/>
                 </pbbase:FileIndices>
             </pbbase:ExternalResource>
-            <pbbase:ExternalResource 
-                UniqueId="b095d0a3-94b8-4918-b3af-a3f81bbe5197" 
-                TimeStampedName="subread_bam_150304_231155" 
-                MetaType="PacBio.SubreadFile.SubreadBamFile" 
+            <pbbase:ExternalResource
+                UniqueId="b095d0a3-94b8-4918-b3af-a3f81bbe5197"
+                TimeStampedName="subread_bam_150304_231155"
+                MetaType="PacBio.SubreadFile.SubreadBamFile"
                 ResourceId="m150404_101626_42267_s1_p0.2.subreads.bam">
                 <pbbase:FileIndices>
-                    <pbbase:FileIndex 
-                        UniqueId="b096d0a3-94b8-4918-b3af-a3f81bbe5198" 
-                        TimeStampedName="bam_index_150304_231155" 
-                        MetaType="PacBio.Index.PacBioIndex" 
+                    <pbbase:FileIndex
+                        UniqueId="b096d0a3-94b8-4918-b3af-a3f81bbe5198"
+                        TimeStampedName="bam_index_150304_231155"
+                        MetaType="PacBio.Index.PacBioIndex"
                         ResourceId="m150404_101626_42267_s1_p0.2.subreads.bam.pbi"/>
-                </pbbase:FileIndices>
-            </pbbase:ExternalResource>
-            <pbbase:ExternalResource 
-                UniqueId="b095d0a3-94b8-4918-b3af-a3f81bbe5195" 
-                TimeStampedName="subread_bam_150304_231155" 
-                MetaType="PacBio.SubreadFile.SubreadBamFile" 
-                ResourceId="m150404_101626_42267_s1_p0.3.subreads.bam">
-                <pbbase:FileIndices>
-                    <pbbase:FileIndex 
-                        UniqueId="b096d0a3-94b8-4918-b3af-a3f81bbe5196" 
-                        TimeStampedName="bam_index_150304_231155" 
-                        MetaType="PacBio.Index.PacBioIndex" 
-                        ResourceId="m150404_101626_42267_s1_p0.3.subreads.bam.pbi"/>
                 </pbbase:FileIndices>
             </pbbase:ExternalResource>
         </pbbase:ExternalResources>
@@ -163,101 +152,125 @@ BAM records and labels a subset of the subreads as "Extra Long Reads"::
 DataSets support operations that would naively be expected of sets, such
 as subsetting and union (although notably not intersection) as well as
 some additional operations such as consolidating and labelling of subsets.
+The result of performing these operations is itself a new DataSet.
+The subsetting operation is supported efficiently by the PacBio index (*.pbi files)
 
 Subsetting (Filtering) DataSets
 +++++++++++++++++++++++++++++++
 
-The initial example SubreadSet above can be subset by adding additional 
-Filter tags::
-
-    <pbds:SubreadSet>
-        ...
-        <pbds:Filters>
-            ...
-            <pbds:Filter>
-                <pbbase:Properties>
-                    <pbbase:Property Name="length" Operator="gte" Value="10000"/>
-                </pbbase:Properties>
-            </pbds:Filter>
-            ...
-        </pbds:Filters>
-        ...
-    </SubreadSet>
-
-Individual Filter tags are logically "ORed" while individual Property tags within a Filter are "ANDed" together.
+The SubreadSet in Section 1 above is conceptually the result of applying a length subset or Filter operation on two
+BAM files. Additional filters could be applied, further subsetting the original two BAM files.
+Each Filter is composed of Property tags which provide logically predicates which data in the DataSet must
+satisfy. Individual Filter tags are logically "ORed" while individual Property tags within a Filter are "ANDed" together.
 Property tags are defined by three attributes: Name, Operator and Value, where the Name refers to a field or derived
-value from individual BAM records, and the Operator is used to compare that field's value with the Value attribute. 
+value from individual BAM records, and the Operator is used to compare that field's value with the Value attribute.
 
-Supported Property Names include the following (with those that allow list values in bold):
+All filters require an associated pbi file, and particular filter support is driven by the presence or absence of the pbi
+and the indices within it.  There are three major groups of indices in the pbi: basic data, mapping data, barcode data and associated metadata.
+The following Property Names are supported by either the pbbam C++ API or pbcore Python API.
+Those that allow list values indicates by brackets, those
+supported by both pbbam and pbcore are in **bold**, those only by pbcore are *italicized*.
+
+TODO add the particular indices that support the filters.
 
 +---------------+------------------------------------------------+---------------------------+----------+
-| Property Name | Description                                    | Other allowed Names       | Type     |
+| Property Name | Description                                    | Other Names               | Type     |
 +===============+================================================+===========================+==========+
-| as            | Alignment start                                | astart, readStart         | uint32_t |
+| **readstart** | Alignment start                                | astart, as                | uint32_t |
++---------------+------------------------------------------------+---------------------------+----------+
 | ae            | Alignment end                                  | aend                      | uint32_t |
++---------------+------------------------------------------------+---------------------------+----------+
 | alignedlength | Alignment length                               |                           | uint32_t |
-| identity      | Alignment identity                             | accuracy                  | float    |
-| qname         | Query name                                     |                           | string   |
-| qs            | Query start                                    | qs                        | int      |
-| qe            | Query end                                      | qend                      | int      |
-| length        | Query length                                   | querylength               | int      |
-| rname         | Reference name  (TODO same as reference id?)   |                           | string   | 
-| ts            | Reference start                                | tstart, pos               | uint32_t |
-| te            | Reference end                                  | tend                      | uint32_t |
++---------------+------------------------------------------------+---------------------------+----------+
+| **accuracy**  | Alignment identity                             | identity                  | float    |
++---------------+------------------------------------------------+---------------------------+----------+
+| **qname**     | Query name                                     | *qid*                     | string   |
++---------------+------------------------------------------------+---------------------------+----------+
+| **qstart**    | Query start                                    | **qs**                    | int      |
++---------------+------------------------------------------------+---------------------------+----------+
+| **qend**      | Query end                                      | **qe**                    | int      |
++---------------+------------------------------------------------+---------------------------+----------+
+| **length**    | Query length                                   | querylength               | int      |
++---------------+------------------------------------------------+---------------------------+----------+
+| **rname**     | Reference name  (TODO same as reference id?)   |                           | string   |
++---------------+------------------------------------------------+---------------------------+----------+
+| **tstart**    | Reference start                                | ts  **pos**               | uint32_t |
++---------------+------------------------------------------------+---------------------------+----------+
+| **tend**      | Reference end                                  | te                        | uint32_t |
++---------------+------------------------------------------------+---------------------------+----------+
 | qname_file    | Query names from a file                        |                           | filename |
-| rq            | Predicted read quality                         |                           | float    | 
-| zm            | ZMW (TODO format?)                             | zmw                       | string[] |
-| movie         | Movie name  (TODO format, same as read group?) |                           | string   | 
-| bc            | Barcode name                                   | barcode                   | string[] |
-| bq            | Barcode quality                                | bcq                       | uint8_t  |
-| bcf           | Barcode forward                                |                           | string[] |
-| bcr           | Barcode reverse                                |                           | string[] |
-| cx            | Local context (TODO see below)                 |                           | string[] | 
-================+================================================+===========================+==========+
++---------------+------------------------------------------------+---------------------------+----------+
+| **rq**        | Predicted read quality                         |                           | float    |
++---------------+------------------------------------------------+---------------------------+----------+
+| **zm**        | ZMW (TODO format?)                             | zmw                       | string[] |
++---------------+------------------------------------------------+---------------------------+----------+
+| **movie**     | Movie name  (TODO format, same as read group?) |                           | string   |
++---------------+------------------------------------------------+---------------------------+----------+
+| **bc**        | Barcode name                                   | barcode                   | string[] |
++---------------+------------------------------------------------+---------------------------+----------+
+| **bcq**       | Barcode quality                                | **bq**                    | uint8_t  |
++---------------+------------------------------------------------+---------------------------+----------+
+| **bcf**       | Barcode forward                                |                           | string[] |
++---------------+------------------------------------------------+---------------------------+----------+
+| **bcr**       | Barcode reverse                                |                           | string[] |
++---------------+------------------------------------------------+---------------------------+----------+
+| **cx**        | Local context (TODO see below)                 |                           | string[] |
++---------------+------------------------------------------------+---------------------------+----------+
+| *n_subreads*  | Number of subreads                             |                           | int      |
++---------------+------------------------------------------------+---------------------------+----------+
 
 Supported Operator values include:
 
-     "==",    Compare::EQUAL ,
-     "=",     Compare::EQUAL ,
-     "eq",    Compare::EQUAL ,
-     "!=",    Compare::NOT_EQUAL ,
-     "ne",    Compare::NOT_EQUAL ,
-     "<",     Compare::LESS_THAN ,
-     "lt",    Compare::LESS_THAN ,
-     "&lt;",  Compare::LESS_THAN ,
-     "<=",    Compare::LESS_THAN_EQUAL ,
-     "lte",   Compare::LESS_THAN_EQUAL ,
-     "&lt;=", Compare::LESS_THAN_EQUAL ,
-     ">",     Compare::GREATER_THAN ,
-     "gt",    Compare::GREATER_THAN ,
-     "&gt;",  Compare::GREATER_THAN ,
-     ">=",    Compare::GREATER_THAN_EQUAL ,
-     "gte",   Compare::GREATER_THAN_EQUAL ,
-     "&gt;=", Compare::GREATER_THAN_EQUAL ,
-     "&",     Compare::CONTAINS ,
-     "and",   Compare::CONTAINS ,
-     "~",     Compare::NOT_CONTAINS 
-     "not",   Compare::NOT_CONTAINS 
-
-bitwise operators for the 'cx' tag
-    { "NO_LOCAL_CONTEXT", LocalContextFlags::NO_LOCAL_CONTEXT },
-    { "ADAPTER_BEFORE",   LocalContextFlags::ADAPTER_BEFORE },
-    { "ADAPTER_AFTER",    LocalContextFlags::ADAPTER_AFTER },
-    { "BARCODE_BEFORE",   LocalContextFlags::BARCODE_BEFORE },
-    { "BARCODE_AFTER",    LocalContextFlags::BARCODE_AFTER },
-    { "FORWARD_PASS",     LocalContextFlags::FORWARD_PASS },
-    { "REVERSE_PASS",     LocalContextFlags::REVERSE_PASS }
++---------------------------------------------------------------+----------------------------------------------------+-------------+
+| Operator Name                                                 | Description                                        | Other Names |
++===============================================================+====================================================+=============+
+| ==                                                            | Equal to                                           | =  eq       |
++---------------------------------------------------------------+----------------------------------------------------+-------------+
+| !=                                                            | Not Equal to                                       | ne          |
++---------------------------------------------------------------+----------------------------------------------------+-------------+
+| <                                                             | Less Than                                          | lt  &lt;    |
++---------------------------------------------------------------+----------------------------------------------------+-------------+
+| <=                                                            | Less than or equal to                              | lte  &lt;=  |
++---------------------------------------------------------------+----------------------------------------------------+-------------+
+| >                                                             | Greater than                                       | gt  &gt;    |
++---------------------------------------------------------------+----------------------------------------------------+-------------+
+| >=                                                            | Greater than or equal to                           | gte  &gt;=  |
++---------------------------------------------------------------+----------------------------------------------------+-------------+
+| &                                                             | Contains                                           | and         |
++---------------------------------------------------------------+----------------------------------------------------+-------------+
+| ~                                                             | Does not contain                                   | not         |
++---------------------------------------------------------------+----------------------------------------------------+-------------+
 
 
-            
+Some Operators only operate on certain Property names.
+In particular, for pbcore, all but 'cx' and 'bc' support the 'in' or '==' operator with vector values.
 
-For BAM files, filtering by
+The 'cx' filters support '=', '!=', '&' and '~' operators, all potentially with values separated by '|' compositions
+(see https://github.com/PacificBiosciences/pbcore/blob/master/tests/test_pbdataset_filters.py#L81 for examples)
+and raw values or context flag strings (see https://github.com/PacificBiosciences/pbcore/blob/master/pbcore/io/dataset/DataSetMembers.py#L173).
 
+For pbbam, the following Operators are for the 'cx' local context tag only:
+TODO are these operators or values?
 
-For FASTA files, filtering by
++---------------------------------------------------------------+----------------------------------------------------+-------------+
+| Operator Name                                                 | Description                                        | Other Names |
++===============================================================+====================================================+=============+
+| NO_LOCAL_CONTEXT                                              | No local context (e.g. adapters or barcodes)       |             |
++---------------------------------------------------------------+----------------------------------------------------+-------------+
+| ADAPTER_BEFORE                                                | An adapter was detected before (5' to) the subread |             |
++---------------------------------------------------------------+----------------------------------------------------+-------------+
+| ADAPTER_AFTER                                                 | An adapter was detected after (3' to) this subread |             |
++---------------------------------------------------------------+----------------------------------------------------+-------------+
+| BARCODE_BEFORE                                                | A barcode was detected before (5' to) this subread |             |
++---------------------------------------------------------------+----------------------------------------------------+-------------+
+| BARCODE_AFTER                                                 | A barcode was detected after (3' to) this subread  |             |
++---------------------------------------------------------------+----------------------------------------------------+-------------+
+| FORWARD_PASS                                                  | Subread is forward on the polymerase read          |             |
++---------------------------------------------------------------+----------------------------------------------------+-------------+
+| REVERSE_PASS                                                  | Subread is forward on the polymerase read          |             |
++---------------------------------------------------------------+----------------------------------------------------+-------------+
 
-
-For Aligned BAM files
+TODO Document FASTA filters for pbcore / pbbam For fasta files pbcore supports id and length filters.
 
 
 Union of DataSets
@@ -277,7 +290,7 @@ containing a single BAM file::
             <Filter>
                 <Parameter Name="rq" Value=">0.75"/>
             </Filter>
-        </Filters>    
+        </Filters>
         <DataSetMetadata>
             <TotalLength>3000</TotalLength>
             <NumRecords>300</NumRecords>
@@ -294,7 +307,7 @@ containing a single BAM file::
             <Filter>
                 <Parameter Name="rq" Value=">0.75"/>
             </Filter>
-        </Filters>    
+        </Filters>
         <DataSetMetadata>
             <TotalLength>2000</TotalLength>
             <NumRecords>200</NumRecords>
@@ -312,7 +325,7 @@ is consolidated version of the SubreadSet above::
     <?xml version="1.0" encoding="utf-8" ?>
     <SubreadSet xmlns="http://pacificbiosciences.com/PacBioDataModel.xsd">
         <ExternalResources>
-            <ExternalResource 
+            <ExternalResource
                 MetaType="SubreadFile.SubreadBamFile"
                 ResourceId="file:/mnt/path/to/subreads0_plus_subreads1.bam"/>
         </ExternalResources>
@@ -356,7 +369,7 @@ DataSet ``Name`` field::
 ---------------------------------
 The DataSet model defers I/O operations by replacing up-front file merges
 with downstream I/O operations that hit many different files. This allows
-consumers to avoid explicit creation of files on disk and the resulting 
+consumers to avoid explicit creation of files on disk and the resulting
 redundant storage and costly write operations. For many uses this many-file
 approach will be better than explicitly creating the file on disk,
 but in some cases it may be desirable to incur the cost of accessing
@@ -367,7 +380,35 @@ provides the means for using the form of DataSet that best fits a
 particular use case.
 
 
-2.4 Examples satisfying the motivating use cases
+2.4 Types of DataSets
+---------------------
+
+DataSets subtypes are defined for the most common "bread-and-butter"
+entities consumed and produced by Secondary Analysis pipelines
+
+    - SubreadSet - The basic sequence DataSet generated by the instrument.
+    - CCSreadSet - CCS sequence data.
+    - AlignmentSet - Aligned reads in BAM format.
+    - ReferenceSet - The FASTA reference used by Resequencing, Base Mods,
+      Minor Variants. Replaces the reference repository entries.
+    - GmapReferenceSet - A FASTA ReferenceSet with a GMAP database.
+    - ContigSet - Produced by HGAP or AHA.
+    - BarcodeSet - The FASTA file used by barcode detection.
+
+.. note:: Why include barcodes, contigs and references in the DataSet
+    concept? Operations on these data types do not typically include the
+    set operations such as subsetting, union or labelling of subsets, so why
+    include them? The main motivation is to provide a standard interface for
+    inputs to pbsmrtpipe and to represent these resources in a standard way
+    in SMRT Portal. Rather than special casing these kinds of data in the
+    GUI and the pipeline controller (as is done for references in SMRT Portal)
+    or forcing these data into one-size fits all solutions (as is done for
+    barcodes and contigs by treating them as references in SMRT Portal) making
+    them DataSets allows us to treat them as just another subtype of the
+    general DataSet concept.
+
+
+2.5 Examples satisfying the motivating use cases
 ------------------------------------------------
 
 - Refer to a **set of subreads** in multiple bax.h5 files. The SubreadSet
@@ -385,7 +426,7 @@ particular use case.
             <Filter>
                 <Parameter Name="rq" Value=">0.75"/>
             </Filter>
-        </Filters>    
+        </Filters>
         <DataSetMetadata>
             <TotalLength>5000</TotalLength>
             <NumRecords>500</NumRecords>
@@ -408,7 +449,7 @@ particular use case.
             <Filter>
                 <Parameter Name="QNAME" Value="m100000/1/0_200"/>
             </Filter>
-        </Filters>    
+        </Filters>
         <DataSetMetadata>
             <TotalLength>5000</TotalLength>
             <NumRecords>500</NumRecords>
@@ -416,54 +457,27 @@ particular use case.
     </SubreadSet>
 
 
-- Run algorithms such as HGAP on a **subset of subreads** (e.g. that align 
+- Run algorithms such as HGAP on a **subset of subreads** (e.g. that align
   to a contaminant such as E. coli)
     - Use a SubreadSet filtered by RNAME.
 
 - Refer to a **set of alignments** from multiple different references or movies
     - Use an AlignmentSet with multiple reference files.
 
-- Run algorithms such as Quiver on a **subset of alignments** (e.g. on a 
-  particular chromosome, or a particular chromosome region, or from reads 
+- Run algorithms such as Quiver on a **subset of alignments** (e.g. on a
+  particular chromosome, or a particular chromosome region, or from reads
   labeled with a particular barcode)
     - Use an AlignmentSet filtered by RNAME.
 
-- Refer to a **subset of alignments** that obey certain criteria (e.g. the 
+- Refer to a **subset of alignments** that obey certain criteria (e.g. the
   merge/extractBy functionality in Milhouse).
     - Use an AlignmentSet filtered by e.g. RNAME.
 
-- Perform any analysis that can be performed on an entire file of a particular 
+- Perform any analysis that can be performed on an entire file of a particular
   data type (reads, read regions, alignments) on a **subset of that data type**
   without creating a new file.
     - Relies on tools using common APIs to access DataSets.
 
-
-2.5 Types of DataSets
----------------------
-
-DataSets subtypes are defined for the most common "bread-and-butter"
-entities consumed and produced by Secondary Analysis pipelines
-
-    - SubreadSet - The basic sequence DataSet generated by the instrument.
-    - CCSreadSet - CCS sequence data.
-    - AlignmentSet - Aligned reads in BAM format.
-    - ReferenceSet - The FASTA reference used by Resequencing, Base Mods, 
-      Minor Variants. Replaces the reference repository entries.
-    - GmapReferenceSet - A FASTA ReferenceSet with a GMAP database.
-    - ContigSet - Produced by HGAP or AHA.
-    - BarcodeSet - The FASTA file used by barcode detection.
-
-.. note:: Why include barcodes, contigs and references in the DataSet
-    concept? Operations on these data types do not typically include the
-    set operations such as subsetting, union or labelling of subsets, so why
-    include them? The main motivation is to provide a standard interface for
-    inputs to pbsmrtpipe and to represent these resources in a standard way
-    in SMRT Portal. Rather than special casing these kinds of data in the
-    GUI and the pipeline controller (as is done for references in SMRT Portal)
-    or forcing these data into one-size fits all solutions (as is done for
-    barcodes and contigs by treating them as references in SMRT Portal) making
-    them DataSets allows us to treat them as just another subtype of the
-    general DataSet concept.
 
 
 DataSet MetaTypes and File Extensions
@@ -595,8 +609,8 @@ At minimum, 2.0.0 will have the following command-line support::
 .. note:: TODO This section needs more detail. Add specs for tools needed
           for creating and manipulating DataSets on the command line.
 
-.. note:: While technically an XML file with multiple DataSet elements is 
-          valid under the XSD, it is expected that the command line use 
+.. note:: While technically an XML file with multiple DataSet elements is
+          valid under the XSD, it is expected that the command line use
           cases will follow 1 XML file - 1 DataSet element convention.
 
 
@@ -655,7 +669,7 @@ Here are some example XML files for each of the above DataSets
 Appendix 2: Use cases from pre-2.0 Secondary Analysis satisfied by the DataSet XML files
 ========================================================================================
 
-- Refer to a **set of subreads** in multiple bax.h5 files 
+- Refer to a **set of subreads** in multiple bax.h5 files
     - FOFN of bax.h5 files (for blasr)
     - input.xml of bax.h5 files (for SMRT Pipe)
 
@@ -680,7 +694,7 @@ Appendix 2: Use cases from pre-2.0 Secondary Analysis satisfied by the DataSet X
     - Explicit creation of cmp.h5 files using cmph5tools.py select.
 
 
-- Perform any analysis that can be performed on an entire file of a particular 
+- Perform any analysis that can be performed on an entire file of a particular
   data type (reads, read regions, alignments) on a **subset of that data type**   without creating a new file.
     - Not supported pre-2.0.
 
