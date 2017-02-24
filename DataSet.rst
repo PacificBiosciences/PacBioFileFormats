@@ -77,6 +77,8 @@ and three optional:
         DataSet, for example labelling reads from a particular file as
         "High SNR."
 
+TODO add link to XSD
+
 Here is a simple example of a DataSet XML file containing all four
 sections. It creates a set of subreads from two subread BAM files and
 associated indices, filters the subreads by quality using the ``rq`` field of the underlying
@@ -150,7 +152,6 @@ BAM records and labels a subdataset of the subreads as "Long Reads"::
         </pbds:DataSets>
     </pbds:SubreadSet>
 
-TODO add link to XSD
 
 
 Operations on DataSets
@@ -159,25 +160,28 @@ Operations on DataSets
 DataSets support operations that would naively be expected of sets, such
 as subsetting and union (although notably not intersection) as well as
 some additional operations such as consolidating and labelling of subsets.
-The result of performing these operations is itself a new DataSet.
-The subsetting operation is supported efficiently by the PacBio index (\*.pbi files)
+The result of performing these operations is itself a new DataSet, with the
+operations included as a kind of "recipe" for producing the new DataSet from the original.
+Because of this, operations are presented here as part of the DataSet format.
 
 
 Subsetting (Filtering)
 ++++++++++++++++++++++
 
 The SubreadSet example given above is the result of applying a length subset or Filter operation on a DataSet of two
-BAM files. Additional filters could be applied, further subsetting the original two BAM files.
-Each Filter is composed of ``Property`` tags which provide logically predicates which data in the DataSet must
+BAM files. Each Filter is composed of ``Property`` tags which provide logically predicates which data in the DataSet must
 satisfy. ``Property`` tags are defined by three attributes: ``Name``, ``Operator`` and ``Value``, where the ``Name`` refers to a field or derived
 value from individual BAM records, and the ``Operator`` is used to compare that field's value with the ``Value`` attribute.
+Additional filters could be applied, further subsetting the original two BAM files.
 Individual Filter tags are logically "ORed" while individual ``Property`` tags within a Filter are "ANDed" together.
 
+The subsetting/filtering operation is supported efficiently by the PacBio index (\*.pbi files)
 All filters require an associated pbi file, and particular filter support is driven by the presence or absence of the pbi
-and the indices within it.  There are three major groups of indices in the pbi: basic data, mapping data, barcode data and associated metadata.
+and the indices within it.
 
 The following ``Property`` ``Name``'s are supported by either the pbbam C++ API, the pbcore Python API (*italicized*) or both (**bold**).
-Those that allow list values are indicated by brackets. The allowed type of the ``Value`` associated with that ``Name`` appears in the right column.
+Those that allow list values are indicated by brackets. The right column shows the allowed type of ``Property`` ``Value`` 
+associated with that particular ``Propery`` ``Name``.
 
 +---------------+------------------------------------------------+---------------------------+----------+
 | Property Name | Description                                    | Synonymous Properties     | Value    |
@@ -275,6 +279,7 @@ For pbcore, all but ``cx`` and ``bc`` support the ``in`` or ``==`` operator with
 The ``cx`` filters support ``=``, ``!=``, ``&`` and ``~`` operators, all potentially with values separated by ``|`` compositions
 and raw values or context flag strings.
 
+The ``Filter`` operation provides a powerful means of subsetting DataSets without manipulating the underlying file representations.
 
 Union (Merging)
 +++++++++++++++
@@ -604,7 +609,7 @@ particular use case.
 
 
 Outstanding Issues and Future Directions
-===========================================
+---------------------------------------------
 
 - Document FASTA filters for pbcore / pbbam for releases post-4.0.
 - The propagation of subdatasets in merging can result in rather large XML files with duplicated information. It is possible this duplication could be reduced using XML IDREFs from the subdatasets to information in the top level DataSet, for ExternalResources or CollectionMetadata. This should be considered as a possible future revision.
