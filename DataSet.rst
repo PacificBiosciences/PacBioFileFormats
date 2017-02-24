@@ -69,14 +69,14 @@ and three optional:
         biological samples. The Metadata section should be considered
         to refer to the DataSet elements prior to applying Filters.
 
-    4.  An optional ``<pbds:DataSets>`` section that labels subsets of the
+    4.  An optional ``<pbds:DataSets>`` section that labels subdatasets of the
         DataSet, for example labelling reads from a particular file as
         "High SNR."
 
 Here is a simple example of a DataSet XML file containing all four
 sections. It creates a set of subreads from two subread BAM files and
 associated indices, filters the subreads by quality using the ``rq`` field of the underlying
-BAM records and labels a subset of the subreads as "Long Reads"::
+BAM records and labels a subdataset of the subreads as "Long Reads"::
 
     <?xml version="1.0" encoding="utf-8"?>
     <pbds:SubreadSet
@@ -153,7 +153,7 @@ DataSets support operations that would naively be expected of sets, such
 as subsetting and union (although notably not intersection) as well as
 some additional operations such as consolidating and labelling of subsets.
 The result of performing these operations is itself a new DataSet.
-The subsetting operation is supported efficiently by the PacBio index (*.pbi files)
+The subsetting operation is supported efficiently by the PacBio index (\*.pbi files)
 
 Subsetting (Filtering) DataSets
 +++++++++++++++++++++++++++++++
@@ -170,8 +170,6 @@ and the indices within it.  There are three major groups of indices in the pbi: 
 The following Property Names are supported by either the pbbam C++ API or pbcore Python API.
 Those that allow list values indicates by brackets, those
 supported by both pbbam and pbcore are in **bold**, those only by pbcore are *italicized*.
-
-TODO add the particular indices that support the filters.
 
 +---------------+------------------------------------------------+---------------------------+----------+
 | Property Name | Description                                    | Other Names               | Type     |
@@ -192,7 +190,7 @@ TODO add the particular indices that support the filters.
 +---------------+------------------------------------------------+---------------------------+----------+
 | **length**    | Query length                                   | querylength               | int      |
 +---------------+------------------------------------------------+---------------------------+----------+
-| **rname**     | Reference name  (TODO same as reference id?)   |                           | string   |
+| **rname**     | Reference name                                 |                           | string   |
 +---------------+------------------------------------------------+---------------------------+----------+
 | **tstart**    | Reference start                                | ts  **pos**               | uint32_t |
 +---------------+------------------------------------------------+---------------------------+----------+
@@ -202,9 +200,9 @@ TODO add the particular indices that support the filters.
 +---------------+------------------------------------------------+---------------------------+----------+
 | **rq**        | Predicted read quality                         |                           | float    |
 +---------------+------------------------------------------------+---------------------------+----------+
-| **zm**        | ZMW (TODO format?)                             | zmw                       | string[] |
+| **movie**     | Movie name (e.g. m150404_101626_42267_s1_p0)   |                           | string   |
 +---------------+------------------------------------------------+---------------------------+----------+
-| **movie**     | Movie name  (TODO format, same as read group?) |                           | string   |
+| **zm**        | ZMW (e.g. m150404_101626_42267_s1_p0/100)      | zmw                       | string[] |
 +---------------+------------------------------------------------+---------------------------+----------+
 | **bc**        | Barcode name                                   | barcode                   | string[] |
 +---------------+------------------------------------------------+---------------------------+----------+
@@ -214,7 +212,7 @@ TODO add the particular indices that support the filters.
 +---------------+------------------------------------------------+---------------------------+----------+
 | **bcr**       | Barcode reverse                                |                           | string[] |
 +---------------+------------------------------------------------+---------------------------+----------+
-| **cx**        | Local context (TODO see below)                 |                           | string[] |
+| **cx**        | Local context (see below for special Values)   |                           | string[] |
 +---------------+------------------------------------------------+---------------------------+----------+
 | *n_subreads*  | Number of subreads                             |                           | int      |
 +---------------+------------------------------------------------+---------------------------+----------+
@@ -241,16 +239,12 @@ Supported Operator values include:
 | ~                                                             | Does not contain                                   | not         |
 +---------------------------------------------------------------+----------------------------------------------------+-------------+
 
-
 Some Operators only operate on certain Property names.
-In particular, for pbcore, all but 'cx' and 'bc' support the 'in' or '==' operator with vector values.
 
-The 'cx' filters support '=', '!=', '&' and '~' operators, all potentially with values separated by '|' compositions
-(see https://github.com/PacificBiosciences/pbcore/blob/master/tests/test_pbdataset_filters.py#L81 for examples)
-and raw values or context flag strings (see https://github.com/PacificBiosciences/pbcore/blob/master/pbcore/io/dataset/DataSetMembers.py#L173).
+For pbbam, the following Values are for the 'cx' local context tag only.
+They can be combined using to form a Value that looks and behaves similarly to OR-ing bitflags:
 
-For pbbam, the following Operators are for the 'cx' local context tag only:
-TODO are these operators or values?
+    Value='ADAPTER_BEFORE | ADAPTER_AFTER'
 
 +---------------------------------------------------------------+----------------------------------------------------+-------------+
 | Operator Name                                                 | Description                                        | Other Names |
@@ -270,11 +264,14 @@ TODO are these operators or values?
 | REVERSE_PASS                                                  | Subread is forward on the polymerase read          |             |
 +---------------------------------------------------------------+----------------------------------------------------+-------------+
 
-TODO Document FASTA filters for pbcore / pbbam For fasta files pbcore supports id and length filters.
+For pbcore, all but 'cx' and 'bc' support the 'in' or '==' operator with vector values.
+The 'cx' filters support '=', '!=', '&' and '~' operators, all potentially with values separated by '|' compositions
+(see https://github.com/PacificBiosciences/pbcore/blob/master/tests/test_pbdataset_filters.py#L81 for examples)
+and raw values or context flag strings (see https://github.com/PacificBiosciences/pbcore/blob/master/pbcore/io/dataset/DataSetMembers.py#L173).
 
 
-Union of DataSets
-+++++++++++++++++
+Union of DataSets (aka Merging DataSets)
+++++++++++++++++++++++++++++++++++++++++
 
 Unions can be taken of DataSets with the same underlying file type (noted
 by the MetaType attribute) and with identical Filters. The SubreadSet
@@ -313,6 +310,21 @@ containing a single BAM file::
             <NumRecords>200</NumRecords>
         </DataSetMetadata>
     </SubreadSet>
+
+Union is also referred to as merging in many Secondary Analysis applications.
+
+Tools that merge datasets together should propagate the original DataSet information in the subdatasets within the resulting dataset, following these practices:
+ - Subdatasets should be created for each input DataSet when two or more files with no subdatasets are merged or used to create a new DataSet.
+ - If in the process of merging a new DataSet is created, for example, wrapping a "naked" BAM file, a subdataset should be created for those inputs.
+ - In no case should a subdataset be present if it is identical to the containing DataSet.
+ - Subdatasets should be preserved when two datasets with subdatasets are merged together.
+
+   - If both have subdatasets, the lists of subdatasets should be concatenated.
+   - If one has no subdatasets, a subdataset should be created for that input and added to the list of subdatasets from the other input file.
+
+- Subdatasets should be preserved during minor manipulations: Adding a filter, changing path absoluteness, adding or removing indices, references etc.
+- Subdatasets should be removed during substantial transformations: alignment, producing an AlignmentSet from a SubreadSet.
+- Subdatasets should be preserved during consolidation or splitting (except when splitting by subdataset).
 
 
 Consolidating DataSets
@@ -411,8 +423,9 @@ entities consumed and produced by Secondary Analysis pipelines
 2.5 Examples satisfying the motivating use cases
 ------------------------------------------------
 
-- Refer to a **set of subreads** in multiple bax.h5 files. The SubreadSet
-  XML above satisfies this use case using BAM files instead of BAX files::
+- Refer to a **set of subreads** in multiple bax.h5 files.
+
+The SubreadSet XML above satisfies this use case using BAM files instead of BAX files::
 
     <?xml version="1.0" encoding="utf-8" ?>
     <SubreadSet xmlns="http://pacificbiosciences.com/PacBioDataModel.xsd">
@@ -457,26 +470,16 @@ entities consumed and produced by Secondary Analysis pipelines
     </SubreadSet>
 
 
-- Run algorithms such as HGAP on a **subset of subreads** (e.g. that align
-  to a contaminant such as E. coli)
+- Run algorithms such as HGAP on a **subset of subreads** (e.g. that align to a contaminant such as E. coli)
     - Use a SubreadSet filtered by RNAME.
 
-- Refer to a **set of alignments** from multiple different references or movies
-    - Use an AlignmentSet with multiple reference files.
+- Refer to a **set of alignments** from multiple different references or movies - *Use an AlignmentSet with multiple reference files.*
 
-- Run algorithms such as Quiver on a **subset of alignments** (e.g. on a
-  particular chromosome, or a particular chromosome region, or from reads
-  labeled with a particular barcode)
-    - Use an AlignmentSet filtered by RNAME.
+- Run algorithms such as Arrow on a **subset of alignments** (e.g. on a particular chromosome, or a particular chromosome region, or from reads labeled with a particular barcode) - *Use an AlignmentSet filtered by RNAME.*
 
-- Refer to a **subset of alignments** that obey certain criteria (e.g. the
-  merge/extractBy functionality in Milhouse).
-    - Use an AlignmentSet filtered by e.g. RNAME.
+- Refer to a **subset of alignments** that obey certain criteria (e.g. the merge/extractBy functionality in Milhouse). - *Use an AlignmentSet filtered by e.g. RNAME.*
 
-- Perform any analysis that can be performed on an entire file of a particular
-  data type (reads, read regions, alignments) on a **subset of that data type**
-  without creating a new file.
-    - Relies on tools using common APIs to access DataSets.
+- Perform any analysis that can be performed on an entire file of a particular data type (reads, read regions, alignments) on a **subset of that data type** without creating a new file. - *Relies on tools using common APIs to access DataSets.*
 
 
 
@@ -647,12 +650,8 @@ the Core DataSet unless otherwise specified.
 3. Outstanding Issues and Future Directions
 ===========================================
 
-- These DataSet types may need to be added post-2.0.0
-
-    - ConsensusAlignmentSet
-    - OverlapSet (for incremental HGAP)
-
-- Subread region slicing, while desirable, is not strictly necessary in version 2.0.0, and so will be delayed to a future release
+- Document FASTA filters for pbcore / pbbam for releases post-4.0.
+- The propagation of subdatasets in merging can result in rather large XML files with duplicated information. It is possible this duplication could be reduced using XML IDREFs from the subdatasets to information in the top level DataSet, for ExternalResources or CollectionMetadata. This should be considered as a possible future revision.
 
 Appendix 1: Example DataSet XML files
 =====================================
@@ -681,21 +680,17 @@ Appendix 2: Use cases from pre-2.0 Secondary Analysis satisfied by the DataSet X
     - Explicitly merge the alignments into a larger (cmp.h5) alignment file
     - Create FOFN of cmp.h5 files
 
-- Run algorithms such as HGAP on a **subset of subreads** (e.g. that align to a   contaminant such as E. coli)
+- Run algorithms such as HGAP on a **subset of subreads** (e.g. that align to a contaminant such as E. coli)
     - Awkward, but supported indirectly though whitelist option to P_Filter
 
-- Run algorithms such as Quiver on a **subset of alignments** (e.g. on a
-  particular chromosome, or a particular chromosome region, or from reads
-  labeled with a particular barcode)
-    - Command line options to Quiver (to e.g. specify a particular
-      reference). Not currently supported on other algorithms.
+- Run algorithms such as Quiver on a **subset of alignments** (e.g. on a particular chromosome, or a particular chromosome region, or from reads labeled with a particular barcode)
+    - Command line options to Quiver (to e.g. specify a particular reference). Not currently supported on other algorithms.
 
 - Refer to a **subset of alignments** that obey certain criteria. In particular,  the extractBy reference or accuracy functionality used in Milhouse.
     - Explicit creation of cmp.h5 files using cmph5tools.py select.
 
 
-- Perform any analysis that can be performed on an entire file of a particular
-  data type (reads, read regions, alignments) on a **subset of that data type**   without creating a new file.
+- Perform any analysis that can be performed on an entire file of a particular data type (reads, read regions, alignments) on a **subset of that data type**   without creating a new file.
     - Not supported pre-2.0.
 
 
