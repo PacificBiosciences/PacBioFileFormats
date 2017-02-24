@@ -147,6 +147,8 @@ BAM records and labels a subdataset of the subreads as "Long Reads"::
         </pbds:DataSets>
     </pbds:SubreadSet>
 
+TODO link to XSD
+
 Operations on DataSets
 --------------------------
 
@@ -159,23 +161,23 @@ The subsetting operation is supported efficiently by the PacBio index (\*.pbi fi
 Subsetting (Filtering) DataSets
 +++++++++++++++++++++++++++++++
 
-The SubreadSet in Section 1 above is conceptually the result of applying a length subset or Filter operation on two
+The SubreadSet example given above is the result of applying a length subset or Filter operation on a DataSet of two
 BAM files. Additional filters could be applied, further subsetting the original two BAM files.
-Each Filter is composed of Property tags which provide logically predicates which data in the DataSet must
-satisfy. Individual Filter tags are logically "ORed" while individual Property tags within a Filter are "ANDed" together.
-Property tags are defined by three attributes: Name, Operator and Value, where the Name refers to a field or derived
-value from individual BAM records, and the Operator is used to compare that field's value with the Value attribute.
+Each Filter is composed of ``Property`` tags which provide logically predicates which data in the DataSet must
+satisfy. ``Property`` tags are defined by three attributes: ``Name``, ``Operator`` and ``Value``, where the ``Name`` refers to a field or derived
+value from individual BAM records, and the ``Operator`` is used to compare that field's value with the ``Value`` attribute.
+Individual Filter tags are logically "ORed" while individual ``Property`` tags within a Filter are "ANDed" together.
 
 All filters require an associated pbi file, and particular filter support is driven by the presence or absence of the pbi
 and the indices within it.  There are three major groups of indices in the pbi: basic data, mapping data, barcode data and associated metadata.
-The following Property Names are supported by either the pbbam C++ API or pbcore Python API.
-Those that allow list values indicates by brackets, those
-supported by both pbbam and pbcore are in **bold**, those only by pbcore are *italicized*.
+
+The following ``Property`` ``Name``'s are supported by either the pbbam C++ API, the pbcore Python API (*italicized*) or both (**bold**).
+Those that allow list values are indicated by brackets. The allowed type of the ``Value`` associated with that ``Name`` appears in the right column.
 
 +---------------+------------------------------------------------+---------------------------+----------+
-| Property Name | Description                                    | Other Names               | Type     |
+| Property Name | Description                                    | Synonymous Properties     | Value    |
 +===============+================================================+===========================+==========+
-| **readstart** | Alignment start                                | astart, as                | uint32_t |
+| **readstart** | Alignment start                                | astart  as                | uint32_t |
 +---------------+------------------------------------------------+---------------------------+----------+
 | ae            | Alignment end                                  | aend                      | uint32_t |
 +---------------+------------------------------------------------+---------------------------+----------+
@@ -218,10 +220,10 @@ supported by both pbbam and pbcore are in **bold**, those only by pbcore are *it
 | *n_subreads*  | Number of subreads                             |                           | int      |
 +---------------+------------------------------------------------+---------------------------+----------+
 
-Supported Operator values include:
+Supported ``Property`` ``Operator``'s include:
 
 +---------------------------------------------------------------+----------------------------------------------------+-------------+
-| Operator Name                                                 | Description                                        | Other Names |
+| Property Operator                                             | Description                                        | Other Names |
 +===============================================================+====================================================+=============+
 | ==                                                            | Equal to                                           | =  eq       |
 +---------------------------------------------------------------+----------------------------------------------------+-------------+
@@ -240,15 +242,14 @@ Supported Operator values include:
 | ~                                                             | Does not contain                                   | not         |
 +---------------------------------------------------------------+----------------------------------------------------+-------------+
 
-Some Operators only operate on certain Property names.
+Some ``Operator``'s only operate on specific ``Property`` values. For pbbam, the following ``Values``'s
+are supported for the ``cx`` local context tag only. They can be combined using to form a ``Value``
+that looks and behaves similarly to OR-ing bitflags, e.g.:
 
-For pbbam, the following Values are for the 'cx' local context tag only.
-They can be combined using to form a Value that looks and behaves similarly to OR-ing bitflags:
-
-    Value='ADAPTER_BEFORE | ADAPTER_AFTER'
+    ``Value='ADAPTER_BEFORE | ADAPTER_AFTER'``
 
 +---------------------------------------------------------------+----------------------------------------------------+-------------+
-| Operator Name                                                 | Description                                        | Other Names |
+| pbbam Operator Name                                           | Description                                        | Other Names |
 +===============================================================+====================================================+=============+
 | NO_LOCAL_CONTEXT                                              | No local context (e.g. adapters or barcodes)       |             |
 +---------------------------------------------------------------+----------------------------------------------------+-------------+
@@ -265,10 +266,9 @@ They can be combined using to form a Value that looks and behaves similarly to O
 | REVERSE_PASS                                                  | Subread is forward on the polymerase read          |             |
 +---------------------------------------------------------------+----------------------------------------------------+-------------+
 
-For pbcore, all but 'cx' and 'bc' support the 'in' or '==' operator with vector values.
-The 'cx' filters support '=', '!=', '&' and '~' operators, all potentially with values separated by '|' compositions
-(see https://github.com/PacificBiosciences/pbcore/blob/master/tests/test_pbdataset_filters.py#L81 for examples)
-and raw values or context flag strings (see https://github.com/PacificBiosciences/pbcore/blob/master/pbcore/io/dataset/DataSetMembers.py#L173).
+For pbcore, all but ``cx`` and ``bc`` support the ``in`` or ``==`` operator with vector values.
+The ``cx`` filters support ``=``, ``!=``, ``&`` and ``~`` operators, all potentially with values separated by ``|`` compositions
+and raw values or context flag strings.
 
 
 Union (Merging) DataSets
@@ -279,38 +279,42 @@ by the MetaType attribute) and with identical Filters. The SubreadSet
 above could be created by taking the union of two SubreadSets each
 containing a single BAM file::
 
-    <SubreadSet xmlns="http://pacificbiosciences.com/PacBioDataModel.xsd">
-        <ExternalResources>
-            <ExternalResource MetaType="SubreadFile.SubreadBamFile"
+    <pbds:SubreadSet xmlns="http://pacificbiosciences.com/PacBioDataModel.xsd">
+        <pbbase:ExternalResources>
+            <pbbase:ExternalResource MetaType="SubreadFile.SubreadBamFile"
                                ResourceId="file:/mnt/path/to/subreads0.bam"/>
-        </ExternalResources>
-        <Filters>
-            <Filter>
-                <Parameter Name="rq" Value=">0.75"/>
-            </Filter>
-        </Filters>
-        <DataSetMetadata>
-            <TotalLength>3000</TotalLength>
-            <NumRecords>300</NumRecords>
-        </DataSetMetadata>
-    </SubreadSet>
+        </pbbase:ExternalResources>
+        <pbds:Filters>
+            <pbds:Filter>
+                <pbbase:Properties>
+                    <pbbase:Property Name="rq" Operator="gt" Value="0.75"/>
+                </pbbase:Properties>
+            </pbds:Filter>
+        </pbds:Filters>
+        <pbds:DataSetMetadata>
+            <pbbase:TotalLength>3000</pbbase:TotalLength>
+            <pbbase:NumRecords>300</pbbase:NumRecords>
+        </pbds:DataSetMetadata>
+    </pbds:SubreadSet>
 
 
-    <SubreadSet xmlns="http://pacificbiosciences.com/PacBioDataModel.xsd">
-        <ExternalResources>
-            <ExternalResource MetaType="SubreadFile.SubreadBamFile"
+    <pbds:SubreadSet xmlns="http://pacificbiosciences.com/PacBioDataModel.xsd">
+        <pbbase:ExternalResources>
+            <pbbase:ExternalResource MetaType="SubreadFile.SubreadBamFile"
                                ResourceId="file:/mnt/path/to/subreads1.bam"/>
-        </ExternalResources>
-        <Filters>
-            <Filter>
-                <Parameter Name="rq" Value=">0.75"/>
-            </Filter>
-        </Filters>
-        <DataSetMetadata>
-            <TotalLength>2000</TotalLength>
-            <NumRecords>200</NumRecords>
-        </DataSetMetadata>
-    </SubreadSet>
+        </pbbase:ExternalResources>
+        <pbds:Filters>
+            <pbds:Filter>
+                <pbbase:Properties>
+                    <pbbase:Property Name="rq" Operator="gt" Value="0.75"/>
+                </pbbase:Properties>
+            </pbds:Filter>
+        </pbds:Filters>
+        <pbds:DataSetMetadata>
+            <pbbase:TotalLength>2000</pbbase:TotalLength>
+            <pbbase:NumRecords>200</pbbase:NumRecords>
+        </pbds:DataSetMetadata>
+    </pbds:SubreadSet>
 
 Union is also referred to as merging in many Secondary Analysis applications.
 
@@ -336,17 +340,17 @@ representation in the appropriate format with all filters applied. Here
 is consolidated version of the SubreadSet above::
 
     <?xml version="1.0" encoding="utf-8" ?>
-    <SubreadSet xmlns="http://pacificbiosciences.com/PacBioDataModel.xsd">
-        <ExternalResources>
-            <ExternalResource
+    <pbds:SubreadSet xmlns="http://pacificbiosciences.com/PacBioDataModel.xsd">
+        <pbbase:ExternalResources>
+            <pbbase:ExternalResource
                 MetaType="SubreadFile.SubreadBamFile"
                 ResourceId="file:/mnt/path/to/subreads0_plus_subreads1.bam"/>
-        </ExternalResources>
-        <DataSetMetadata>
-            <TotalLength>5000</TotalLength>
-            <NumRecords>500</NumRecords>
-        </DataSetMetadata>
-    </SubreadSet>
+        </pbbase:ExternalResources>
+        <pbds:DataSetMetadata>
+            <pbbase:TotalLength>5000</pbbase:TotalLength>
+            <pbbase:NumRecords>500</pbbase:NumRecords>
+        </pbds:DataSetMetadata>
+    </pbds:SubreadSet>
 
 Consolidated DataSets are useful for export of a DataSet that exists
 only implicitly, e.g. by filtering multiple files. They allow the user
@@ -364,19 +368,21 @@ reference sequence labelled 2kbControl are labelled 'Control' using the
 DataSet ``Name`` field::
 
     <?xml version="1.0" encoding="utf-8" ?>
-    <AlignmentSet xmlns="http://pacificbiosciences.com/PacBioDataModel.xsd">
+    <pbds:AlignmentSet xmlns="http://pacificbiosciences.com/PacBioDataModel.xsd">
          ...
-        <DataSets>
-            <AlignmentSet Name="Control">
-                <Filters>
-                    <Filter>
-                        <Parameter Name="RNAME" Value="2kbControl"/>
-                    </Filter>
-                </Filters>
-            </AlignmentSet>
-        </DataSets>
+        <pbds:DataSets>
+            <pbds:AlignmentSet Name="Control">
+                <pbds:Filters>
+                    <pbds:Filter>
+                        <pbbase:Properties>
+                            <pbbase:Property Name="rname" Operator="==" Value="2kbControl"/>
+                        </pbbase:Properties>
+                    </pbds:Filter>
+                </pbds:Filters>
+            </pbds:AlignmentSet>
+        </pbds:DataSets>
          ...
-    </AlignmentSet>
+    </pbds:AlignmentSet>
 
 I/O trade-offs using DataSets
 ---------------------------------
@@ -413,75 +419,12 @@ entities consumed and produced by Secondary Analysis pipelines
     set operations such as subsetting, union or labelling of subsets, so why
     include them? The main motivation is to provide a standard interface for
     inputs to pbsmrtpipe and to represent these resources in a standard way
-    in SMRT Portal. Rather than special casing these kinds of data in the
-    GUI and the pipeline controller (as is done for references in SMRT Portal)
+    in SMRT Link. Rather than special casing these kinds of data in the
+    GUI and the pipeline controller (as is done for references in SMRT Link)
     or forcing these data into one-size fits all solutions (as is done for
-    barcodes and contigs by treating them as references in SMRT Portal) making
+    barcodes and contigs by treating them as references in SMRT Link) making
     them DataSets allows us to treat them as just another subtype of the
     general DataSet concept.
-
-
-DataSet examples satisfying the motivating use cases
-----------------------------------------------------
-
-- Refer to a **set of subreads** in multiple bax.h5 files.
-
-The SubreadSet XML above satisfies this use case using BAM files instead of BAX files::
-
-    <?xml version="1.0" encoding="utf-8" ?>
-    <SubreadSet xmlns="http://pacificbiosciences.com/PacBioDataModel.xsd">
-        <ExternalResources>
-            <ExternalResource MetaType="SubreadFile.SubreadBamFile"
-                              ResourceId="file:/mnt/path/to/subreads0.bam"/>
-            <ExternalResource MetaType="SubreadFile.SubreadBamFile"
-                              ResourceId="file:/mnt/path/to/subreads1.bam"/>
-        </ExternalResources>
-        <Filters>
-            <Filter>
-                <Parameter Name="rq" Value=">0.75"/>
-            </Filter>
-        </Filters>
-        <DataSetMetadata>
-            <TotalLength>5000</TotalLength>
-            <NumRecords>500</NumRecords>
-        </DataSetMetadata>
-    </SubreadSet>
-
-
-- Refer to a **subset of subreads** by id from one or more bas.h5 files::
-
-    <?xml version="1.0" encoding="utf-8" ?>
-    <SubreadSet xmlns="http://pacificbiosciences.com/PacBioDataModel.xsd">
-        <ExternalResources>
-            <ExternalResource MetaType="SubreadFile.SubreadBamFile"
-                              ResourceId="file:/mnt/path/to/subreads0.bam"/>
-        </ExternalResources>
-        <Filters>
-            <Filter>
-                <Parameter Name="QNAME" Value="m100000/0/0_100"/>
-            </Filter>
-            <Filter>
-                <Parameter Name="QNAME" Value="m100000/1/0_200"/>
-            </Filter>
-        </Filters>
-        <DataSetMetadata>
-            <TotalLength>5000</TotalLength>
-            <NumRecords>500</NumRecords>
-        </DataSetMetadata>
-    </SubreadSet>
-
-
-- Run algorithms such as HGAP on a **subset of subreads** (e.g. that align to a contaminant such as E. coli)
-    - Use a SubreadSet filtered by RNAME.
-
-- Refer to a **set of alignments** from multiple different references or movies - *Use an AlignmentSet with multiple reference files.*
-
-- Run algorithms such as Arrow on a **subset of alignments** (e.g. on a particular chromosome, or a particular chromosome region, or from reads labeled with a particular barcode) - *Use an AlignmentSet filtered by RNAME.*
-
-- Refer to a **subset of alignments** that obey certain criteria (e.g. the merge/extractBy functionality in Milhouse). - *Use an AlignmentSet filtered by e.g. RNAME.*
-
-- Perform any analysis that can be performed on an entire file of a particular data type (reads, read regions, alignments) on a **subset of that data type** without creating a new file. - *Relies on tools using common APIs to access DataSets.*
-
 
 
 DataSet MetaTypes and File Extensions
@@ -509,6 +452,11 @@ DataSet MetaTypes and File Extensions
 | GmapReferenceSet      | PacBio.DataSet.GmapReferenceSet                | .gmapreferenceset.xml     |
 +-----------------------+------------------------------------------------+---------------------------+
 
+Singleton DataSet element
++++++++++++++++++++++++++
+
+While technically an XML file with multiple DataSet elements is valid under the XSD and this spec,
+in practice PacBio tools follow a one DataSet element per XML file convention.  
 
 DataSet External Resource MetaTypes and File Extensions
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -588,6 +536,16 @@ year, month, day, hour, minute, second, millisecond.
 | ReferenceSet          | pacbio_dataset_referenceset-<yymmdd_HHmmssttt>         | TBD               |
 +-----------------------+--------------------------------------------------------+-------------------+
 
+DataSet mutability and equality
+-----------------------------------
+To allow user editing of attributes such as Name without affecting the
+underlying DataSet we define the Core DataSet as the XML with the user
+editable attributes (Name, Description and Tags) removed (not set to "",
+but absent).  This Core DataSet is immutable and is the entity on which
+identity operations are defined. As a consequence, any modifications
+to fields other than Name, Description or Tags requires giving the DataSet
+a new UniqueId. Operations such as md5 checksum should be performed on
+the Core DataSet unless otherwise specified.
 
 Support for the DataSet XML
 --------------------------------------------------------
@@ -603,18 +561,10 @@ underlying files such as BAM as burden-free as possible.
 Command-line tools for manipulating DataSets
 ++++++++++++++++++++++++++++++++++++++++++++
 
-The SMRT Link CL tools in 4.0.0 provide the following command-line support::
-
-    dataset.py create subreads.fofn > subreads.xml
-    dataset.py filter subreads.xml --parameter "name=rq,value=>0.75" > filtered_subreads.xml
-    dataset.py union subreads1.xml subreads2.xml > subreads_union.xml
-    dataset.py consolidate subreads1.xml > consolidated_subreads.xml
-
-.. note:: TODO This section needs more detail. Add specs for tools needed
-          for creating and manipulating DataSets on the command line.
-
-.. note:: While technically an XML file with multiple DataSet elements is
-          valid under the XSD, the command line use cases follow 1 XML file - 1 DataSet element convention.
+The SMRT Link CL tools in 4.0.0 provide command-line support for creating, filtering, validating,
+merging, splitting, consolidating and other common operations via the ``dataset`` command.
+Detailed CL documentation and example can be found in the pbcoretools_ documentation.
+Note that in the SMRT Link CL tools tarball, the command is ``dataset`` not ``dataset.py``.
 
 
 Other Bioinformatics Tools
@@ -627,24 +577,82 @@ DataSet XML is not required to obtain bioinformatics results. However,
 `support` for the DataSet XML is encouraged for Secondary Analysis tools,
 and facilitated using the above API.
 
-SMRT Portal and SMRT Pipe
+SMRT Link and SMRT Pipe
 +++++++++++++++++++++++++
 
 The DataSet XML is required for display of DataSets (such as
-references) in SMRT Portal and for chunking in the distributed pipelines
+references) in SMRT Link and for chunking in the distributed pipelines
 using pbsmrtpipe. Moreover, for these applications the DataSetMetadata
 field is mandatory, not optional.
 
-DataSet mutability and equality
------------------------------------
-To allow user editing of attributes such as Name without affecting the
-underlying DataSet we define the Core DataSet as the XML with the user
-editable attributes (Name, Description and Tags) removed (not set to "",
-but absent).  This Core DataSet is immutable and is the entity on which
-identity operations are defined. As a consequence, any modifications
-to fields other than Name, Description or Tags requires giving the DataSet
-a new UniqueId. Operations such as md5 checksum should be performed on
-the Core DataSet unless otherwise specified.
+DataSet examples satisfying the motivating use cases
+----------------------------------------------------
+
+- Refer to a **set of subreads** in multiple bax.h5 files.
+
+The SubreadSet XML above satisfies this use case using BAM files instead of BAX files::
+
+    <?xml version="1.0" encoding="utf-8" ?>
+    <pbds:SubreadSet xmlns="http://pacificbiosciences.com/PacBioDataModel.xsd">
+        <pbbase:ExternalResources>
+            <pbbase:ExternalResource MetaType="SubreadFile.SubreadBamFile"
+                              ResourceId="file:/mnt/path/to/subreads0.bam"/>
+            <pbbase:ExternalResource MetaType="SubreadFile.SubreadBamFile"
+                              ResourceId="file:/mnt/path/to/subreads1.bam"/>
+        </pbbase:ExternalResources>
+        <pbds:Filters>
+            <pbds:Filter>
+                <pbbase:Properties>
+                    <pbbase:Property Name="rq" Operator="gt" Value="0.75"/>
+                </pbbase:Properties>
+            </pbds:Filter>
+        </pbds:Filters>
+        <pbds:DataSetMetadata>
+            <pbbase:TotalLength>5000</pbbase:TotalLength>
+            <pbbase:NumRecords>500</pbbase:NumRecords>
+        </pbds:DataSetMetadata>
+    </pbds:SubreadSet>
+
+
+- Refer to a **subset of subreads** by id from one or more bas.h5 files::
+
+    <?xml version="1.0" encoding="utf-8" ?>
+    <pbds:SubreadSet xmlns="http://pacificbiosciences.com/PacBioDataModel.xsd">
+        <pbbase:ExternalResources>
+            <pbbase:ExternalResource MetaType="SubreadFile.SubreadBamFile"
+                              ResourceId="file:/mnt/path/to/subreads0.bam"/>
+        </pbbase:ExternalResources>
+        <pbds:Filters>
+            <pbds:Filter>
+                <pbbase:Properties>
+                    <pbbase:Property Name="qname" Operator="==" Value="m100000/0/0_100"/>
+                </pbbase:Properties>
+            </pbds:Filter>
+            <pbds:Filter>
+                <pbbase:Properties>
+                    <pbbase:Property Name="qname" Operator="==" Value="m100000/1/0_200"/>
+                </pbbase:Properties>
+            </pbds:Filter>
+        </pbds:Filters>
+        <pbds:DataSetMetadata>
+            <pbbase:TotalLength>5000</pbbase:TotalLength>
+            <pbbase:NumRecords>500</pbbase:NumRecords>
+        </pbds:DataSetMetadata>
+    </pbds:SubreadSet>
+
+
+- Run algorithms such as HGAP on a **subset of subreads** (e.g. that align to a contaminant such as E. coli)
+    - Use a SubreadSet filtered by RNAME.
+
+- Refer to a **set of alignments** from multiple different references or movies - *Use an AlignmentSet with multiple reference files.*
+
+- Run algorithms such as Arrow on a **subset of alignments** (e.g. on a particular chromosome, or a particular chromosome region, or from reads labeled with a particular barcode) - *Use an AlignmentSet filtered by RNAME.*
+
+- Refer to a **subset of alignments** that obey certain criteria (e.g. the merge/extractBy functionality in Milhouse). - *Use an AlignmentSet filtered by e.g. RNAME.*
+
+- Perform any analysis that can be performed on an entire file of a particular data type (reads, read regions, alignments) on a **subset of that data type** without creating a new file. - *Relies on tools using common APIs to access DataSets.*
+
+
 
 
 Outstanding Issues and Future Directions
@@ -695,3 +703,4 @@ Appendix 2: Use cases from pre-2.0 Secondary Analysis satisfied by the DataSet X
 
 
 .. _W3C compatible timestamp: http://www.w2.org/TR/NOTE-datetime
+.. _pbcoretools: http://pacificbiosciences.github.io/pbcoretools/pbcoretools.html
