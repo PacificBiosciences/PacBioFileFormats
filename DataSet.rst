@@ -1,18 +1,19 @@
-===================================================
-PacBio DataSet File Format Specification
-===================================================
+=======================================
+DataSet format specification for PacBio
+=======================================
 
-1. Introduction
-===============
+A DataSet is a set of a particular sequence data type, such as subreads,
+references or aligned subreads. The actual data is stored in files external
+to the XML, usually in FASTA or BAM files.
+
+Version
+=======
 
 This document defines the 4.0.0 Secondary DataSet abstraction and its
-XML file representation. A DataSet is a set of a particular
-sequence data type, such as subreads, references or aligned subreads.
-The actual data is stored in files external to the XML, usually in FASTA
-or BAM files.
+XML file representation.
 
-1.1 Motivating Use Cases
---------------------------
+Motivating Use Cases
+====================
 
 The concept of a homogenous set of elements of a particular data type is
 used throughout Pacific Biosciences Secondary Analysis.
@@ -24,7 +25,7 @@ and sometimes implicitly by using pointers to the data, such as with a FOFN
 
 In many cases these solutions are serviceable, but they have
 disadvantages. The reliance on explicit file creation imposes a heavy
-burden that will exacerbated by future instrument throughput increases. The
+burden that will be exacerbated by future instrument throughput increases. The
 FOFN partially breaks the tight coupling between explicit files and
 sets of data, but it fails to allow facile subsetting of files. Tools
 are forced to reimplement filtering or subsetting logic in their own
@@ -45,10 +46,10 @@ and the associated. Here is a sampling of the uses of cases for DataSets:
   data type (reads, read regions, alignments) on a **subset of that data type**  without creating a new file.
 
 
-2. Data Format Definition
-=========================
+Format Definition
+=================
 
-2.1 XML Representation
+XML Representation
 ----------------------
 
 The canonical representation of a DataSet is an XML file that
@@ -146,7 +147,7 @@ BAM records and labels a subdataset of the subreads as "Long Reads"::
         </pbds:DataSets>
     </pbds:SubreadSet>
 
-2.2 Operations on DataSets
+Operations on DataSets
 --------------------------
 
 DataSets support operations that would naively be expected of sets, such
@@ -270,7 +271,7 @@ The 'cx' filters support '=', '!=', '&' and '~' operators, all potentially with 
 and raw values or context flag strings (see https://github.com/PacificBiosciences/pbcore/blob/master/pbcore/io/dataset/DataSetMembers.py#L173).
 
 
-Union of DataSets (aka Merging DataSets)
+Union (Merging) DataSets
 ++++++++++++++++++++++++++++++++++++++++
 
 Unions can be taken of DataSets with the same underlying file type (noted
@@ -377,13 +378,13 @@ DataSet ``Name`` field::
          ...
     </AlignmentSet>
 
-2.3 I/O trade-offs using DataSets
+I/O trade-offs using DataSets
 ---------------------------------
 The DataSet model defers I/O operations by replacing up-front file merges
 with downstream I/O operations that hit many different files. This allows
 consumers to avoid explicit creation of files on disk and the resulting
 redundant storage and costly write operations. For many uses this many-file
-approach will be better than explicitly creating the file on disk,
+approach is preferred to explicitly creating the file on disk,
 but in some cases it may be desirable to incur the cost of accessing
 and filtering multiple files once (e.g. to reduce disk seeks for highly
 fragmented DataSets). Determining when the costs outweigh the benefits will
@@ -392,7 +393,7 @@ provides the means for using the form of DataSet that best fits a
 particular use case.
 
 
-2.4 Types of DataSets
+Types of DataSets
 ---------------------
 
 DataSets subtypes are defined for the most common "bread-and-butter"
@@ -420,8 +421,8 @@ entities consumed and produced by Secondary Analysis pipelines
     general DataSet concept.
 
 
-2.5 Examples satisfying the motivating use cases
-------------------------------------------------
+DataSet examples satisfying the motivating use cases
+----------------------------------------------------
 
 - Refer to a **set of subreads** in multiple bax.h5 files.
 
@@ -588,7 +589,7 @@ year, month, day, hour, minute, second, millisecond.
 +-----------------------+--------------------------------------------------------+-------------------+
 
 
-2.6 Support for the DataSet XML
+Support for the DataSet XML
 --------------------------------------------------------
 
 Support for using the DataSet XML throughout the Secondary Analysis stack:
@@ -596,13 +597,13 @@ Support for using the DataSet XML throughout the Secondary Analysis stack:
 Core API
 ++++++++
 
-An API will be provided that makes consuming DataSet XML files or the
+An API is provided in pbcore (Python) and pbbam (C++) that makes consuming DataSet XML files or the
 underlying files such as BAM as burden-free as possible.
 
 Command-line tools for manipulating DataSets
 ++++++++++++++++++++++++++++++++++++++++++++
 
-At minimum, 2.0.0 will have the following command-line support::
+The SMRT Link CL tools in 4.0.0 provide the following command-line support::
 
     dataset.py create subreads.fofn > subreads.xml
     dataset.py filter subreads.xml --parameter "name=rq,value=>0.75" > filtered_subreads.xml
@@ -613,8 +614,7 @@ At minimum, 2.0.0 will have the following command-line support::
           for creating and manipulating DataSets on the command line.
 
 .. note:: While technically an XML file with multiple DataSet elements is
-          valid under the XSD, it is expected that the command line use
-          cases will follow 1 XML file - 1 DataSet element convention.
+          valid under the XSD, the command line use cases follow 1 XML file - 1 DataSet element convention.
 
 
 Other Bioinformatics Tools
@@ -635,19 +635,19 @@ references) in SMRT Portal and for chunking in the distributed pipelines
 using pbsmrtpipe. Moreover, for these applications the DataSetMetadata
 field is mandatory, not optional.
 
-2.7 DataSet mutability and equality
+DataSet mutability and equality
 -----------------------------------
 To allow user editing of attributes such as Name without affecting the
 underlying DataSet we define the Core DataSet as the XML with the user
 editable attributes (Name, Description and Tags) removed (not set to "",
 but absent).  This Core DataSet is immutable and is the entity on which
-identity operations will be defined. As a consequence, any modifications
+identity operations are defined. As a consequence, any modifications
 to fields other than Name, Description or Tags requires giving the DataSet
 a new UniqueId. Operations such as md5 checksum should be performed on
 the Core DataSet unless otherwise specified.
 
 
-3. Outstanding Issues and Future Directions
+Outstanding Issues and Future Directions
 ===========================================
 
 - Document FASTA filters for pbcore / pbbam for releases post-4.0.
