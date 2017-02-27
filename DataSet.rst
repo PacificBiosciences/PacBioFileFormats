@@ -192,61 +192,67 @@ associated pbi file, and particular filter support is driven by the presence or 
 Each ``Filter`` is composed of ``Property`` tags representing logical predicates that elements of the DataSet must
 satisfy. ``Property`` tags are defined by three attributes: ``Name``, ``Operator`` and ``Value``, where the ``Name``
 refers to a field or derived value from individual DataSet records, and the ``Operator`` is used to compare a particular record's
-field with the ``Value`` attribute. Individual ``Filter`` tags can be combined to create more complicated filters; these ``Filter`` tags are 
+field with the ``Value`` attribute. Individual ``Filter`` tags can be combined to create more complicated filters; these ``Filter`` tags are
 logically "ORed" while individual ``Property`` tags within a ``Filter`` are "ANDed" together.
+
+
+*Filter Property Names and Values*
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The following table shows ``Property`` ``Name``'s that are supported by either the pbbam C++ API, the pbcore Python API (*italicized*)
 or both (**bold**). Some accepted alternative ways of representing a ``Property`` are given in the Alternative Names column.
 Those ``Property``'s that allow list values in both pbbam and pbcore are indicated by brackets.
 Finally, the right column shows the allowed type of ``Property`` ``Value`` associated with that particular ``Property`` ``Name``.
 
-+---------------+------------------------------------------------+---------------------------+----------+
-| Property Name | Description                                    | Alternative Names         | Value    |
-+===============+================================================+===========================+==========+
-| **readstart** | Alignment start                                | astart  as                | uint32_t |
-+---------------+------------------------------------------------+---------------------------+----------+
-| ae            | Alignment end                                  | aend                      | uint32_t |
-+---------------+------------------------------------------------+---------------------------+----------+
-| alignedlength | Alignment length                               |                           | uint32_t |
-+---------------+------------------------------------------------+---------------------------+----------+
-| **accuracy**  | Alignment identity                             | identity                  | float    |
-+---------------+------------------------------------------------+---------------------------+----------+
-| **qname**     | Query name                                     | *qid*                     | string   |
-+---------------+------------------------------------------------+---------------------------+----------+
-| **qstart**    | Query start                                    | **qs**                    | int      |
-+---------------+------------------------------------------------+---------------------------+----------+
-| **qend**      | Query end                                      | **qe**                    | int      |
-+---------------+------------------------------------------------+---------------------------+----------+
-| **length**    | Query length                                   | querylength               | int      |
-+---------------+------------------------------------------------+---------------------------+----------+
-| **rname**     | Reference name                                 |                           | string   |
-+---------------+------------------------------------------------+---------------------------+----------+
-| **tstart**    | Reference start                                | ts  **pos**               | uint32_t |
-+---------------+------------------------------------------------+---------------------------+----------+
-| **tend**      | Reference end                                  | te                        | uint32_t |
-+---------------+------------------------------------------------+---------------------------+----------+
-| qname_file    | Query names from a file                        |                           | filename |
-+---------------+------------------------------------------------+---------------------------+----------+
-| **rq**        | Predicted read quality                         |                           | float    |
-+---------------+------------------------------------------------+---------------------------+----------+
-| **movie**     | Movie name (e.g. m150404_101626_42267_s1_p0)   |                           | string   |
-+---------------+------------------------------------------------+---------------------------+----------+
-| **zm**        | ZMW (e.g. m150404_101626_42267_s1_p0/100)      | zmw                       | string[] |
-+---------------+------------------------------------------------+---------------------------+----------+
-| **bc**        | Barcode name                                   | barcode                   | string[] |
-+---------------+------------------------------------------------+---------------------------+----------+
-| **bcq**       | Barcode quality                                | **bq**                    | uint8_t  |
-+---------------+------------------------------------------------+---------------------------+----------+
-| **bcf**       | Barcode forward                                |                           | string[] |
-+---------------+------------------------------------------------+---------------------------+----------+
-| **bcr**       | Barcode reverse                                |                           | string[] |
-+---------------+------------------------------------------------+---------------------------+----------+
-| **cx**        | Local context (see below for special Values)   |                           | string[] |
-+---------------+------------------------------------------------+---------------------------+----------+
-| *n_subreads*  | Number of subreads                             |                           | int      |
-+---------------+------------------------------------------------+---------------------------+----------+
++---------------+------------------------------------------------+-------------------------+-----------+
+| Property Name | Description                                    | Alternative Names       | Value     |
++===============+================================================+=========================+===========+
+| **readstart** | Alignment start                                | astart  as              | uint32_t  |
++---------------+------------------------------------------------+-------------------------+-----------+
+| ae            | Alignment end                                  | aend                    | uint32_t  |
++---------------+------------------------------------------------+-------------------------+-----------+
+| alignedlength | Alignment length                               |                         | uint32_t  |
++---------------+------------------------------------------------+-------------------------+-----------+
+| **accuracy**  | Alignment identity                             | identity                | float     |
++---------------+------------------------------------------------+-------------------------+-----------+
+| **qname**     | Query name                                     | *qid*                   | string    |
++---------------+------------------------------------------------+-------------------------+-----------+
+| **qstart**    | Query start                                    | **qs**                  | int       |
++---------------+------------------------------------------------+-------------------------+-----------+
+| **qend**      | Query end                                      | **qe**                  | int       |
++---------------+------------------------------------------------+-------------------------+-----------+
+| **length**    | Query length                                   | querylength             | int       |
++---------------+------------------------------------------------+-------------------------+-----------+
+| **rname**     | Reference name                                 |                         | string    |
++---------------+------------------------------------------------+-------------------------+-----------+
+| **tstart**    | Reference start                                | ts  **pos**             | uint32_t  |
++---------------+------------------------------------------------+-------------------------+-----------+
+| **tend**      | Reference end                                  | te                      | uint32_t  |
++---------------+------------------------------------------------+-------------------------+-----------+
+| qname_file    | Query names from a file                        |                         | filename  |
++---------------+------------------------------------------------+-------------------------+-----------+
+| **rq**        | Predicted read quality                         |                         | float     |
++---------------+------------------------------------------------+-------------------------+-----------+
+| **movie**     | Movie name (e.g. m150404_101626_42267_s1_p0)   |                         | string    |
++---------------+------------------------------------------------+-------------------------+-----------+
+| **zm**        | ZMW (e.g. m150404_101626_42267_s1_p0/100)      | zmw                     | string[]  |
++---------------+------------------------------------------------+-------------------------+-----------+
+| **bc**        | Barcode name                                   | barcode                 | string[]  |
++---------------+------------------------------------------------+-------------------------+-----------+
+| **bcq**       | Barcode quality                                | **bq**                  | uint8_t   |
++---------------+------------------------------------------------+-------------------------+-----------+
+| **bcf**       | Barcode forward                                |                         | string[]  |
++---------------+------------------------------------------------+-------------------------+-----------+
+| **bcr**       | Barcode reverse                                |                         | string[]  |
++---------------+------------------------------------------------+-------------------------+-----------+
+| **cx**        | Local context (see below for special Values)   |                         | see below |
++---------------+------------------------------------------------+-------------------------+-----------+
+| *n_subreads*  | Number of subreads                             |                         | int       |
++---------------+------------------------------------------------+-------------------------+-----------+
 
 
+*Filter Property Operators*
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The following table shows supported ``Property`` ``Operator``'s\:
 
@@ -270,14 +276,17 @@ The following table shows supported ``Property`` ``Operator``'s\:
 | ~                                                             | Does not contain                                   | not         |
 +---------------------------------------------------------------+----------------------------------------------------+-------------+
 
-Some ``Operator``'s only operate on specific ``Property`` values. For pbbam, the following table shows ``Values``'s
-that are supported for the ``cx`` local context tag only. The ``Value``'s can be used individually or can be combined to form a
-compound ``Value`` using a syntax that looks and behaves similarly to OR-ing bitflags, e.g.\:
+*Possible cx Values*
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The following table shows ``Values``'s that are supported for the ``cx`` local context ``Property`` ``Name``.
+The ``Value``'s can be used individually or can be combined to form a compound ``Value`` using a syntax that
+looks and behaves similarly to OR-ing bitflags, e.g.\:
 
     ``Value='ADAPTER_BEFORE | ADAPTER_AFTER'``
 
 +---------------------------------------------------------------+----------------------------------------------------+
-| pbbam Operator Name                                           | Description                                        |
+| cx Value                                                      | Description                                        |
 +===============================================================+====================================================+
 | NO_LOCAL_CONTEXT                                              | No local context (e.g. adapters or barcodes)       |
 +---------------------------------------------------------------+----------------------------------------------------+
@@ -294,11 +303,8 @@ compound ``Value`` using a syntax that looks and behaves similarly to OR-ing bit
 | REVERSE_PASS                                                  | Subread is forward on the polymerase read          |
 +---------------------------------------------------------------+----------------------------------------------------+
 
-For pbcore, all but ``cx`` and ``bc`` support the ``in`` or ``==`` operator with vector values.
-The ``cx`` filters support ``=``, ``!=``, ``&`` and ``~`` operators, all potentially with values separated by ``|`` compositions
-and raw values or context flag strings.
-
-In summary, the ``Filter`` tag provides a powerful means of subsetting DataSets without manipulating the underlying file representations.
+In summary, the ``Filter`` and ``Property`` tags provide a powerful means of subsetting DataSets without manipulating
+the underlying file representations.
 
 Union (Merging)
 +++++++++++++++
