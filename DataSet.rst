@@ -736,5 +736,6 @@ Appendix 3: Use cases from pre-2.0 SMRT Analysis satisfied by the DataSet XML fi
 
 .. _W3C compatible timestamp: http://www.w2.org/TR/NOTE-datetime
 .. _pbcoretools: http://pacificbiosciences.github.io/pbcoretools/pbcoretools.html
+.. _dataset: http://pacificbiosciences.github.io/pbcoretools/pbcoretools.html
 .. _pbbam: http://pbbam.readthedocs.io/en/latest/api/DataSet.html
 .. _pbcore: http://pacificbiosciences.github.io/pbcore/pbcore.io.dataset.html#api-overview
