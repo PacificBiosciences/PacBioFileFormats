@@ -186,7 +186,7 @@ Subsetting (Filtering)
 ++++++++++++++++++++++
 
 The SubreadSet example given above is the result of applying a length subset or ``Filter`` operation on a DataSet of two
-BAM files. The subsetting/filtering operation is supported efficiently by the PacBio index (\*.pbi files). All filters require an
+BAM files (e.g. by applying the dataset_ command). The subsetting/filtering operation is supported efficiently by the PacBio index (\*.pbi files). All filters require an
 associated pbi file, and particular filter support is driven by the presence or absence of the pbi and the indices within it.
 
 Each ``Filter`` is composed of ``Property`` tags representing logical predicates that elements of the DataSet must
@@ -570,8 +570,8 @@ Note that in the SMRT Link CL tools tarball, the command is ``dataset`` not ``da
 Core API Support
 -----------------
 
-An API is provided in pbcore (Python) and pbbam (C++) that makes consuming DataSet XML files or the
-underlying files such as BAM as burden-free as possible. TODO add pointers to pbbam and pbcore docs.
+An API is provided in pbcore_ (Python) and pbbam_ (C++) that makes consuming DataSet XML files or the
+underlying files such as BAM as burden-free as possible. 
 
 
 Other PacBio command-line tools
@@ -736,3 +736,5 @@ Appendix 3: Use cases from pre-2.0 SMRT Analysis satisfied by the DataSet XML fi
 
 .. _W3C compatible timestamp: http://www.w2.org/TR/NOTE-datetime
 .. _pbcoretools: http://pacificbiosciences.github.io/pbcoretools/pbcoretools.html
+.. _pbbam: http://pbbam.readthedocs.io/en/latest/api/DataSet.html
+.. _pbcore: http://pacificbiosciences.github.io/pbcore/pbcore.io.dataset.html#api-overview
