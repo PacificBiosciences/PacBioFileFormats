@@ -459,11 +459,35 @@ DataSet External Resource MetaTypes and File Extensions
 
 The following table lists the ``ExternalResource``'s expected by each DataSet subclass and their
 associated ``MetaType`` values and expected filename suffix strings.
+In some cases the ``ExternalResource`` can occur in multiple DataSet types, but only for particular
+parent ``ExternalResource``'s elements.
 
 +-----------------------+------------------------------------------------+---------------------------+
-| DataSet               | ExternalResource MetaType                      | File Extensions           |
+| DataSet or Tag        | ExternalResource MetaType                      | File Extensions           |
 +=======================+================================================+===========================+
 | SubreadSet            | PacBio.SubreadFile.SubreadBamFile              | .bam                      |
++-----------------------+------------------------------------------------+---------------------------+
+|                       | PacBio.SubreadFile.ScrapsBamFile               | .bam                      |
++-----------------------+------------------------------------------------+---------------------------+
+|                       | PacBio.SubreadFile.HqRegionBamFile             | .bam                      |
++-----------------------+------------------------------------------------+---------------------------+
+|                       | PacBio.SubreadFile.HqScrapsBamFile             | .bam                      |
++-----------------------+------------------------------------------------+---------------------------+
+|                       | PacBio.SubreadFile.LqRegionBamFile             | .bam                      |
++-----------------------+------------------------------------------------+---------------------------+
+|                       | PacBio.SubreadFile.LqScrapsBamFile             | .bam                      |
++-----------------------+------------------------------------------------+---------------------------+
+|                       | PacBio.SubreadFile.PolymeraseBamFile           | .bam                      |
++-----------------------+------------------------------------------------+---------------------------+
+|                       | PacBio.SubreadFile.PolymeraseScrapsBamFile     | .bam                      |
++-----------------------+------------------------------------------------+---------------------------+
+|                       | PacBio.SubreadFile.ChipStatsFile               | .sts.xml                  |
++-----------------------+------------------------------------------------+---------------------------+
+|                       | PacBio.SubreadFile.ChipStatsH5File             | .sts.h5                   |
++-----------------------+------------------------------------------------+---------------------------+
+|                       | PacBio.SubreadFile.AdapterFastaFile            | .fasta                    |
++-----------------------+------------------------------------------------+---------------------------+
+|                       | PacBio.SubreadFile.ControlFastaFile            | .fasta                    |
 +-----------------------+------------------------------------------------+---------------------------+
 | HdfSubreadSet         | PacBio.SubreadFile.BaxFile                     | .bax.h5                   |
 +-----------------------+------------------------------------------------+---------------------------+
@@ -479,39 +503,25 @@ associated ``MetaType`` values and expected filename suffix strings.
 +-----------------------+------------------------------------------------+---------------------------+
 | ReferenceSet          | PacBio.ReferenceFile.ReferenceFastaFile        | .fasta                    |
 +-----------------------+------------------------------------------------+---------------------------+
+| Bam ExternalResource  | PacBio.Index.BamIndex                          | .bam.bai                  |
++-----------------------+------------------------------------------------+---------------------------+
+| Bam ExternalResource  | PacBio.Index.PacBioIndex                       | .bam.pbi                  |
++-----------------------+------------------------------------------------+---------------------------+
+| Fasta ExternalResource| PacBio.Index.SamIndex                          | .fasta.fai                |
++-----------------------+------------------------------------------------+---------------------------+
+| Fasta ExternalResource| PacBio.Index.SaWriterIndex                     | .fasta.sa                 |
++-----------------------+------------------------------------------------+---------------------------+
+| Fasta ExternalResource| PacBio.Index.Indexer                           | .fasta.index              |
++-----------------------+------------------------------------------------+---------------------------+
+| Fasta ExternalResource| PacBio.Index.FastaContigIndex                  | .fasta.contig.index       |
++-----------------------+------------------------------------------------+---------------------------+
+| Fasta ExternalResource| PacBio.GmapDB.GmapDBSummary                    | ?                         |
++-----------------------+------------------------------------------------+---------------------------+
 
 Some ``ExternalResource``'s themselves contain associated ``ExternalResources``'s, for example the
 indices associated with FASTA files. These associated files are nested within the primary ``ExternalResource``
-element to denote their subsidiary nature.
+element to denote their subsidiary nature. 
 
-TODO reformat and better present this section.
-
-Fasta-Related Nested ExternalResources\:
-
-- PacBio.Index.SamIndex (.fasta.fai)
-- PacBio.Index.SaWriterIndex (.fasta.sa)
-- PacBio.Index.Indexer (.fasta.index)
-- PacBio.Index.FastaContigIndex (.fasta.contig.index)
-- PacBio.GmapDB.GmapDBSummary (a file indicating the location of a gmap db)
-
-SubreadSet Nested ExternalResources\:
-
-- PacBio.SubreadFile.ScrapsBamFile
-- PacBio.SubreadFile.HqRegionBamFile
-- PacBio.SubreadFile.HqScrapsBamFile
-- PacBio.SubreadFile.LqRegionBamFile
-- PacBio.SubreadFile.LqScrapsBamFile
-- PacBio.SubreadFile.PolymeraseBamFile
-- PacBio.SubreadFile.PolymeraseScrapsBamFile
-- PacBio.SubreadFile.ChipStatsFile (.sts.xml)
-- PacBio.SubreadFile.ChipStatsH5File (.sts.h5)
-- PacBio.SubreadFile.AdapterFastaFile
-- PacBio.SubreadFile.ControlFastaFile
-
-Bam-Related Special Purpose ExternalResources\:
-
-- PacBio.Index.BamIndex (.bam.bai)
-- PacBio.Index.PacBioIndex (.bam.pbi)
 
 DataSet UI Name and Time Stamped Name
 +++++++++++++++++++++++++++++++++++++
