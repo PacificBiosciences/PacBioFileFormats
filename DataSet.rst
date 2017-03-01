@@ -539,7 +539,7 @@ to in some cases refer to other DataSets, they should in no cases refer to a Dat
 
 Some ``ExternalResource``'s themselves contain associated ``ExternalResources``'s, for example the
 indices associated with FASTA files. These associated files are nested within the primary ``ExternalResource``
-element to denote their subsidiary nature. 
+element to denote their subsidiary nature.
 
 
 DataSet UI Name and Time Stamped Name
@@ -600,7 +600,7 @@ Core API Support
 -----------------
 
 An API is provided in pbcore_ (Python) and pbbam_ (C++) that makes consuming DataSet XML files or the
-underlying files such as BAM as burden-free as possible. 
+underlying files such as BAM as burden-free as possible.
 
 
 Other PacBio command-line tools
@@ -658,7 +658,9 @@ Outstanding Issues and Future Directions
 ---------------------------------------------
 
 - Document FASTA filters for pbcore / pbbam for releases post-4.0.
-- The propagation of subdatasets in merging can result in rather large XML files with duplicated information.  It is possible this duplication could be reduced using XML IDREFs from the subdatasets to information in the top level DataSet, for ExternalResources or CollectionMetadata. This should be considered as a possible future revision.
+- The propagation of subdatasets in merging can result in rather large XML files with duplicated information.
+It is possible this duplication could be reduced using XML IDREFs from the subdatasets to information in the
+top level DataSet, for ExternalResources or CollectionMetadata. This should be considered as a possible future revision.
 
 
 Appendix 1: Examples satisfying the motivating use cases
