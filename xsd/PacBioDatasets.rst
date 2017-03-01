@@ -1,0 +1,342 @@
+============================
+PacBioDatasets
+============================
+
+::
+
+  <?xml version="1.0" encoding="UTF-8"?>
+  <!-- edited with XMLSpy v2015 rel. 3 sp1 (x64) (http://www.altova.com) by Lakhvir Rai (Pacific Biosciences) -->
+  <?xml-stylesheet type="text/xsl" href="xs3p.xsl"?>
+  <xs:schema xmlns="http://pacificbiosciences.com/PacBioDatasets.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pbbase="http://pacificbiosciences.com/PacBioBaseDataModel.xsd" xmlns:pbmeta="http://pacificbiosciences.com/PacBioCollectionMetadata.xsd" xmlns:pbsample="http://pacificbiosciences.com/PacBioSampleInfo.xsd" targetNamespace="http://pacificbiosciences.com/PacBioDatasets.xsd" elementFormDefault="qualified" id="PacBioDatasets">
+    <xs:import namespace="http://pacificbiosciences.com/PacBioBaseDataModel.xsd" schemaLocation="PacBioBaseDataModel.xsd"/>
+    <xs:import namespace="http://pacificbiosciences.com/PacBioCollectionMetadata.xsd" schemaLocation="PacBioCollectionMetadata.xsd"/>
+    <xs:import namespace="http://pacificbiosciences.com/PacBioSampleInfo.xsd" schemaLocation="PacBioSampleInfo.xsd"/>
+    <xs:element name="AlignmentSet">
+      <xs:annotation>
+        <xs:documentation>DataSets for aligned subreads and CCS reads.</xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+        <xs:complexContent>
+          <xs:extension base="AlignmentSetType"/>
+        </xs:complexContent>
+      </xs:complexType>
+    </xs:element>
+    <xs:element name="BarcodeSet">
+      <xs:annotation>
+        <xs:documentation>DataSets of Barcodes. Basically a thin metadata layer on top of the barcode FASTA.</xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+        <xs:complexContent>
+          <xs:extension base="BarcodeSetType"/>
+        </xs:complexContent>
+      </xs:complexType>
+    </xs:element>
+    <xs:element name="ConsensusAlignmentSet">
+      <xs:annotation>
+        <xs:documentation>DataSets of aligned CCS reads.</xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+        <xs:complexContent>
+          <xs:extension base="AlignmentSetType"/>
+        </xs:complexContent>
+      </xs:complexType>
+    </xs:element>
+    <xs:element name="ConsensusReadSet">
+      <xs:annotation>
+        <xs:documentation>DataSets of CCS reads (typically in unaligned BAM format).</xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+        <xs:complexContent>
+          <xs:extension base="DataSetType">
+            <xs:sequence>
+              <xs:element name="DataSetMetadata" type="DataSetMetadataType"/>
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+    </xs:element>
+    <xs:element name="Contigs">
+      <xs:annotation>
+        <xs:documentation>List of contigs in a ContigSet</xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+        <xs:complexContent>
+          <xs:extension base="pbbase:BaseEntityType">
+            <xs:sequence>
+              <xs:element name="Contig" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:complexContent>
+                    <xs:extension base="pbbase:BaseEntityType">
+                      <xs:attribute name="Length" use="required"/>
+                      <xs:attribute name="Digest" use="required"/>
+                    </xs:extension>
+                  </xs:complexContent>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+    </xs:element>
+    <xs:element name="ContigSet">
+      <xs:annotation>
+        <xs:documentation>DataSets of contigs sequences. Basically a thin metadata layer on top of a contigs FASTA (e.g. from HGAP).</xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+        <xs:complexContent>
+          <xs:extension base="ContigSetType"/>
+        </xs:complexContent>
+      </xs:complexType>
+    </xs:element>
+    <xs:element name="DataSet" type="DataSetType"/>
+    <xs:element name="DataSetRoot" type="DataSetRootType"/>
+    <xs:element name="HdfSubreadSet">
+      <xs:annotation>
+        <xs:documentation>DataSets of subreads in bax.h5 or bas.h5 format.</xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+        <xs:complexContent>
+          <xs:extension base="ReadSetType"/>
+        </xs:complexContent>
+      </xs:complexType>
+    </xs:element>
+    <xs:element name="ReferenceSet">
+      <xs:annotation>
+        <xs:documentation>DataSets of reference sequences. Replaces the reference.info.xml.</xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+        <xs:complexContent>
+          <xs:extension base="ContigSetType"/>
+        </xs:complexContent>
+      </xs:complexType>
+    </xs:element>
+    <xs:element name="GmapReferenceSet">
+      <xs:annotation>
+        <xs:documentation>DataSets of reference sequences, with GMAP indices.</xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+        <xs:complexContent>
+          <xs:extension base="ContigSetType"/>
+        </xs:complexContent>
+      </xs:complexType>
+    </xs:element>
+    <xs:element name="SubreadSet">
+      <xs:complexType>
+        <xs:complexContent>
+          <xs:extension base="SubreadSetType"/>
+        </xs:complexContent>
+      </xs:complexType>
+    </xs:element>
+    <xs:element name="Subsets">
+      <xs:complexType>
+        <xs:sequence>
+          <xs:element name="Subset" type="SubsetType" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:complexType>
+    </xs:element>
+    <xs:complexType name="AlignmentSetMetadataType">
+      <xs:complexContent>
+        <xs:extension base="DataSetMetadataType">
+          <xs:sequence>
+            <xs:element name="Aligner" minOccurs="0"/>
+          </xs:sequence>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="AlignmentSetType">
+      <xs:annotation>
+        <xs:documentation>Type for DataSets consisting of aligned subreads and CCS reads.</xs:documentation>
+      </xs:annotation>
+      <xs:complexContent>
+        <xs:extension base="DataSetType">
+          <xs:sequence>
+            <xs:element name="DataSetMetadata" type="AlignmentSetMetadataType" minOccurs="0"/>
+          </xs:sequence>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="BarcodeSetMetadataType">
+      <xs:complexContent>
+        <xs:extension base="DataSetMetadataType">
+          <xs:sequence>
+            <xs:element name="BarcodeConstruction" type="xs:string"/>
+          </xs:sequence>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="BarcodeSetType">
+      <xs:annotation>
+        <xs:documentation>Type for the Barcode DataSet.</xs:documentation>
+      </xs:annotation>
+      <xs:complexContent>
+        <xs:extension base="DataSetType">
+          <xs:sequence>
+            <xs:element name="DataSetMetadata" type="BarcodeSetMetadataType"/>
+          </xs:sequence>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="ContigSetMetadataType">
+      <xs:complexContent>
+        <xs:extension base="DataSetMetadataType">
+          <xs:sequence>
+            <xs:element name="Organism" type="xs:string" minOccurs="0"/>
+            <xs:element name="Ploidy" type="xs:string" minOccurs="0"/>
+            <xs:element ref="Contigs"/>
+          </xs:sequence>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="ContigSetType">
+      <xs:annotation>
+        <xs:documentation>Type for a Contig DataSet.</xs:documentation>
+      </xs:annotation>
+      <xs:complexContent>
+        <xs:extension base="DataSetType">
+          <xs:sequence>
+            <xs:element name="DataSetMetadata" type="ContigSetMetadataType"/>
+          </xs:sequence>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="DataSetMetadataType">
+      <xs:annotation>
+        <xs:documentation>Extend this type to provide DataSetMetadata element in each DataSet.</xs:documentation>
+      </xs:annotation>
+      <xs:sequence>
+        <xs:element name="TotalLength" type="xs:long"/>
+        <xs:element name="NumRecords" type="xs:int"/>
+        <xs:element name="Provenance" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="CommonServicesInstanceId" type="xs:IDREF" minOccurs="0"/>
+              <xs:element name="CreatorUserId" type="xs:IDREF" minOccurs="0"/>
+              <xs:element name="ParentJobId" type="xs:IDREF" minOccurs="0"/>
+              <xs:element name="ParentTool" type="pbbase:BaseEntityType" minOccurs="0"/>
+            </xs:sequence>
+            <xs:attribute name="CreatedBy" use="required">
+              <xs:simpleType>
+                <xs:restriction base="xs:string">
+                  <xs:enumeration value="Instrument"/>
+                  <xs:enumeration value="User"/>
+                  <xs:enumeration value="AnalysisJob"/>
+                </xs:restriction>
+              </xs:simpleType>
+            </xs:attribute>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="DataSetRootType">
+      <xs:choice>
+        <xs:element ref="AlignmentSet" minOccurs="0"/>
+        <xs:element ref="BarcodeSet" minOccurs="0"/>
+        <xs:element ref="ConsensusAlignmentSet" minOccurs="0"/>
+        <xs:element ref="ConsensusReadSet" minOccurs="0"/>
+        <xs:element ref="ContigSet" minOccurs="0"/>
+        <xs:element ref="HdfSubreadSet" minOccurs="0"/>
+        <xs:element ref="ReferenceSet" minOccurs="0"/>
+        <xs:element ref="SubreadSet" minOccurs="0"/>
+      </xs:choice>
+    </xs:complexType>
+    <xs:complexType name="DataSetType">
+      <xs:complexContent>
+        <xs:extension base="pbbase:StrictEntityType">
+          <xs:sequence>
+            <xs:element ref="pbbase:ExternalResources"/>
+            <xs:element name="Filters" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation>The set of filters defined here apply to the resident data set.  Should DataSet subsets be created out of this parent DataSet, each sub-DataSet may contain its own filters.</xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="Filter" type="pbbase:FilterType" maxOccurs="unbounded"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="DataSets" minOccurs="0">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element ref="DataSet" minOccurs="0" maxOccurs="unbounded"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="ReadSetMetadataType">
+      <xs:complexContent>
+        <xs:extension base="DataSetMetadataType">
+          <xs:sequence>
+            <xs:element ref="pbmeta:Collections" minOccurs="0"/>
+            <xs:element ref="pbsample:BioSamples" minOccurs="0"/>
+            <xs:element name="SummaryStats" minOccurs="0">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="AdapterDimerFraction" type="xs:float"/>
+                  <xs:element name="ShortInsertFraction" type="xs:float"/>
+                  <xs:element name="NumSequencingZmws" type="xs:int"/>
+                  <xs:element name="ProdDist" type="pbbase:StatsDiscreteDistType"/>
+                  <xs:element name="ReadTypeDist" type="pbbase:StatsDiscreteDistType"/>
+                  <xs:element name="ReadLenDist" type="pbbase:StatsContinuousDistType"/>
+                  <xs:element name="ReadQualDist" type="pbbase:StatsContinuousDistType"/>
+                  <xs:element name="ControlReadLenDist" type="pbbase:StatsContinuousDistType"/>
+                  <xs:element name="ControlReadQualDist" type="pbbase:StatsContinuousDistType"/>
+                  <xs:element name="MedianInsertDist" type="pbbase:StatsContinuousDistType"/>
+                  <xs:element name="InsertReadLenDist" type="pbbase:StatsContinuousDistType"/>
+                  <xs:element name="InsertReadQualDist" type="pbbase:StatsContinuousDistType"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="ReadSetType">
+      <xs:annotation>
+        <xs:documentation>Type for DataSets consisting of unaligned subreads and CCS reads DataSets</xs:documentation>
+      </xs:annotation>
+      <xs:complexContent>
+        <xs:extension base="DataSetType">
+          <xs:sequence>
+            <xs:element name="DataSetMetadata" type="ReadSetMetadataType" minOccurs="0"/>
+          </xs:sequence>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="SubreadSetMetadataType">
+      <xs:complexContent>
+        <xs:extension base="DataSetMetadataType">
+          <xs:sequence>
+            <xs:element name="AverageSubreadLength" type="xs:int"/>
+            <xs:element name="AverageSubreadQuality" type="xs:float"/>
+          </xs:sequence>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="SubreadSetType">
+      <xs:complexContent>
+        <xs:extension base="ReadSetType"/>
+      </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="SubsetType">
+      <xs:complexContent>
+        <xs:extension base="pbbase:StrictEntityType">
+          <xs:sequence>
+            <xs:element name="Filters" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation>The set of filters defined here apply to the resident data set.  Should DataSet subsets be created out of this parent DataSet, each sub-DataSet may contain its own filters.</xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="Filter" type="pbbase:FilterType" maxOccurs="unbounded"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element ref="pbbase:DataPointers" minOccurs="0"/>
+          </xs:sequence>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:schema>
