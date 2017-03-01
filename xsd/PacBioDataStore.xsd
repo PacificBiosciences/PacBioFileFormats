@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="xs3p.xsl"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://pacificbiosciences.com/PacBioDataStore.xsd"
+           targetNamespace="http://pacificbiosciences.com/PacBioDataStore.xsd" elementFormDefault="qualified"
+           attributeFormDefault="unqualified">
+
+    <!--
+
+    version 0.1.1
+    General design model: Only use elements. Follow the BaseEntity capitalization name convention.
+    -->
+    <xs:complexType name="DataStoreFileType" abstract="true">
+        <xs:sequence>
+            <xs:element name="UniqueId">
+                <xs:simpleType>
+                    <xs:restriction base="xs:ID">
+                        <xs:pattern value="[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="FileTypeId" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Type of file (FASTA, FASTQ, DataSet. Report) This needs to be more clearly defined.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="FileId" type="xs:string">
+                <xs:annotation>
+                    <!-- This will be renamed to SourceId. Currently being used by pbsmrtpipe to
+                    give context of which tool created the file -->
+                    <xs:documentation>Source Id of the file creator</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="FileSize" type="xs:positiveInteger">
+                <xs:annotation>
+                    <xs:documentation>File size in KB</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="ModifiedAt" type="xs:dateTime">
+            <xs:annotation>
+                <xs:documentation>Datetime when the file was last modified</xs:documentation>
+            </xs:annotation>
+            </xs:element>
+            <xs:element name="CreatedAt" type="xs:dateTime">
+                <xs:annotation>
+                    <xs:documentation>Datetime when the file was created</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Path" type="xs:anyURI">
+                <xs:annotation>
+                    <xs:documentation>Path to file.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:element name="DataStoreFile">
+        <xs:annotation>
+            <xs:documentation>Datastore File</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="DataStoreFileType"/>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- The naming is a bit odd. It's not strictly the output of an "analysis" job. -->
+    <xs:complexType name="AnalysisDataStoreType" abstract="true">
+        <xs:sequence>
+            <xs:element name="CreatedAt" type="xs:dateTime">
+                <xs:annotation>
+                    <xs:documentation>Datetime when the datastore was created</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="ModifiedAt" type="xs:dateTime">
+                <xs:annotation>
+                    <xs:documentation>Datetime when the datastore was last updated</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Version" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Version of the datastore format (This is in here to support parsing different versions of the spec)</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="DataStoreFiles">
+                <xs:annotation>
+                    <xs:documentation>A List of DataStore files</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element ref="DataStoreFile" maxOccurs="unbounded" minOccurs="1"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+
+    <xs:element name="AnalysisDataStore">
+        <xs:annotation>
+            <xs:documentation>PacBio Datastore</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="AnalysisDataStoreType"/>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>
