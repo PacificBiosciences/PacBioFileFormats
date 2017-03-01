@@ -85,6 +85,7 @@ The XSD defines DataSet subclasses for the most common entities consumed and pro
     and does not in any way denote a "subset".
 - ConsensusReadSet - CCS sequence data in BAM format.
 - AlignmentSet - Aligned reads in BAM format.
+- ConsensusAlignmentSet - Aligned CCS data in BAM format.
 - ReferenceSet - The FASTA reference and associated indices used by Resequencing and Base Mods. Replaces the reference repository entries.
 - GmapReferenceSet - A FASTA ReferenceSet with a GMAP database.
 - ContigSet - Any FASTA containing contigs, e.g. those produced by HGAP.
