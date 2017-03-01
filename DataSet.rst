@@ -59,7 +59,6 @@ and three optional\:
 1.  A mandatory ``<pbbase:ExternalResources>`` section with references to external
     data sources in BAM or FASTA format and their associated indices or metadata files.
     The records in these files are the elements of the set of data represented by the DataSet.
-    Note that an ExternalResource should *not* itself refer to a DataSet.
 
 2.  An optional ``<pbds:Filters>`` section that filters or subsets the elements
     of the set in the above files, for example by length.
@@ -158,6 +157,19 @@ BAM records and labels a subdataset of the subreads as "Long Reads"::
         </pbds:DataSetMetadata>
         <pbds:DataSets>
             <pbds:SubreadSet Name="Long Reads">
+                <pbbase:ExternalResource
+                    UniqueId="b095d0a3-94b8-4918-b3af-a3f81bbe5193"
+                    TimeStampedName="subread_bam_150304_231155"
+                    MetaType="PacBio.SubreadFile.SubreadBamFile"
+                    ResourceId="m150404_101626_42267_s1_p0.1.subreads.bam">
+                    <pbbase:FileIndices>
+                        <pbbase:FileIndex
+                            UniqueId="b095d0a3-94b8-4918-b3af-a3f81bbe5194"
+                            TimeStampedName="bam_index_150304_231155"
+                            MetaType="PacBio.Index.PacBioIndex"
+                            ResourceId="m150404_101626_42267_s1_p0.1.subreads.bam.pbi"/>
+                    </pbbase:FileIndices>
+                </pbbase:ExternalResource>
                 <pbds:Filters>
                     <pbds:Filter>
                         <pbbase:Properties>
@@ -398,8 +410,8 @@ cost of increased disk usage.
 Labelling subsets
 +++++++++++++++++
 
-DataSets can contain other DataSets. These DataSets are defined relative
-to the parent DataSet, and provide the ability to label subsets of the
+DataSets can contain other DataSets. These DataSets are independent DataSets
+in their own right, and provide the ability to label subsets of the
 parent. For example, in the following DataSet, all alignments to the
 reference sequence labelled 2kbControl are labelled 'Control' using the
 DataSet ``Name`` field::
@@ -409,6 +421,11 @@ DataSet ``Name`` field::
          ...
         <pbds:DataSets>
             <pbds:AlignmentSet Name="Control">
+                <pbbase:ExternalResources>
+                    ...
+                    [snip - remove ExternalResource tags for brevity]
+                    ...
+                </pbbase:ExternalResources>
                 <pbds:Filters>
                     <pbds:Filter>
                         <pbbase:Properties>
@@ -427,7 +444,7 @@ DataSet MetaTypes and File Extensions
 -------------------------------------
 
 The following table lists the DataSet subclasses defined by the XSD and their associated ``MetaType``
-values and expected filename suffix strings. While technically the information conveyed by the ``Metatype`` and suffix
+values and expected filename suffix strings. While technically the information conveyed by the ``MetaType`` and suffix
 is redundant, it is useful for some downstream consuming tools, and to be fully compliant with this specification
 all three should be consistent.
 
@@ -460,7 +477,9 @@ DataSet External Resource MetaTypes and File Extensions
 The following table lists the ``ExternalResource``'s expected by each DataSet subclass and their
 associated ``MetaType`` values and expected filename suffix strings.
 In some cases the ``ExternalResource`` can occur in multiple DataSet types, but only for particular
-parent ``ExternalResource``'s elements.
+parent ``ExternalResource``'s elements. Note that while this specification allows ``ExternalResource``'s
+to in some cases refer to other DataSets, they should in no cases refer to a DataSet of the same type as the parent
+(e.g. SubreadSet's should not refer to external SubreadSet's).
 
 +-----------------------+------------------------------------------------+---------------------------+
 | DataSet or Tag        | ExternalResource MetaType                      | File Extensions           |
@@ -639,7 +658,7 @@ Outstanding Issues and Future Directions
 ---------------------------------------------
 
 - Document FASTA filters for pbcore / pbbam for releases post-4.0.
-- The propagation of subdatasets in merging can result in rather large XML files with duplicated information. It is possible this duplication could be reduced using XML IDREFs from the subdatasets to information in the top level DataSet, for ExternalResources or CollectionMetadata. This should be considered as a possible future revision.
+- The propagation of subdatasets in merging can result in rather large XML files with duplicated information.  It is possible this duplication could be reduced using XML IDREFs from the subdatasets to information in the top level DataSet, for ExternalResources or CollectionMetadata. This should be considered as a possible future revision.
 
 
 Appendix 1: Examples satisfying the motivating use cases
