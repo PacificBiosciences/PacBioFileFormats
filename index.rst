@@ -36,7 +36,6 @@ Legacy formats
    legacy/CmpH5Spec
 
 
-
 APIs available
 ==============
 
@@ -45,6 +44,31 @@ recommend using PacBio-authored APIs to access these file types.
 
 - C++: pbbam_
 - Python: pbcore_
+
+
+Data Model XSD
+================
+
+For completeness, here is the PacBio data model XSD.
+
+.. toctree::
+   :maxdepth: 1
+
+   xsd/PacBioDataModel
+   xsd/PacBioAutomationConstraints
+   xsd/PacBioBaseDataModel
+   xsd/PacBioCollectionMetadata
+   xsd/PacBioCommonMessages
+   xsd/PacBioDataModel
+   xsd/PacBioDatasets
+   xsd/PacBioDataStore
+   xsd/PacBioDeclData
+   xsd/PacBioPartNumbers
+   xsd/PacBioPrimaryMetrics
+   xsd/PacBioReagentKit
+   xsd/PacBioRightsAndRoles
+   xsd/PacBioSampleInfo
+   xsd/PacBioSeedingData
 
 .. _pbbam: https://github.com/PacificBiosciences/pbbam
 .. _pbcore: https://github.com/PacificBiosciences/pbcore

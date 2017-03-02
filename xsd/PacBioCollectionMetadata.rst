@@ -1,0 +1,560 @@
+============================
+PacBioCollectionMetadata
+============================
+
+::
+
+  <?xml version="1.0" encoding="utf-8"?>
+  <?xml-stylesheet type="text/xsl" href="xs3p.xsl"?>
+  <!-- edited with XMLSpy v2016 (x64) (http://www.altova.com) by efayad@pacificbiosciences.com (Pacific Biosciences) -->
+  <?xml-stylesheet type="application/xml" href="metadata2html.xslt"?>
+  <xs:schema xmlns="http://pacificbiosciences.com/PacBioCollectionMetadata.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pbbase="http://pacificbiosciences.com/PacBioBaseDataModel.xsd" xmlns:pbsample="http://pacificbiosciences.com/PacBioSampleInfo.xsd" xmlns:pbrk="http://pacificbiosciences.com/PacBioReagentKit.xsd" targetNamespace="http://pacificbiosciences.com/PacBioCollectionMetadata.xsd" elementFormDefault="qualified" id="PacBioCollectionMetadata">
+    <xs:import namespace="http://pacificbiosciences.com/PacBioBaseDataModel.xsd" schemaLocation="PacBioBaseDataModel.xsd"/>
+    <xs:import namespace="http://pacificbiosciences.com/PacBioSampleInfo.xsd" schemaLocation="PacBioSampleInfo.xsd"/>
+    <xs:import namespace="http://pacificbiosciences.com/PacBioReagentKit.xsd" schemaLocation="PacBioReagentKit.xsd"/>
+    <!-- The root element for the metadata structure -->
+    <xs:element name="PacBioCollectionMetadata">
+      <xs:annotation>
+        <xs:documentation>Root element of a standalone CollectionMetadata file.</xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+        <xs:sequence>
+          <xs:element ref="CollectionMetadata"/>
+        </xs:sequence>
+      </xs:complexType>
+    </xs:element>
+    <xs:element name="Collections">
+      <xs:annotation>
+        <xs:documentation>A set of acquisition definitions</xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+        <xs:sequence>
+          <xs:element ref="CollectionMetadata" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:complexType>
+    </xs:element>
+    <xs:element name="CollectionMetadata">
+      <xs:annotation>
+        <xs:documentation>Root-level element for the metadata.  The purpose of which is to contain pertinent instrument information related to the conditions present during a movie acquisition.  It also serves to provide key pieces of information for integration with primary and secondary analysis.  This file is associated with 1 movie. </xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+        <xs:complexContent>
+          <xs:extension base="pbbase:StrictEntityType">
+            <xs:sequence>
+              <xs:element name="InstCtrlVer" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                  <xs:documentation>Instrument control software version. </xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="SigProcVer" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                  <xs:documentation>Signal processing software version. </xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element ref="RunDetails" minOccurs="0">
+                <xs:annotation>
+                  <xs:documentation>Container for instrument run-related information. </xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element ref="Movie" minOccurs="0">
+                <xs:annotation>
+                  <xs:documentation>Container for movie related information. This is populated by primary analysis.</xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element ref="WellSample">
+                <xs:annotation>
+                  <xs:documentation>Container for sample related information, specific to the plate well.  This could be a pooled sample with many barcodes, associated with many biological samples.
+  
+  If multiple collections are utilizing the same physical plate well, all these collections should share the same WellSample UniqueId.</xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="Automation" type="pbbase:AutomationType">
+                <xs:annotation>
+                  <xs:documentation>Defines the collection workflow (e.g., robotic movement, movie acquisition) for a particular cell. </xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="CollectionNumber" type="xs:int" minOccurs="0">
+                <xs:annotation>
+                  <xs:documentation>Collection number for this plate well. Sample from one plate well or tube can be distributed to more than one cell. </xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="CellIndex" type="xs:int" minOccurs="0">
+                <xs:annotation>
+                  <xs:documentation>The zero-based index of this particular cell within the cell tray.  Likely to be in the range of [0-3]</xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="SetNumber" type="xs:unsignedShort" minOccurs="0">
+                <xs:annotation>
+                  <xs:documentation>Formerly known as the look number.  1 - N.  Defaults to 1. 0 if the look is unknown. </xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="CellPac" type="pbbase:SupplyKitCellPack" minOccurs="0">
+                <xs:annotation>
+                  <xs:documentation>The SMRT cell packaging supply information. </xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="ControlKit" type="pbbase:SupplyKitControl" minOccurs="0">
+                <xs:annotation>
+                  <xs:documentation>Defines the DNA control used for this experiment. </xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="TemplatePrepKit" type="pbbase:SupplyKitTemplate" minOccurs="0">
+                <xs:annotation>
+                  <xs:documentation>Defines the template (sample) prep kit used for this experiment. Can be used to get back to the primary and adapter used. </xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="BindingKit" type="pbbase:SupplyKitBinding" minOccurs="0">
+                <xs:annotation>
+                  <xs:documentation>The binding kit supply information. </xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="SequencingKitPlate" type="pbrk:SupplyKitSequencing" minOccurs="0">
+                <xs:annotation>
+                  <xs:documentation>The sequencing kit supply information. </xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element ref="Primary" minOccurs="0">
+                <xs:annotation>
+                  <xs:documentation>The primary analysis-specific information. </xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element ref="Secondary" minOccurs="0">
+                <xs:annotation>
+                  <xs:documentation>The secondary analysis-specific information. </xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element ref="UserDefinedFields" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>A set of custom key-value pairs, set by a user when building a run definition. </xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element ref="ExpirationData" minOccurs="0">
+                <xs:annotation>
+                  <xs:documentation>The information on whether consumables were expired. </xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="ComponentVersions" nillable="true" minOccurs="0">
+                <xs:annotation>
+                  <xs:documentation>Subcomponents involved in the generation of the data</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="VersionInfo" type="pbbase:BaseEntityType" maxOccurs="unbounded">
+                      <xs:annotation>
+                        <xs:documentation>Each component should list its name and version attribute</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute name="Context" type="xs:string">
+              <xs:annotation>
+                <xs:documentation>Replace with TimeStampedName</xs:documentation>
+              </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="Status" type="pbbase:SupportedAcquisitionStates"/>
+            <xs:attribute name="InstrumentId" type="xs:string">
+              <xs:annotation>
+                <xs:documentation>World unique id assigned by PacBio. </xs:documentation>
+              </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="InstrumentName" type="xs:string">
+              <xs:annotation>
+                <xs:documentation>Friendly name assigned by customer</xs:documentation>
+              </xs:annotation>
+            </xs:attribute>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+    </xs:element>
+    <xs:element name="RunDetails">
+      <xs:annotation>
+        <xs:documentation>Information related to an instrument run.  A run can contain multiple chips, wells, and movies. </xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+        <xs:sequence>
+          <xs:element name="TimeStampedName" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>A unique identifier for this run.  Format is r[sid]_[iname]_[ts]. Where [id] is a system generated id and [iname] is the instrument name and [ts] is a timestamp YYMMDD Example:  r000123_00117_100713 </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="Name" type="xs:string" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>Assigned name for a run, which consists of multiple wells. There is no constraint on the uniqueness of this data. </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="CreatedBy" type="xs:string" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>Who created the run. </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="WhenCreated" type="xs:dateTime" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>Date and time of when the overall run was created in the system. </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="StartedBy" type="xs:string" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>Who started the run. Could be different from who created it. </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="WhenStarted" type="xs:dateTime" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>Date and time of when the overall run was started. </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+    </xs:element>
+    <xs:element name="Movie">
+      <xs:annotation>
+        <xs:documentation>A movie corresponds to one acquisition for a chip, one set (look) and one strobe. </xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+        <xs:sequence>
+          <xs:element name="WhenStarted" type="xs:dateTime">
+            <xs:annotation>
+              <xs:documentation>Date and time of when this movie acquisition started. </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="DurationInSec" type="xs:int" default="0">
+            <xs:annotation>
+              <xs:documentation>The actual length of the movie acquisition (in seconds), irrespective of the movie duration specified by an automation parameter. </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="Number" type="xs:int" default="0">
+            <xs:annotation>
+              <xs:documentation>The number of this movie within the set (i.e., look).  This is unique when combined with the 'SetNumber'. </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+    </xs:element>
+    <xs:element name="ExpirationData">
+      <xs:annotation>
+        <xs:documentation>Container for the expired consumable data. </xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+        <xs:sequence>
+          <xs:element name="TemplatePrepKitPastExpiration" type="xs:int">
+            <xs:annotation>
+              <xs:documentation>Number of days past expiration the template prep kit was (if at all). </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="BindingKitPastExpiration" type="xs:int">
+            <xs:annotation>
+              <xs:documentation>Number of days past expiration the binding kit was (if at all). </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="CellPacPastExpiration" type="xs:int">
+            <xs:annotation>
+              <xs:documentation>Number of days past expiration the cell pac was (if at all). </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="CellPacPastExpiration" type="xs:int">
+            <xs:annotation>
+              <xs:documentation>Number of days past expiration the eight pac was (if at all). </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="SequencingKitPastExpiration" type="xs:int">
+            <xs:annotation>
+              <xs:documentation>Number of days past expiration the reagent kit was (if at all). </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="SequencingTube0PastExpiration" type="xs:int">
+            <xs:annotation>
+              <xs:documentation>Number of days past expiration the reagent tube 0 was (if at all). </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="SequencingTube1PastExpiration" type="xs:int">
+            <xs:annotation>
+              <xs:documentation>Number of days past expiration the reagent tube 1 was (if at all). </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+    </xs:element>
+    <xs:element name="WellSample">
+      <xs:annotation>
+        <xs:documentation>Container for the sample related data. </xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+        <xs:complexContent>
+          <xs:extension base="pbbase:BaseEntityType">
+            <xs:sequence>
+              <xs:element name="WellName" type="xs:string">
+                <xs:annotation>
+                  <xs:documentation>Identifies which well this sample came from (e.g., coordinate on a plate). </xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="Concentration" type="xs:double">
+                <xs:annotation>
+                  <xs:documentation>Sample input concentration. </xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="InsertSize" type="xs:int">
+                <xs:annotation>
+                  <xs:documentation>Length of the sheared template, e.g. 500, 2000, 30000</xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="SampleReuseEnabled" type="xs:boolean">
+                <xs:annotation>
+                  <xs:documentation>Whether or not complex reuse is enabled for this well. </xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="StageHotstartEnabled" type="xs:boolean">
+                <xs:annotation>
+                  <xs:documentation>Whether or not hotstart at the stage is enabled for this well. </xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="SizeSelectionEnabled" type="xs:boolean">
+                <xs:annotation>
+                  <xs:documentation>Whether or not size selection is enabled for this well. </xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="UseCount" type="xs:int">
+                <xs:annotation>
+                  <xs:documentation>Count of usages for this batch of complex. </xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="DNAControlComplex" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                  <xs:documentation>Indicating what kind (if any) control was used. </xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="SampleBarcodeInfo" type="pbbase:DataEntityType" minOccurs="0">
+                <xs:annotation>
+                  <xs:documentation>When utilizing DNA barcoding, store the list of smaple barcodes in this element.</xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element ref="pbsample:BioSamplePointers" minOccurs="0">
+                <xs:annotation>
+                  <xs:documentation>Back references to other sample object UniqueIds
+   
+  This is optional since we will likely not have a link back to samples created in the calculator.</xs:documentation>
+                </xs:annotation>
+              </xs:element>
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+    </xs:element>
+    <!-- Primary analysis-related fields.-->
+    <xs:element name="Primary">
+      <xs:annotation>
+        <xs:documentation>Container for the primary analysis related data. </xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+        <xs:sequence>
+          <xs:element name="SampleTrace" minOccurs="0" maxOccurs="1">
+            <xs:annotation>
+              <xs:documentation>Tag to indicate that the trace file will be sampled. </xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="TraceSamplingFactor" type="xs:float">
+                  <xs:annotation>
+                    <xs:documentation>Percentage of traces to sample. </xs:documentation>
+                  </xs:annotation>
+                </xs:element>
+                <xs:element name="FullPulseFile" type="xs:boolean">
+                  <xs:annotation>
+                    <xs:documentation>Whether full or sampled pulse file is transferred if requested. </xs:documentation>
+                  </xs:annotation>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="AutomationName" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>Name of primary analysis protocol. </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="ConfigFileName" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>Name of primary analysis config file. </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="SequencingCondition" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>A sequencing condition tag to be used by primary analysis, e.g., to select basecaller calibration or training parameters. </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="OutputOptions">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="ResultsFolder" type="xs:string">
+                  <xs:annotation>
+                    <xs:documentation>NOTE: not for customers. A sub-folder under the CollectionPath created by Primary Analysis. This is a field that will be updated by the primary analysis pipeline.  The default (as created by homer) should be set to 'Reports_Sms' for now.  Consumers of the data should be aware that they will find collection metadata (and trace files if acquisition is so-configured) at the CollectionPathUri, and all primary analysis results in the sub-folder PrimaryResultsFolder. </xs:documentation>
+                  </xs:annotation>
+                </xs:element>
+                <xs:element name="CollectionPathUri" type="xs:anyURI">
+                  <xs:annotation>
+                    <xs:documentation>User-specified location of where the results should be copied after an analysis has been completed. </xs:documentation>
+                  </xs:annotation>
+                </xs:element>
+                <xs:element name="CopyFiles">
+                  <xs:complexType>
+                    <xs:sequence>
+                      <xs:element name="CollectionFileCopy" type="PapOutputFile" maxOccurs="unbounded">
+                        <xs:annotation>
+                          <xs:documentation>Defines the set of files to be copied to the CollectionPathUri. 1 or more. </xs:documentation>
+                        </xs:annotation>
+                      </xs:element>
+                    </xs:sequence>
+                  </xs:complexType>
+                </xs:element>
+                <xs:element name="Readout" default="Bases">
+                  <xs:annotation>
+                    <xs:documentation>BazIO Readout option; valid values are Bases (default) and Pulses</xs:documentation>
+                  </xs:annotation>
+                  <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                      <xs:enumeration value="Pulses"/>
+                      <xs:enumeration value="Bases"/>
+                      <xs:enumeration value="Bases_Without_QVs"/>
+                    </xs:restriction>
+                  </xs:simpleType>
+                </xs:element>
+                <xs:element name="MetricsVerbosity" default="Minimal">
+                  <xs:annotation>
+                    <xs:documentation>BazIO MetricsVerbosity option; valid values are Minimal (default), High, and None</xs:documentation>
+                  </xs:annotation>
+                  <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                      <xs:enumeration value="Minimal"/>
+                      <xs:enumeration value="High"/>
+                      <xs:enumeration value="None"/>
+                    </xs:restriction>
+                  </xs:simpleType>
+                </xs:element>
+                <xs:element name="TransferResource" minOccurs="0">
+                  <xs:annotation>
+                    <xs:documentation>Transfer Resource (optional for now, but will be made required when ICS implements this)</xs:documentation>
+                  </xs:annotation>
+                  <xs:complexType>
+                    <xs:sequence>
+                      <xs:element name="Id">
+                        <xs:annotation>
+                          <xs:documentation>Id of the Transfer Resource that is unique to the Scheme Type. A tuple of (TransferScheme, Id) will be globally unique</xs:documentation>
+                        </xs:annotation>
+                        <xs:simpleType>
+                          <xs:restriction base="xs:string">
+                            <xs:pattern value="([a-zA-Z0-9_\-])*"/>
+                          </xs:restriction>
+                        </xs:simpleType>
+                      </xs:element>
+                      <xs:element name="TransferScheme">
+                        <xs:annotation>
+                          <xs:documentation>Transfer Scheme type (this should be an enum Scheme of rsync, srs or nfs)</xs:documentation>
+                        </xs:annotation>
+                        <xs:simpleType>
+                          <xs:restriction base="xs:string">
+                            <xs:enumeration value="RSYNC"/>
+                            <xs:enumeration value="SRS"/>
+                            <xs:enumeration value="NFS"/>
+                          </xs:restriction>
+                        </xs:simpleType>
+                      </xs:element>
+                      <xs:element name="Name" type="xs:string">
+                        <xs:annotation>
+                          <xs:documentation>Display Name of the Transfer Resource</xs:documentation>
+                        </xs:annotation>
+                      </xs:element>
+                      <xs:element name="Description" type="xs:string">
+                        <xs:annotation>
+                          <xs:documentation>Description of the Transfer Resource</xs:documentation>
+                        </xs:annotation>
+                      </xs:element>
+                      <xs:element name="DestPath" type="xs:string">
+                        <xs:annotation>
+                          <xs:documentation>Remote Root Destination Path of the Transfer Resource</xs:documentation>
+                        </xs:annotation>
+                      </xs:element>
+                      <xs:element name="RelativePath" type="xs:string" minOccurs="0">
+                        <xs:annotation>
+                          <xs:documentation>Remote Relative Path of the Transfer Resource</xs:documentation>
+                        </xs:annotation>
+                      </xs:element>
+                    </xs:sequence>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+    </xs:element>
+    <!-- Secondary Analysis-related fields.-->
+    <xs:element name="Secondary">
+      <xs:annotation>
+        <xs:documentation>Container for the primary analysis related data. </xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+        <xs:sequence>
+          <xs:element name="AutomationName" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>The secondary analysis protocol name specified in the sample sheet. Ignored by secondary. </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="AutomationParameters" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>The parameters for secondary analysis specified in the sample sheet. Ignored by secondary. </xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="AutomationParameter" type="pbbase:DataEntityType" minOccurs="0" maxOccurs="unbounded">
+                  <xs:annotation>
+                    <xs:documentation>One or more secondary analysis parameters, such as JobName, Workflow, etc..</xs:documentation>
+                  </xs:annotation>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="CellCountInJob" type="xs:int">
+            <xs:annotation>
+              <xs:documentation>The number of cells in this secondary analysis job, identified by the secondary analysis parameter 'JobName'.  Supports automated secondary analysis. </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+    </xs:element>
+    <!-- Contains custom key/value pairs defined by the customer -->
+    <xs:element name="UserDefinedFields" type="pbbase:UserDefinedFieldsType">
+      <xs:annotation>
+        <xs:documentation>A set of key-value pairs specified by a user via the run input mechanism. Note that uniqueness of keys is not enforced here and so may contain duplicate keys. </xs:documentation>
+      </xs:annotation>
+    </xs:element>
+    <xs:element name="KeyValue">
+      <xs:annotation>
+        <xs:documentation>One custom, possibly non-unique, key-value pair. </xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+        <xs:simpleContent>
+          <xs:extension base="xs:string">
+            <xs:attribute name="key" type="xs:string" use="required">
+              <xs:annotation>
+                <xs:documentation>Key (attribute) and Value (element content). </xs:documentation>
+              </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="label" type="xs:string" use="optional"/>
+          </xs:extension>
+        </xs:simpleContent>
+      </xs:complexType>
+    </xs:element>
+    <xs:simpleType name="PapOutputFile">
+      <xs:annotation>
+        <xs:documentation>Defines a list of available file output types from primary output that can be copied out to the CollectionPathUri. The types Pulse, Base, Fasta, and Fastq are for legacy use only.</xs:documentation>
+      </xs:annotation>
+      <xs:restriction base="xs:string">
+        <xs:enumeration value="None"/>
+        <xs:enumeration value="Trace"/>
+        <xs:enumeration value="Fasta"/>
+        <xs:enumeration value="Baz"/>
+        <xs:enumeration value="Bam"/>
+        <xs:enumeration value="DarkFrame"/>
+        <xs:enumeration value="StatsH5"/>
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:schema>
