@@ -96,8 +96,8 @@ SubreadSet example
 
 Here is a simple example of a DataSet XML using a SubreadSet containing all four
 sections. It creates a set of subreads from two subread BAM files and
-associated indices, filters the subreads by quality using the ``rq`` field of the underlying
-BAM records and labels a subdataset of the subreads as "Long Reads"::
+associated indices and filters the subreads by quality using the ``rq`` field of the underlying
+BAM records::
 
     <?xml version="1.0" encoding="utf-8"?>
     <pbds:SubreadSet
@@ -154,30 +154,6 @@ BAM records and labels a subdataset of the subreads as "Long Reads"::
             <pbbase:TotalLength>5000</pbbase:TotalLength>
             <pbbase:NumRecords>500</pbbase:NumRecords>
         </pbds:DataSetMetadata>
-        <pbds:DataSets>
-            <pbds:SubreadSet Name="Long Reads">
-                <pbbase:ExternalResource
-                    UniqueId="b095d0a3-94b8-4918-b3af-a3f81bbe5193"
-                    TimeStampedName="subread_bam_150304_231155"
-                    MetaType="PacBio.SubreadFile.SubreadBamFile"
-                    ResourceId="m150404_101626_42267_s1_p0.1.subreads.bam">
-                    <pbbase:FileIndices>
-                        <pbbase:FileIndex
-                            UniqueId="b095d0a3-94b8-4918-b3af-a3f81bbe5194"
-                            TimeStampedName="bam_index_150304_231155"
-                            MetaType="PacBio.Index.PacBioIndex"
-                            ResourceId="m150404_101626_42267_s1_p0.1.subreads.bam.pbi"/>
-                    </pbbase:FileIndices>
-                </pbbase:ExternalResource>
-                <pbds:Filters>
-                    <pbds:Filter>
-                        <pbbase:Properties>
-                            <pbbase:Property Name="length" Operator="gte" Value="10000"/>
-                        </pbbase:Properties>
-                    </pbds:Filter>
-                </pbds:Filters>
-            </pbds:SubreadSet>
-        </pbds:DataSets>
     </pbds:SubreadSet>
 
 
@@ -187,7 +163,7 @@ Operations on DataSets
 
 DataSets support operations that would naively be expected of sets, such
 as subsetting and union (although notably not intersection) as well as
-some additional operations such as consolidating and labelling of subsets.
+some additional operations such as consolidation.
 The result of performing these operations is itself a new DataSet, with the
 operations included as a kind of "recipe" for producing the new DataSet from the original.
 Because of this, operations are presented here as part of the DataSet format.
@@ -408,40 +384,6 @@ Consolidated DataSets are useful for export of a DataSet that exists
 only implicitly, e.g. by filtering multiple files. They allow the user
 to incur the IO overhead of seeking over multiple files once at the
 cost of increased disk usage.
-
-
-Labelling subsets
-+++++++++++++++++
-
-DataSets can contain other DataSets. These DataSets are independent DataSets
-in their own right, and provide the ability to label subsets of the
-parent. For example, in the following DataSet, all alignments to the
-reference sequence labelled 2kbControl are labelled 'Control' using the
-DataSet ``Name`` field::
-
-    <?xml version="1.0" encoding="utf-8" ?>
-    <pbds:AlignmentSet xmlns="http://pacificbiosciences.com/PacBioDataModel.xsd">
-         ...
-        <pbds:DataSets>
-            <pbds:AlignmentSet Name="Control">
-                <pbbase:ExternalResources>
-                    ...
-                    [snip - remove ExternalResource tags for brevity]
-                    ...
-                </pbbase:ExternalResources>
-                <pbds:Filters>
-                    <pbds:Filter>
-                        <pbbase:Properties>
-                            <pbbase:Property Name="rname" Operator="==" Value="2kbControl"/>
-                        </pbbase:Properties>
-                    </pbds:Filter>
-                </pbds:Filters>
-            </pbds:AlignmentSet>
-        </pbds:DataSets>
-         ...
-    </pbds:AlignmentSet>
-
-
 
 DataSet MetaTypes and File Extensions
 -------------------------------------
