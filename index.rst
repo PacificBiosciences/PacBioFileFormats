@@ -59,7 +59,6 @@ For completeness, here is the PacBio data model XSD.
    xsd/PacBioBaseDataModel
    xsd/PacBioCollectionMetadata
    xsd/PacBioDatasets
-   xsd/PacBioDataStore
    xsd/PacBioDeclData
    xsd/PacBioPartNumbers
    xsd/PacBioPrimaryMetrics

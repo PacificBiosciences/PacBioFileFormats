@@ -91,6 +91,7 @@ The DataSet XSD_ defines DataSet subclasses for the most common entities consume
 - ContigSet - Any FASTA containing contigs, e.g. those produced by HGAP.
 - BarcodeSet - The FASTA file and metadata used by barcode detection.
 
+
 SubreadSet example
 ---------------------
 
@@ -174,15 +175,15 @@ Subsetting (Filtering)
 
 The SubreadSet example given above is the result of applying a length subset or ``Filter`` operation
 on a DataSet of two BAM files (e.g. by applying the dataset_ command).
-The subsetting/filtering operation is supported efficiently by the
-PacBio index (\*.pbi files). The contents of DataSet after applying ``Filter``'s
-should be decidable using the contents of the pbi file.
 
 Each ``Filter`` is composed of ``Property`` tags representing logical predicates that elements of the DataSet must
 satisfy. ``Property`` tags are defined by three attributes: ``Name``, ``Operator`` and ``Value``, where the ``Name``
 refers to a field or derived value from individual DataSet records, and the ``Operator`` is used to compare a particular record's
 field with the ``Value`` attribute. Individual ``Filter`` tags can be combined to create more complicated filters; these ``Filter`` tags are
 logically "ORed" while individual ``Property`` tags within a ``Filter`` are "ANDed" together.
+
+In summary, the ``Filter`` and ``Property`` tags provide a powerful means of subsetting DataSets without manipulating
+the underlying file representations.
 
 
 *Filter Property Names and Values*
@@ -265,6 +266,7 @@ The following table shows supported ``Property`` ``Operator``'s\:
 | ~                                                             | Does not contain                                   | not         |
 +---------------------------------------------------------------+----------------------------------------------------+-------------+
 
+
 *Possible cx Values*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -292,8 +294,14 @@ looks and behaves similarly to OR-ing bitflags, e.g.\:
 | REVERSE_PASS                                                  | Subread is forward on the polymerase read          |
 +---------------------------------------------------------------+----------------------------------------------------+
 
-In summary, the ``Filter`` and ``Property`` tags provide a powerful means of subsetting DataSets without manipulating
-the underlying file representations.
+
+*Filtering and the pbi*
+~~~~~~~~~~~~~~~~~~~~~~~
+The subsetting/filtering operation is supported efficiently by the
+PacBio index (\*.pbi files). The contents of DataSet after applying ``Filter``'s
+should in general be decidable using the contents of the pbi file (``rname`` is the one
+exception in 4.0 and requires examination of the BAM file header).
+
 
 Union (Merging)
 +++++++++++++++
