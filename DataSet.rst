@@ -196,9 +196,11 @@ Because of this, operations are presented here as part of the DataSet format.
 Subsetting (Filtering)
 ++++++++++++++++++++++
 
-The SubreadSet example given above is the result of applying a length subset or ``Filter`` operation on a DataSet of two
-BAM files (e.g. by applying the dataset_ command). The subsetting/filtering operation is supported efficiently by the PacBio index (\*.pbi files). All filters require an
-associated pbi file, and particular filter support is driven by the presence or absence of the pbi and the indices within it.
+The SubreadSet example given above is the result of applying a length subset or ``Filter`` operation
+on a DataSet of two BAM files (e.g. by applying the dataset_ command).
+The subsetting/filtering operation is supported efficiently by the
+PacBio index (\*.pbi files). The contents of DataSet after applying ``Filter``'s
+should be decidable using the contents of the pbi file.
 
 Each ``Filter`` is composed of ``Property`` tags representing logical predicates that elements of the DataSet must
 satisfy. ``Property`` tags are defined by three attributes: ``Name``, ``Operator`` and ``Value``, where the ``Name``
@@ -384,8 +386,10 @@ Consolidating
 +++++++++++++
 
 Consolidating (aka Resolving) a DataSet means creating an explicit
-representation in the appropriate format with all filters applied. Here
-is consolidated version of the SubreadSet above::
+representation in the appropriate format with all filters applied. In practice,
+this means building a single BAM file containing all the records implied by the DataSet's
+``ExternalResource`` and ``Filter`` directives. Here is consolidated version of the
+SubreadSet above::
 
     <?xml version="1.0" encoding="utf-8" ?>
     <pbds:SubreadSet xmlns="http://pacificbiosciences.com/PacBioDataModel.xsd">
