@@ -58,8 +58,6 @@ For completeness, here is the PacBio data model XSD.
    xsd/PacBioAutomationConstraints
    xsd/PacBioBaseDataModel
    xsd/PacBioCollectionMetadata
-   xsd/PacBioCommonMessages
-   xsd/PacBioDataModel
    xsd/PacBioDatasets
    xsd/PacBioDataStore
    xsd/PacBioDeclData
