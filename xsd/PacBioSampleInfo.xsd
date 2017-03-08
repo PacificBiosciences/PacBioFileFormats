@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="xs3p.xsl"?>
+<!-- edited with XMLSpy v2015 rel. 3 (x64) (http://www.altova.com) by efayad@pacificbiosciences.com (Pacific Biosciences) -->
+<?xml-stylesheet type="application/xml" href="metadata2html.xslt"?>
+<xs:schema xmlns="http://pacificbiosciences.com/PacBioSampleInfo.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pbbase="http://pacificbiosciences.com/PacBioBaseDataModel.xsd"  targetNamespace="http://pacificbiosciences.com/PacBioSampleInfo.xsd" elementFormDefault="qualified" id="PacBioSampleInfo">
+	<xs:import namespace="http://pacificbiosciences.com/PacBioBaseDataModel.xsd" schemaLocation="PacBioBaseDataModel.xsd"/>
+	<!-- The root element for the metadata structure -->
+	<xs:complexType name="BarcodedSampleType">
+		<xs:annotation>
+			<xs:documentation>This is a data type to hold a barcoded biological sample, or a raw biological sample - so, barcode is optional.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="BioSampleType">
+				<xs:sequence>
+					<xs:element name="Barcodes" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>A list of barcodes associated with the biological sample</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="Barcode" type="pbbase:DNABarcode" minOccurs="0" maxOccurs="unbounded">
+									<xs:annotation>
+										<xs:documentation>A sequence of barcodes associated with the biological sample</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BioSampleType">
+		<xs:annotation>
+			<xs:documentation>The actual biological sample; this could be prep'd, or in original form; could be bound, or annealed...</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="pbbase:StrictEntityType">
+				<xs:sequence>
+					<xs:element ref="BioSamples" minOccurs="0"/>
+				</xs:sequence>
+				<xs:attribute name="DateReceived" type="xs:dateTime">
+					<xs:annotation>
+						<xs:documentation>Date the sample was received by the lab</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="Organism" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>e.g. HIV, E.coli</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="Reference" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>Name of reference, or pointer to one at e.g. NCBI RefSeq</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="DNAType" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>shotgun library, amplicon, etc.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="Concentration" type="xs:float">
+					<xs:annotation>
+						<xs:documentation>in ng/uL, e.g. 250</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="QuantificationMethod" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>e.g. Qubit</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="SMRTBellConcentration" type="xs:float">
+					<xs:annotation>
+						<xs:documentation>in ng/uL, e.g. 4.5</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="SMRTBellQuantificationMethod" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>e.g. Qubit</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="BufferName" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>e.g. Tris HCl</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="SamplePrepKit" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>e.g. SMRTbell Template Prep Kit</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="TargetLibrarySize" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>2000, 10000, 20000</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="BioSamplePointers">
+		<xs:annotation>
+			<xs:documentation>Back references to other BarcodedSampleType object UniqueIds which utilize this sample</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:annotation>
+					<xs:documentation>The choice is to either point to a group of barcoded samples or a single biological sample</xs:documentation>
+				</xs:annotation>
+				<xs:choice>
+					<xs:element ref="BarcodedSamplePointers"/>
+					<xs:element name="BioSamplePointer" type="xs:IDREF">
+						<xs:annotation>
+							<xs:documentation>Pointer to a single biological sample</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:choice>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="BarcodedSamplePointers">
+		<xs:annotation>
+			<xs:documentation>Back references to other BarcodedSampleType object UniqueIds which utilize this sample</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="BarcodedSamplePointer" type="xs:IDREF" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>Pointer to a group of barcoded samples</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="BioSamples">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="BioSample" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="BioSample" type="BioSampleType"/>
+</xs:schema>
