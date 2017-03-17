@@ -11,7 +11,7 @@ The DataSet can optionally filter these files or store metadata about their cont
 Version
 =======
 
-This document defines the 4.0.0 SMRT Link DataSet abstraction and its
+This document defines the 4.1.0 SMRT Link DataSet abstraction and its
 XML file representation.
 
 
