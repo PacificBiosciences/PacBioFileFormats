@@ -313,7 +313,7 @@ new top-level DataSet element--notably not multiple top-level elements.
 For example, the SubreadSet above could be created by taking the union of two SubreadSets each
 containing a single BAM file::
 
-    <pbds:SubreadSet xmlns="http://pacificbiosciences.com/PacBioDataModel.xsd">
+    <pbds:SubreadSet xmlns="http://pacificbiosciences.com/PacBioDatasets.xsd">
         <pbbase:ExternalResources>
             <pbbase:ExternalResource MetaType="SubreadFile.SubreadBamFile"
                                ResourceId="file:/mnt/path/to/subreads0.bam"/>
@@ -332,7 +332,7 @@ containing a single BAM file::
     </pbds:SubreadSet>
 
 
-    <pbds:SubreadSet xmlns="http://pacificbiosciences.com/PacBioDataModel.xsd">
+    <pbds:SubreadSet xmlns="http://pacificbiosciences.com/PacBioDatasets.xsd">
         <pbbase:ExternalResources>
             <pbbase:ExternalResource MetaType="SubreadFile.SubreadBamFile"
                                ResourceId="file:/mnt/path/to/subreads1.bam"/>
@@ -376,7 +376,7 @@ this means building a single BAM file containing all the records implied by the 
 SubreadSet above::
 
     <?xml version="1.0" encoding="utf-8" ?>
-    <pbds:SubreadSet xmlns="http://pacificbiosciences.com/PacBioDataModel.xsd">
+    <pbds:SubreadSet xmlns="http://pacificbiosciences.com/PacBioDatasets.xsd">
         <pbbase:ExternalResources>
             <pbbase:ExternalResource
                 MetaType="SubreadFile.SubreadBamFile"
@@ -623,7 +623,7 @@ Appendix 1: Examples satisfying the motivating use cases
 - Refer to a **set of subreads** in multiple BAM files::
 
     <?xml version="1.0" encoding="utf-8" ?>
-    <pbds:SubreadSet xmlns="http://pacificbiosciences.com/PacBioDataModel.xsd">
+    <pbds:SubreadSet xmlns="http://pacificbiosciences.com/PacBioDatasets.xsd">
         <pbbase:ExternalResources>
             <pbbase:ExternalResource MetaType="SubreadFile.SubreadBamFile"
                               ResourceId="file:/mnt/path/to/subreads0.bam"/>
@@ -647,7 +647,7 @@ Appendix 1: Examples satisfying the motivating use cases
 - Refer to a **subset of subreads** by id from one or more BAM files::
 
     <?xml version="1.0" encoding="utf-8" ?>
-    <pbds:SubreadSet xmlns="http://pacificbiosciences.com/PacBioDataModel.xsd">
+    <pbds:SubreadSet xmlns="http://pacificbiosciences.com/PacBioDatasets.xsd">
         <pbbase:ExternalResources>
             <pbbase:ExternalResource MetaType="SubreadFile.SubreadBamFile"
                               ResourceId="file:/mnt/path/to/subreads0.bam"/>
