@@ -9,7 +9,7 @@
 import glob, os
 from lxml import etree
 
-schema_glob = "../../../../../../../../common/datamodel/*/EndToEnd/xsd/*.xsd"
+schema_glob = "../../../xsd-datamodels/*.xsd"
 
 xsds = glob.glob(schema_glob)
 if len(xsds) == 0:
