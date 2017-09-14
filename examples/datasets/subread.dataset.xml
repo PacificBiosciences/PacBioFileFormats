@@ -122,24 +122,18 @@
                 <pbmeta:StageHotstartEnabled>true</pbmeta:StageHotstartEnabled>
                 <pbmeta:SizeSelectionEnabled>true</pbmeta:SizeSelectionEnabled>
                 <pbmeta:UseCount>0</pbmeta:UseCount>
-                <pbsample:ContainedSamples>
-                    <pbsample:ContainedSample>
-                        <pbsample:BioSamples>
-                            <pbsample:BioSample Name="Evan Andersen"/>
-                        </pbsample:BioSamples>
+                <pbsample:BioSamples>
+                    <pbsample:BioSample Name="Evan Andersen">
                         <pbsample:DNABarcodes>
-                            <pbsample:DNABarcode Name="F1--R1" DNASequence="AAATTATAT"/>
+                            <pbsample:DNABarcode Name="F1--R1"/>
                         </pbsample:DNABarcodes>
-                    </pbsample:ContainedSample>
-                    <pbsample:ContainedSample>
-                        <pbsample:BioSamples>
-                            <pbsample:BioSample Name="Aaron Klammer"/>
-                        </pbsample:BioSamples>
+                    </pbsample:BioSample>
+                    <pbsample:BioSample Name="Aaron Klammer">
                         <pbsample:DNABarcodes>
-                            <pbsample:DNABarcode Name="F2--R2" DNASequence="CCGGCGCG"/>
+                            <pbsample:DNABarcode Name="F2--R2"/>
                         </pbsample:DNABarcodes>
-                    </pbsample:ContainedSample>
-                </pbsample:ContainedSamples>
+                    </pbsample:BioSample>
+                </pbsample:BioSamples>
             </pbmeta:WellSample>
             <pbmeta:Automation>
                 <pbbase:AutomationParameters>
