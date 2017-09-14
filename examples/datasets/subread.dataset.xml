@@ -122,27 +122,24 @@
                 <pbmeta:StageHotstartEnabled>true</pbmeta:StageHotstartEnabled>
                 <pbmeta:SizeSelectionEnabled>true</pbmeta:SizeSelectionEnabled>
                 <pbmeta:UseCount>0</pbmeta:UseCount>
-                <pbmeta:SampleBarcodeInfo>
-					<pbsample:BarcodedSamples>
-						<pbsample:BarcodedSample>
-							<pbsample:BioSamples>
-								<pbsample:BioSample Name="Evan Andersen"/>
-							</pbsample:BioSamples>
-							<pbsample:Barcodes>
-								<pbsample:DNABarcode Name="F1--R1" DNASequence="AAATTATAT"/>
-							</pbsample:Barcodes>
-						</pbsample:BarcodedSample>
-						<pbsample:BarcodedSample>
-							<pbsample:BioSamples>
-								<pbsample:BioSample Name="Aaron Klammer"/>
-							</pbsample:BioSamples>
-							<pbsample:Barcodes>
-								<pbsample:DNABarcode Name="F2--R2" DNASequence="CCGGCGCG"/>
-							</pbsample:Barcodes>
-						</pbsample:BarcodedSample>
-					</pbsample:BarcodedSamples>
-					<!-- Maybe add pointer to BarcodeSet -->
-                </pbmeta:SampleBarcodeInfo>
+                <pbsample:ContainedSamples>
+                    <pbsample:ContainedSample>
+                        <pbsample:BioSamples>
+                            <pbsample:BioSample Name="Evan Andersen"/>
+                        </pbsample:BioSamples>
+                        <pbsample:DNABarcodes>
+                            <pbsample:DNABarcode Name="F1--R1" DNASequence="AAATTATAT"/>
+                        </pbsample:DNABarcodes>
+                    </pbsample:ContainedSample>
+                    <pbsample:ContainedSample>
+                        <pbsample:BioSamples>
+                            <pbsample:BioSample Name="Aaron Klammer"/>
+                        </pbsample:BioSamples>
+                        <pbsample:DNABarcodes>
+                            <pbsample:DNABarcode Name="F2--R2" DNASequence="CCGGCGCG"/>
+                        </pbsample:DNABarcodes>
+                    </pbsample:ContainedSample>
+                </pbsample:ContainedSamples>
             </pbmeta:WellSample>
             <pbmeta:Automation>
                 <pbbase:AutomationParameters>
