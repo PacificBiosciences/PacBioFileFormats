@@ -86,6 +86,9 @@ one entry per pulse:
     | Pulse width (frames)| px      | B,S    |      2,2,4,5       | Pulse width in frames,         |
     |                     |         |        |                    | truncated to max(uint16).      |
     +---------------------+---------+--------+--------------------+--------------------------------+
+    | Pulse exclusion     | pe      | B,C    |      0,2,2,0       | 0=Base, 1=Short Pulse, 2=Burst,|
+    | reason              |         |        |                    | 3=Pause (uint8).               |
+    +---------------------+---------+--------+--------------------+--------------------------------+
 
 
 Note that we encode the entire pulse stream and its attendant

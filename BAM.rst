@@ -23,8 +23,8 @@ the *pbcore* Python library.
 Version
 =======
 
-The PacBio BAM specification version described here is 3.0.4. PacBio
-BAM files adhering to this spec contain the tag ``pb:3.0.4`` in the
+The PacBio BAM specification version described here is 3.0.5. PacBio
+BAM files adhering to this spec contain the tag ``pb:3.0.5`` in the
 ``@HD`` header.
 
 
