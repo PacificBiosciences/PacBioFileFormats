@@ -35,6 +35,12 @@ The Run Design CSV is a comma-separated file which can be imported into SMRT Lin
 +-----------------------------------+-----------------------------------------------------------------+----------------------------------------------------------+
 
 
+
+Well No.
+========
+The well number must satisfy the regular epression: /^[A-H](?:0[1-9]|1[0-2])$/
+
+
 Automation Name
 ===============
 
