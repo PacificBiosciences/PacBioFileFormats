@@ -19,8 +19,8 @@ The Run Design CSV is a comma-separated file which can be imported into SMRT Lin
 | Collection Time                   | 120                                                             | Can be any string                                        |
 | Sample Description                | SMS_Iguana_A6_3230046_A01_TestCase_SB_BindKit_ChemKit           | Can be any string                                        |
 | Insert Size                       | 2000                                                            | Can be any string                                        |
-| Size Selection                    | FALSE                                                           | "Can be ""TRUE"" or ""FALSE"""                           |
-| Stage Start                       | FALSE                                                           | "Can be ""TRUE"" or ""FALSE"""                           |
+| Size Selection                    | FALSE                                                           | Must be a Boolean value. Details on booleans below.      |
+| Stage Start                       | FALSE                                                           | Must be a Boolean value. Details on booleans below.      |
 | DNA Template Prep Kit Box Barcode | DM1117100259100111716                                           | Must be valid ID                                         |
 | DNA Control Complex Box Barcode   | DM1234101084300123120                                           | Must be valid ID                                         |
 | Binding Kit Box Barcode           | DM1117100862200111716                                           | Must be valid ID                                         |
@@ -45,4 +45,12 @@ Automation Name
 ===============
 
 The automation name can be either "Diffusion" of "Magbead" and is not case-sensitive. A path can also be used, such as "/path/to/my/script/my_script.py".
+
+
+Boolean Values
+==============
+
+Acceptable boolean values for true are: "true", "t", "yes", "y".
+Acceptable boolean values for false are: "false", "f", "no", "n".
+Boolean values are not case-sensitive.
 
