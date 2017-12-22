@@ -21,11 +21,11 @@ The Run Design CSV is a comma-separated file which can be imported into SMRT Lin
 | Insert Size                       | 2000                                                            | Can be any string                                        |
 | Size Selection                    | FALSE                                                           | "Can be ""TRUE"" or ""FALSE"""                           |
 | Stage Start                       | FALSE                                                           | "Can be ""TRUE"" or ""FALSE"""                           |
-| DNA Template Prep Kit Box Barcode | DM1117100259100111716                                           | Must be value ID                                         |
-| DNA Control Complex Box Barcode   | DM1234101084300123120                                           | Must be value ID                                         |
-| Binding Kit Box Barcode           | DM1117100862200111716                                           | Must be value ID                                         |
-| Sequencing Kit Box Barcode        | DM0001100861800123120                                           | Must be value ID                                         |
-| Wash Kit Box Barcode              | DM2222100866100123120                                           | Must be value ID                                         |
+| DNA Template Prep Kit Box Barcode | DM1117100259100111716                                           | Must be valid ID                                         |
+| DNA Control Complex Box Barcode   | DM1234101084300123120                                           | Must be valid ID                                         |
+| Binding Kit Box Barcode           | DM1117100862200111716                                           | Must be valid ID                                         |
+| Sequencing Kit Box Barcode        | DM0001100861800123120                                           | Must be valid ID                                         |
+| Wash Kit Box Barcode              | DM2222100866100123120                                           | Must be valid ID                                         |
 | Automation Name                   | Diffusion                                                       | "Can be ""Diffusion""; ""Magbead""; or a path to a file" |
 | Automation Parameters             | ExtensionTime=double:60|ExtendFirst=boolean:True                | Must follow format demonstrated in Value Example         |
 | Primary Analysis                  | Default                                                         | Can be any string                                        |
