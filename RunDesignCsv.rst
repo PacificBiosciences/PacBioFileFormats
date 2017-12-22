@@ -35,3 +35,8 @@ The Run Design CSV is a comma-separated file which can be imported into SMRT Lin
 +-----------------------------------+-----------------------------------------------------------------+----------------------------------------------------------+
 
 
+Automation Name
+===============
+
+The automation name can be either "Diffusion" of "Magbead" and is not case-sensitive. A path can also be used, such as "/path/to/my/script/my_script.py".
+
