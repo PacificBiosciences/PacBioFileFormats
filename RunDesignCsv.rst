@@ -36,6 +36,20 @@ The Run Design CSV is a comma-separated file which can be imported into SMRT Lin
 
 
 
+REQUIRED FIELDS
+===============
+  - Run Name
+  - Well No.
+  - Sample Name
+  - Collection Time
+  - Insert Size
+  - DNA Template Prep Kit Box Barcode
+  - DNA Control Complex Box Barcode
+  - Binding Kit Box Barcode
+  - Sequencing Kit Box Barcode
+  - Automation Name
+
+
 Experiment ID
 =============
 Experiment IDs cannot contain the following characters: "<", ">", ":", """, "\", "|", "?", "\*", or ")".
