@@ -9,7 +9,7 @@ The Run Design CSV is a comma-separated file which can be imported into SMRT Lin
 | Key                               | Value Example                                                   | Value Spec                                               |
 |-----------------------------------+-----------------------------------------------------------------+----------------------------------------------------------|
 | Experiment Name                   | NoRS_Standard_Edna.1                                            | Can be any string                                        |
-| Experiment Id                     | 325/3250057                                                     | Can be any string                                        |
+| Experiment Id                     | 325/3250057                                                     | Must be a valid experiment ID.                           |
 | Experiment Description            | 20170530_A6_Iguana_VVnC_SampleSheet_TEMPLATE                    | Can be any string                                        |
 | Run Name                          | 20170530_A6_Iguana_VVnC_SampleSheet_TEMPLATE                    | Can be any string                                        |
 | Run Description                   | ecoliK12_pbi_March2013                                          | Can be any string                                        |
@@ -34,6 +34,13 @@ The Run Design CSV is a comma-separated file which can be imported into SMRT Lin
 | Secondary Analysis Parameters     |                                                                 | Must follow format demonstrated in Value Example         |
 +-----------------------------------+-----------------------------------------------------------------+----------------------------------------------------------+
 
+
+
+Experiment ID
+=============
+Experiment IDs cannot contain the following characters: "<", ">", ":", """, "\", "|", "?", "\*", or ")".
+Experiment IDs cannot start or end with a "/" and cannot have two adjacent "/" characters, ie "//".
+Experiment IDs also cannot contain spaces.
 
 
 Well No.
