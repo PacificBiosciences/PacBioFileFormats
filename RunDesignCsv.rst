@@ -8,53 +8,53 @@ The Run Design CSV is a comma-separated file which can be imported into SMRT Lin
 +-----------------------------------+-----------------------------------------------------------------+----------------------------------------------------------+
 | Key                               | Value Example                                                   | Value Spec                                               |
 +===================================+=================================================================+==========================================================+
-| Experiment Name                   | NoRS_Standard_Edna.1                                            | Can be any string                                        |
+| Experiment Name                   | NoRS_Standard_Edna.1                                            |  Can be any ASCII string.                                |
 +-----------------------------------+-----------------------------------------------------------------+----------------------------------------------------------+
 | Experiment Id                     | 325/3250057                                                     | Must be a valid experiment ID. Details below.            |
 +-----------------------------------+-----------------------------------------------------------------+----------------------------------------------------------+
-| Experiment Description            | 20170530_A6_Iguana_VVnC_SampleSheet_TEMPLATE                    | Can be any string                                        |
+| Experiment Description            | 20170530_A6_Iguana_VVnC_SampleSheet_TEMPLATE                    |  Can be any ASCII string.                                |
 +-----------------------------------+-----------------------------------------------------------------+----------------------------------------------------------+
-| Run Name                          | 20170530_A6_Iguana_VVnC_SampleSheet_TEMPLATE                    | Can be any string                                        |
+| Run Name                          | 20170530_A6_Iguana_VVnC_SampleSheet_TEMPLATE                    |  Can be any ASCII string.                                |
 +-----------------------------------+-----------------------------------------------------------------+----------------------------------------------------------+
-| Run Description                   | ecoliK12_pbi_March2013                                          | Can be any string                                        |
+| Run Description                   | ecoliK12_pbi_March2013                                          |  Can be any ASCII string.                                |
 +-----------------------------------+-----------------------------------------------------------------+----------------------------------------------------------+
 | Well No.                          | A01                                                             | Must be a valid well number. Details below.              |
 +-----------------------------------+-----------------------------------------------------------------+----------------------------------------------------------+
-| Sample Name                       | SMS_Iguana_A6_3230046_A01_TestCase_SB_BindKit_ChemKitv2_8rxnKit | Can be any string                                        |
+| Sample Name                       | SMS_Iguana_A6_3230046_A01_TestCase_SB_BindKit_ChemKitv2_8rxnKit |  Can be any ASCII string.                                |
 +-----------------------------------+-----------------------------------------------------------------+----------------------------------------------------------+
-| Cell No.                          | 1                                                               | Must be a valid cell number                              |
+| Cell No.                          | 1                                                               | Must be an integer from 1 to 8. Details below.           |
 +-----------------------------------+-----------------------------------------------------------------+----------------------------------------------------------+
-| Collection Time                   | 120                                                             | Can be any string                                        |
+| Collection Time                   | 120                                                             |  Can be any ASCII string.                                |
 +-----------------------------------+-----------------------------------------------------------------+----------------------------------------------------------+
-| Sample Description                | SMS_Iguana_A6_3230046_A01_TestCase_SB_BindKit_ChemKit           | Can be any string                                        |
+| Sample Description                | SMS_Iguana_A6_3230046_A01_TestCase_SB_BindKit_ChemKit           |  Can be any ASCII string.                                |
 +-----------------------------------+-----------------------------------------------------------------+----------------------------------------------------------+
-| Insert Size                       | 2000                                                            | Must be an integer > 9                                   |
+| Insert Size                       | 2000                                                            | Must be an integer > 9.                                  |
 +-----------------------------------+-----------------------------------------------------------------+----------------------------------------------------------+
 | Size Selection                    | FALSE                                                           | Must be a Boolean value. Details on booleans below.      |
 +-----------------------------------+-----------------------------------------------------------------+----------------------------------------------------------+
 | Stage Start                       | FALSE                                                           | Must be a Boolean value. Details on booleans below.      |
 +-----------------------------------+-----------------------------------------------------------------+----------------------------------------------------------+
-| DNA Template Prep Kit Box Barcode | DM1117100259100111716                                           | Must be valid ID                                         |
+| DNA Template Prep Kit Box Barcode | DM1117100259100111716                                           | Must be valid ID.                                        |
 +-----------------------------------+-----------------------------------------------------------------+----------------------------------------------------------+
-| DNA Control Complex Box Barcode   | DM1234101084300123120                                           | Must be valid ID                                         |
+| DNA Control Complex Box Barcode   | DM1234101084300123120                                           | Must be valid ID.                                        |
 +-----------------------------------+-----------------------------------------------------------------+----------------------------------------------------------+
-| Binding Kit Box Barcode           | DM1117100862200111716                                           | Must be valid ID                                         |
+| Binding Kit Box Barcode           | DM1117100862200111716                                           | Must be valid ID.                                        |
 +-----------------------------------+-----------------------------------------------------------------+----------------------------------------------------------+
-| Sequencing Kit Box Barcode        | DM0001100861800123120                                           | Must be valid ID                                         |
+| Sequencing Kit Box Barcode        | DM0001100861800123120                                           | Must be valid ID.                                        |
 +-----------------------------------+-----------------------------------------------------------------+----------------------------------------------------------+
-| Wash Kit Box Barcode              | DM2222100866100123120                                           | Must be valid ID                                         |
+| Wash Kit Box Barcode              | DM2222100866100123120                                           | Must be valid ID.                                        |
 +-----------------------------------+-----------------------------------------------------------------+----------------------------------------------------------+
-| Automation Name                   | Diffusion                                                       | "Can be ""Diffusion""; ""Magbead""; or a path to a file" |
+| Automation Name                   | Diffusion                                                       | "Can be ""Diffusion""; ""Magbead""; or a path to a file".|
 +-----------------------------------+-----------------------------------------------------------------+----------------------------------------------------------+
-| Automation Parameters             | ExtensionTime=double:60|ExtendFirst=boolean:True                | Must follow format demonstrated in Value Example         |
+| Automation Parameters             | ExtensionTime=double:60|ExtendFirst=boolean:True                | Must follow format demonstrated in Value Example.        |
 +-----------------------------------+-----------------------------------------------------------------+----------------------------------------------------------+
-| Primary Analysis                  | Default                                                         | Can be any string                                        |
+| Primary Analysis                  | Default                                                         |  Can be any ASCII string.                                |
 +-----------------------------------+-----------------------------------------------------------------+----------------------------------------------------------+
-| Primary Analysis Parameters       | CopyFileTrace=boolean:true                                      | Must follow format demonstrated in Value Example         |
+| Primary Analysis Parameters       | CopyFileTrace=boolean:true                                      | Must follow format demonstrated in Value Example.        |
 +-----------------------------------+-----------------------------------------------------------------+----------------------------------------------------------+
-| Secondary Analysis                |                                                                 | Can be any string                                        |
+| Secondary Analysis                |                                                                 |  Can be any ASCII string.                                |
 +-----------------------------------+-----------------------------------------------------------------+----------------------------------------------------------+
-| Secondary Analysis Parameters     |                                                                 | Must follow format demonstrated in Value Example         |
+| Secondary Analysis Parameters     |                                                                 | Must follow format demonstrated in Value Example.        |
 +-----------------------------------+-----------------------------------------------------------------+----------------------------------------------------------+
 
 
@@ -64,6 +64,8 @@ The csv may only contain ASCII characters.
 Specifically, it must satisfy the regular expression:
 
   - ``/^[\x00-\x7F]*$/g``
+
+
 
 Required Fields
 ---------------
@@ -88,6 +90,10 @@ Specifically, Experiment IDs cannot satisfy the regular expressions:
   - ``/[<>:"\\|?\*]/g``
   - ``/(?:^\/)|\/\/|(?:\/$)/``
   - ``/ /g``
+
+Cell No.
+--------
+The cell numbers must satisfy a valid cell re-use scheme.
 
 Well No.
 --------
