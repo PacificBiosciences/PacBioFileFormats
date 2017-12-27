@@ -2,7 +2,7 @@
 Run Design CSV specification for PacBio
 =======================================
 
-The Run Design CSV is a comma-separated file which can be imported into SMRT Link to create a run design.
+The Run Design CSV is a comma-separated file which can be imported into SMRT Link to create a run design. Each line in the CSV represents a sample.
 
 
 +-----------------------------------+-----------------------------------------------------------------+----------------------------------------------------------+
@@ -58,6 +58,12 @@ The Run Design CSV is a comma-separated file which can be imported into SMRT Lin
 +-----------------------------------+-----------------------------------------------------------------+----------------------------------------------------------+
 
 
+General Requirements
+--------------------
+The csv may only contain ASCII characters.
+Specifically, it must satisfy the regular expression:
+
+  - ``/^[\x00-\x7F]*$/g``
 
 Required Fields
 ---------------
@@ -85,7 +91,9 @@ Specifically, Experiment IDs cannot satisfy the regular expressions:
 
 Well No.
 --------
-The well number must satisfy the regular expression: ``/^[A-H](?:0[1-9]|1[0-2])$/``
+The well number must satisfy the regular expression:
+
+  - ``/^[A-H](?:0[1-9]|1[0-2])$/``
 
 Automation Name
 ---------------
