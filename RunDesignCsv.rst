@@ -46,7 +46,7 @@ The Run Design CSV is a comma-separated file which can be imported into SMRT Lin
 +-----------------------------------+-----------------------------------------------------------------+----------------------------------------------------------+
 | Automation Name                   | Diffusion                                                       | "Can be ""Diffusion""; ""Magbead""; or a path to a file" |
 +-----------------------------------+-----------------------------------------------------------------+----------------------------------------------------------+
-| Automation Parameters             | ExtensionTime=double:60\|ExtendFirst=boolean:True               | Must follow format demonstrated in Value Example         |
+| Automation Parameters             | ExtensionTime=double:60|ExtendFirst=boolean:True                | Must follow format demonstrated in Value Example         |
 +-----------------------------------+-----------------------------------------------------------------+----------------------------------------------------------+
 | Primary Analysis                  | Default                                                         | Can be any string                                        |
 +-----------------------------------+-----------------------------------------------------------------+----------------------------------------------------------+
@@ -83,20 +83,25 @@ Specifically, Experiment IDs cannot satisfy the regular expressions:
   - ``/(?:^\/)|\/\/|(?:\/$)/``
   - ``/ /g``
 
-
 Well No.
 --------
 The well number must satisfy the regular expression: ``/^[A-H](?:0[1-9]|1[0-2])$/``
 
-
 Automation Name
 ---------------
-The automation name can be either "Diffusion" of "Magbead" and is not case-sensitive. A path can also be used, such as "/path/to/my/script/my_script.py".
-
+The automation name can be either "Diffusion" or "Magbead" and is not case-sensitive. A path can also be used, such as "/path/to/my/script/my_script.py". The path will not be processed further, so if the full URI is required, it must be provided in the CSV, ex. "chemistry://path/to/my/script/my_script.py".
 
 Boolean Values
 --------------
-Acceptable boolean values for true are: "true", "t", "yes", "y".
-Acceptable boolean values for false are: "false", "f", "no", "n".
-Boolean values are not case-sensitive.
+Acceptable boolean values for true are:
+  - "true"
+  - "t"
+  - "yes"
+  - "y"
+Acceptable boolean values for false are:
+  - "false"
+  - "f"
+  - "no"
+  - "n"
 
+Boolean values are not case-sensitive.
