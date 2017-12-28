@@ -4,29 +4,28 @@ Run Design CSV specification for PacBio
 
 The Run Design CSV is a comma-separated file which can be imported into SMRT Link to create a run design. Each line in the CSV represents a sample.
 
-
 +-----------------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------+
 | Key                               | Value Example                                                   | Value Spec                                                        |
 +===================================+=================================================================+===================================================================+
-| Experiment Name                   | NoRS_Standard_Edna.1                                            |  Can be any ASCII string.                                         |
+| Experiment Name                   | NoRS_Standard_Edna.1                                            | Can be any ASCII string.                                          |
 +-----------------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------+
 | Experiment Id                     | 325/3250057                                                     | Must be a valid experiment ID. Details below.                     |
 +-----------------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------+
-| Experiment Description            | 20170530_A6_Iguana_VVnC_SampleSheet_TEMPLATE                    |  Can be any ASCII string.                                         |
+| Experiment Description            | 20170530_A6_Iguana_VVnC_SampleSheet_TEMPLATE                    | Can be any ASCII string.                                          |
 +-----------------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------+
-| Run Name                          | 20170530_A6_Iguana_VVnC_SampleSheet_TEMPLATE                    |  Can be any ASCII string.                                         |
+| Run Name                          | 20170530_A6_Iguana_VVnC_SampleSheet_TEMPLATE                    | Can be any ASCII string.                                          |
 +-----------------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------+
-| Run Description                   | ecoliK12_pbi_March2013                                          |  Can be any ASCII string.                                         |
+| Run Description                   | ecoliK12_pbi_March2013                                          | Can be any ASCII string.                                          |
 +-----------------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------+
 | Well No.                          | A01                                                             | Must be a valid well number. Details below.                       |
 +-----------------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------+
-| Sample Name                       | SMS_Iguana_A6_3230046_A01_TestCase_SB_BindKit_ChemKitv2_8rxnKit |  Can be any ASCII string.                                         |
+| Sample Name                       | SMS_Iguana_A6_3230046_A01_TestCase_SB_BindKit_ChemKitv2_8rxnKit | Can be any ASCII string.                                          |
 +-----------------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------+
 | Cell No.                          | 1                                                               | Must be an integer from 1 to 8. Details below.                    |
 +-----------------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------+
-| Collection Time                   | 120                                                             |  Can be any ASCII string.                                         |
+| Collection Time                   | 120                                                             | Must be a float >= 1 and < 1200. Time is in minutes.              |
 +-----------------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------+
-| Sample Description                | SMS_Iguana_A6_3230046_A01_TestCase_SB_BindKit_ChemKit           |  Can be any ASCII string.                                         |
+| Sample Description                | SMS_Iguana_A6_3230046_A01_TestCase_SB_BindKit_ChemKit           | Can be any ASCII string.                                          |
 +-----------------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------+
 | Insert Size                       | 2000                                                            | Must be an integer > 9.                                           |
 +-----------------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------+
@@ -48,15 +47,14 @@ The Run Design CSV is a comma-separated file which can be imported into SMRT Lin
 +-----------------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------+
 | Automation Parameters             | ExtensionTime=double:60|ExtendFirst=boolean:True                | Must follow format demonstrated in Value Example.                 |
 +-----------------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------+
-| Primary Analysis                  | Default                                                         |  Can be any ASCII string.                                         |
+| Primary Analysis                  | Default                                                         | Can be any ASCII string.                                          |
 +-----------------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------+
 | Primary Analysis Parameters       | CopyFileTrace=boolean:true                                      | Must follow format demonstrated in Value Example. Details below.  |
 +-----------------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------+
-| Secondary Analysis                |                                                                 |  Can be any ASCII string.                                         |
+| Secondary Analysis                |                                                                 | Can be any ASCII string.                                          |
 +-----------------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------+
 | Secondary Analysis Parameters     |                                                                 | Must follow format demonstrated in Value Example.                 |
 +-----------------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------+
-
 
 General Requirements
 --------------------
@@ -64,8 +62,6 @@ The csv may only contain ASCII characters.
 Specifically, it must satisfy the regular expression:
 
   - ``/^[\x00-\x7F]*$/g``
-
-
 
 Required Fields
 ---------------
