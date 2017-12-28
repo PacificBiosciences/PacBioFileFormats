@@ -97,7 +97,8 @@ The cell numbers must satisfy a valid cell re-use scheme.
 
 Well No.
 --------
-The well number must satisfy the regular expression:
+The well number must start with a letter "A" through "H", and end in a number "01" through "12",
+i.e. "A01" through "H12". In other words, it must satisfy the regular expression:
 
   - ``/^[A-H](?:0[1-9]|1[0-2])$/``
 
@@ -106,7 +107,7 @@ Automation Name
 The automation name can be either "diffusion" or "magbead" and is not case-sensitive.
 A path can also be used, such as "/path/to/my/script/my_script.py".
 The path will not be processed further, so if the full URI is required,
-it must be provided in the CSV, ex. "chemistry://path/to/my/script/my_script.py".
+it must be provided in the CSV, e.g. "chemistry://path/to/my/script/my_script.py".
 
 Boolean Values
 --------------
