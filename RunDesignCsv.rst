@@ -50,7 +50,7 @@ The Run Design CSV is a comma-separated file which can be imported into SMRT Lin
 +-----------------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------+
 | Primary Analysis                  | Default                                                         |  Can be any ASCII string.                                         |
 +-----------------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------+
-| Primary Analysis Parameters       | CopyFileTrace=boolean:true                                      | Must follow format demonstrated in Value Example.                 |
+| Primary Analysis Parameters       | CopyFileTrace=boolean:true                                      | Must follow format demonstrated in Value Example. Details below.  |
 +-----------------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------+
 | Secondary Analysis                |                                                                 |  Can be any ASCII string.                                         |
 +-----------------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------+
@@ -123,3 +123,28 @@ Acceptable boolean values for false are:
   - "n"
 
 Boolean values are not case-sensitive.
+
+Primary Analysis Parameters
+---------------------------
+The primary analysis parameters are a "|" separated list.
+Each item follows the format: [parameter name]=[parameter type]:[parameter value].
+Acceptable parameters names are:
+
+  - Readout
+  - MetricsVerbosity
+  - CopyFileTrace
+  - CopyFileBaz
+  - CopyFileDarkFrame
+  - CopyStatsH5
+
+Acceptable parameter types are:
+
+  - String
+  - Int32
+  - UInt32
+  - Double
+  - Single
+  - Boolean
+  - DateTime
+
+The parameter names and types are not case-sensitive.
