@@ -33,13 +33,13 @@ The Run Design CSV is a comma-separated file which can be imported into SMRT Lin
 +-----------------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------+
 | Stage Start                       | FALSE                                                           | Must be a Boolean value. Details on booleans below.               |
 +-----------------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------+
-| DNA Template Prep Kit Box Barcode | DM1117100259100111716                                           | Must be valid ID.                                                 |
+| DNA Template Prep Kit Box Barcode | DM1117100259100111716                                           | Must be valid kit barcode. Details below.                         |
 +-----------------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------+
 | DNA Control Complex Box Barcode   | DM1234101084300123120                                           | Must be valid ID.                                                 |
 +-----------------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------+
-| Binding Kit Box Barcode           | DM1117100862200111716                                           | Must be valid ID.                                                 |
+| Binding Kit Box Barcode           | DM1117100862200111716                                           | Must be valid kit barcode. Details below.                         |
 +-----------------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------+
-| Sequencing Kit Box Barcode        | DM0001100861800123120                                           | Must be valid ID.                                                 |
+| Sequencing Kit Box Barcode        | DM0001100861800123120                                           | Must be valid kit barcode. Details below.                         |
 +-----------------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------+
 | Wash Kit Box Barcode              | DM2222100866100123120                                           | Must be valid ID.                                                 |
 +-----------------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------+
@@ -108,17 +108,31 @@ it must be provided in the CSV, e.g. "chemistry://path/to/my/script/my_script.py
 Boolean Values
 --------------
 Acceptable boolean values for true are:
+
   - "true"
   - "t"
   - "yes"
   - "y"
 Acceptable boolean values for false are:
+
   - "false"
   - "f"
   - "no"
   - "n"
 
 Boolean values are not case-sensitive.
+
+Kit Barcodes
+------------
+The kit barcodes are composed of three parts:
+
+  - Lot Number (ex: "DM1234")
+  - Part Number (ex: "100-619-300")
+  - Expiration Date (ex: "2020-12-31")
+
+which is used to make a single string. Using the above example, the barcode would be:
+
+  - DM1234100619300123120
 
 Primary Analysis Parameters
 ---------------------------
