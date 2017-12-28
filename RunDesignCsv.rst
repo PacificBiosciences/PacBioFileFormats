@@ -35,7 +35,7 @@ The Run Design CSV is a comma-separated file which can be imported into SMRT Lin
 +-----------------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------+
 | DNA Template Prep Kit Box Barcode | DM1117100259100111716                                           | Must be valid kit barcode. Details below.                         |
 +-----------------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------+
-| DNA Control Complex Box Barcode   | DM1234101084300123120                                           | Must be valid ID.                                                 |
+| DNA Control Complex Box Barcode   | DM1234101084300123120                                           | Must be valid kit barcode. Details below.                         |
 +-----------------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------+
 | Binding Kit Box Barcode           | DM1117100862200111716                                           | Must be valid kit barcode. Details below.                         |
 +-----------------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------+
@@ -45,7 +45,7 @@ The Run Design CSV is a comma-separated file which can be imported into SMRT Lin
 +-----------------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------+
 | Automation Name                   | Diffusion                                                       | Can be "diffusion", "magbead", or a custom script. Details below. |
 +-----------------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------+
-| Automation Parameters             | ExtensionTime=double:60|ExtendFirst=boolean:True                | Must follow format demonstrated in Value Example.                 |
+| Automation Parameters             | ExtensionTime=double:60|ExtendFirst=boolean:True                | Must follow format demonstrated in Value Example. Details below.  |
 +-----------------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------+
 | Primary Analysis                  | Default                                                         | Can be any ASCII string.                                          |
 +-----------------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------+
@@ -134,11 +134,11 @@ which is used to make a single string. Using the above example, the barcode woul
 
   - DM1234100619300123120
 
-Primary Analysis Parameters
----------------------------
-The primary analysis parameters are a "|" separated list.
+Parameters
+----------
+The parameters are a "|" separated list.
 Each item follows the format: [parameter name]=[parameter type]:[parameter value].
-Acceptable parameters names are:
+Primary analysis parameters are:
 
   - Readout
   - MetricsVerbosity
