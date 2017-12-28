@@ -103,7 +103,10 @@ The well number must satisfy the regular expression:
 
 Automation Name
 ---------------
-The automation name can be either "diffusion" or "magbead" and is not case-sensitive. A path can also be used, such as "/path/to/my/script/my_script.py". The path will not be processed further, so if the full URI is required, it must be provided in the CSV, ex. "chemistry://path/to/my/script/my_script.py".
+The automation name can be either "diffusion" or "magbead" and is not case-sensitive.
+A path can also be used, such as "/path/to/my/script/my_script.py".
+The path will not be processed further, so if the full URI is required,
+it must be provided in the CSV, ex. "chemistry://path/to/my/script/my_script.py".
 
 Boolean Values
 --------------
