@@ -51,10 +51,6 @@ The Run Design CSV is a comma-separated file which can be imported into SMRT Lin
 +-----------------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------+
 | Primary Analysis Parameters       | CopyFileTrace=boolean:true                                      | Must follow format demonstrated in Value Example. Details below.  |
 +-----------------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------+
-| Secondary Analysis                |                                                                 | Can be any ASCII string.                                          |
-+-----------------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------+
-| Secondary Analysis Parameters     |                                                                 | Must follow format demonstrated in Value Example.                 |
-+-----------------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------+
 
 General Requirements
 --------------------
@@ -133,6 +129,14 @@ The kit barcodes are composed of three parts:
 which is used to make a single string. Using the above example, the barcode would be:
 
   - DM1234100619300123120
+
+Each kit must have a valid Part Number and cannot be obsolete. The list of kits can be
+found through a services endpoint such as:
+
+  - [server name]:[services port number]/smrt-link/bundles/chemistry-pb/active/files/definitions%2FPacBioAutomationConstraints.xml
+
+This services endpoint will list, for each kit, the part numbers ("PartNumber")
+and whether it is obsolete ("IsObsolete").
 
 Parameters
 ----------
