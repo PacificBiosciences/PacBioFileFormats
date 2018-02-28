@@ -91,6 +91,7 @@ The DataSet XSD_ defines DataSet subclasses for the most common entities consume
 - GmapReferenceSet - A FASTA ReferenceSet with a GMAP database.
 - ContigSet - Any FASTA containing contigs, e.g. those produced by HGAP.
 - BarcodeSet - The FASTA file and metadata used by barcode detection.
+- TranscriptSet - Processed RNA transcripts in BAM format.
 
 
 SubreadSet example
@@ -425,6 +426,8 @@ all three should be consistent.
 +-----------------------+------------------------------------------------+---------------------------+
 | GmapReferenceSet      | PacBio.DataSet.GmapReferenceSet                | .gmapreferenceset.xml     |
 +-----------------------+------------------------------------------------+---------------------------+
+| TranscriptSet         | PacBio.DataSet.TranscriptSet                   | .transcriptset.xml        |
++-----------------------+------------------------------------------------+---------------------------+
 
 
 DataSet External Resource MetaTypes and File Extensions
@@ -473,6 +476,8 @@ to in some cases refer to other DataSets, they should in no cases refer to a Dat
 | ConsensusReadSet      | PacBio.ConsensusReadFile.ConsensusReadBamFile  | .bam                      |
 +-----------------------+------------------------------------------------+---------------------------+
 | ConsensusAlignmentSet | PacBio.AlignmentFile.ConsensusAlignmentBamFile | .bam                      |
++-----------------------+------------------------------------------------+---------------------------+
+| TranscriptSet         | PacBio.TranscriptFile.TranscriptBamFile        | .bam                      |
 +-----------------------+------------------------------------------------+---------------------------+
 | ContigSet             | PacBio.ContigFile.ContigFastaFile              | .fasta                    |
 +-----------------------+------------------------------------------------+---------------------------+
@@ -527,6 +532,8 @@ minute, second, millisecond.
 | ContigSet             | pacbio_dataset_contigset-<yymmdd_HHmmssttt>            | TBD               |
 +-----------------------+--------------------------------------------------------+-------------------+
 | ReferenceSet          | pacbio_dataset_referenceset-<yymmdd_HHmmssttt>         | Reference         |
++-----------------------+--------------------------------------------------------+-------------------+
+| TranscriptSet         | pacbio_dataset_transcriptset-<yymmdd_HHmmssttt>        | TBD               |
 +-----------------------+--------------------------------------------------------+-------------------+
 
 Note that all PacBio.Index.\* ``ExternalResource``'s are given a ``TimeStampedName`` attribute
