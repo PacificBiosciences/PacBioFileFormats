@@ -64,7 +64,6 @@ Specifically, it must satisfy the regular expression:
 Required Fields
 ---------------
   - Run Name
-  - Chip Type
   - Well No.
   - Sample Name
   - Collection Time
