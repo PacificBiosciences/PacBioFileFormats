@@ -15,6 +15,8 @@ The Run Design CSV is a comma-separated file which can be imported into SMRT Lin
 +-----------------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------+
 | Run Name                          | 20170530_A6_Iguana_VVnC_SampleSheet_TEMPLATE                    | Can be any ASCII string.                                          |
 +-----------------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------+
+| Chip Type                         | 1mChip                                                          | Must be either 1mChip for Sequel or 8mChip for Spider.            |
++-----------------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------+
 | Run Description                   | ecoliK12_pbi_March2013                                          | Can be any ASCII string.                                          |
 +-----------------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------+
 | Well No.                          | A01                                                             | Must be a valid well number. Details below.                       |
@@ -70,7 +72,6 @@ Required Fields
   - DNA Control Complex Box Barcode
   - Binding Kit Box Barcode
   - Sequencing Kit Box Barcode
-  - Automation Name
 
 Experiment ID
 -------------
