@@ -178,5 +178,8 @@ Barcoded Sample Names
 ---------------------
 The barcoded sample names are a "|" separated list.
 Each item in the list follows the format: [barcode name];[biosample name]
-The barcode names must be contained within the specific barcodeset.
+The barcode names must be contained within the specified barcodeset.
+A given barcode name cannont appear more than once in the list.
 The biosample names can be any ASCII string but cannot contain the field separators "|" and ";".
+The biosample names cannot be longer than 40 characters.
+A maximum of 384 barcodes is permitted per sample.
