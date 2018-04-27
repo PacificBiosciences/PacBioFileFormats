@@ -23,6 +23,7 @@ legacy `cmp.h5` format.
    PacBioBamIndex
    FASTA
    DataSet
+   RunDesignCsv
 
 
 Legacy formats
