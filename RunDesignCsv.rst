@@ -7,11 +7,11 @@ The Run Design CSV is a comma-separated file which can be imported into SMRT Lin
 +----------------------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------+
 | Key                                    | Value Example                                                   | Value Spec                                                        |
 +========================================+=================================================================+===================================================================+
-| Experiment Name                        | NoRS_Standard_Edna.1                                            | Can be any ASCII string.                                          |
+| Experiment Name                        | NoRS_Standard_Edna.1                                            | Can be any ASCII string. Defaults to Run Name.                    |
 +----------------------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------+
 | Experiment Id                          | 325/3250057                                                     | Must be a valid experiment ID. Details below.                     |
 +----------------------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------+
-| Experiment Description                 | 20170530_A6_Iguana_VVnC_SampleSheet_TEMPLATE                    | Can be any ASCII string.                                          |
+| Experiment Description                 | 20170530_A6_Iguana_VVnC_SampleSheet_TEMPLATE                    | Can be any ASCII string. Defaults to Run Description.             |
 +----------------------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------+
 | Run Name                               | 20170530_A6_Iguana_VVnC_SampleSheet_TEMPLATE                    | Can be any ASCII string.                                          |
 +----------------------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------+
@@ -33,9 +33,9 @@ The Run Design CSV is a comma-separated file which can be imported into SMRT Lin
 +----------------------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------+
 | On Plate Loading Concentration         | 5                                                               | Must be an integer. Units are in pM.                              |
 +----------------------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------+
-| Size Selection                         | FALSE                                                           | Must be a Boolean value. Details on booleans below.               |
+| Size Selection                         | FALSE                                                           | Must be a Boolean value. Boolean details below. Default is False. |
 +----------------------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------+
-| Stage Start                            | FALSE                                                           | Must be a Boolean value. Details on booleans below.               |
+| Stage Start                            | FALSE                                                           | Must be a Boolean value. Boolean details below. Default is False. |
 +----------------------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------+
 | DNA Template Prep Kit Box Barcode      | DM1117100259100111716                                           | Must be valid kit barcode. Details below.                         |
 +----------------------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------+
@@ -148,6 +148,7 @@ found through a services endpoint such as:
 
 This services endpoint will list, for each kit, the part numbers ("PartNumber")
 and whether it is obsolete ("IsObsolete").
+Dates must also be valid, meaning they must exist on the Gregorian calendar.
 
 Parameters
 ----------
