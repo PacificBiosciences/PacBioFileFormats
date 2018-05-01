@@ -148,7 +148,7 @@ found through a services endpoint such as:
 
 This services endpoint will list, for each kit, the part numbers ("PartNumber")
 and whether it is obsolete ("IsObsolete").
-Dates must also be valid, meaning they must exist on the gregorian calendar.
+Dates must also be valid, meaning they must exist on the Gregorian calendar.
 
 Parameters
 ----------
