@@ -79,7 +79,6 @@ Required Fields
   - Collection Time
   - Insert Size
   - DNA Template Prep Kit Box Barcode
-  - DNA Control Complex Box Barcode
   - Binding Kit Box Barcode
   - Sequencing Kit Box Barcode
 
