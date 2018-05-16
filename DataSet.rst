@@ -12,7 +12,7 @@ Version
 =======
 
 This document defines the 4.0.1 SMRT Link DataSet abstraction and its
-XML file representation. The 4.0.1 format is produced by the 5.0.0 release of PacBio
+XML file representation. The 4.0.1 format is produced by the 5.1.0 release of PacBio
 Primary Analysis and SMRT Link software.
 
 
@@ -549,7 +549,7 @@ Support exists for using the DataSet XML throughout the SMRT Analysis stack.
 The ``dataset`` command-line tool
 ---------------------------------
 
-The SMRT Link CL tools in 5.0.0 provide command-line support for creating, filtering, validating,
+The SMRT Link CL tools in 5.1.0 provide command-line support for creating, filtering, validating,
 merging, splitting, consolidating and other common operations via the ``dataset`` command.
 Detailed CL documentation and example can be found in the pbcoretools_ documentation.
 Note that in the SMRT Link CL tools tarball, the command is ``dataset`` not ``dataset.py``.
