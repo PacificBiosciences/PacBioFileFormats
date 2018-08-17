@@ -25,6 +25,8 @@ legacy `cmp.h5` format.
    DataSet
    RunDesignCsv
    RunDesignCsvCustomer
+   RunDesignCsvLocust
+   RunDesignCsvCustomerLocust
 
 
 Legacy formats
