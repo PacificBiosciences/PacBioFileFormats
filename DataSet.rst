@@ -92,6 +92,7 @@ The DataSet XSD_ defines DataSet subclasses for the most common entities consume
 - ContigSet - Any FASTA containing contigs, e.g. those produced by HGAP.
 - BarcodeSet - The FASTA file and metadata used by barcode detection.
 - TranscriptSet - Processed RNA transcripts in BAM format.
+- TranscriptAlignmentSet - Processed and aligned RNA transcripts in BAM format.
 
 
 SubreadSet example
@@ -405,29 +406,31 @@ values and expected filename suffix strings. While technically the information c
 is redundant, it is useful for some downstream consuming tools, and to be fully compliant with this specification
 all three should be consistent.
 
-+-----------------------+------------------------------------------------+---------------------------+
-| DataSet               | DataSet MetaType                               | DataSet XML File Extension|
-+=======================+================================================+===========================+
-| SubreadSet            | PacBio.DataSet.SubreadSet                      | .subreadset.xml           |
-+-----------------------+------------------------------------------------+---------------------------+
-| HdfSubreadSet         | PacBio.DataSet.HdfSubreadSet                   | .hdfsubreadset.xml        |
-+-----------------------+------------------------------------------------+---------------------------+
-| AlignmentSet          | PacBio.DataSet.AlignmentSet                    | .alignmentset.xml         |
-+-----------------------+------------------------------------------------+---------------------------+
-| BarcodeSet            | PacBio.DataSet.BarcodeSet                      | .barcodeset.xml           |
-+-----------------------+------------------------------------------------+---------------------------+
-| ConsensusReadSet      | PacBio.DataSet.ConsensusReadSet                | .consensusreadset.xml     |
-+-----------------------+------------------------------------------------+---------------------------+
-| ConsensusAlignmentSet | PacBio.DataSet.ConsensusAlignmentSet           | .consensusalignmentset.xml|
-+-----------------------+------------------------------------------------+---------------------------+
-| ContigSet             | PacBio.DataSet.ContigSet                       | .contigset.xml            |
-+-----------------------+------------------------------------------------+---------------------------+
-| ReferenceSet          | PacBio.DataSet.ReferenceSet                    | .referenceset.xml         |
-+-----------------------+------------------------------------------------+---------------------------+
-| GmapReferenceSet      | PacBio.DataSet.GmapReferenceSet                | .gmapreferenceset.xml     |
-+-----------------------+------------------------------------------------+---------------------------+
-| TranscriptSet         | PacBio.DataSet.TranscriptSet                   | .transcriptset.xml        |
-+-----------------------+------------------------------------------------+---------------------------+
++------------------------+------------------------------------------------+-----------------------------+
+| DataSet                | DataSet MetaType                               | DataSet XML File Extension  |
++========================+================================================+=============================+
+| SubreadSet             | PacBio.DataSet.SubreadSet                      | .subreadset.xml             |
++------------------------+------------------------------------------------+-----------------------------+
+| HdfSubreadSet          | PacBio.DataSet.HdfSubreadSet                   | .hdfsubreadset.xml          |
++------------------------+------------------------------------------------+-----------------------------+
+| AlignmentSet           | PacBio.DataSet.AlignmentSet                    | .alignmentset.xml           |
++------------------------+------------------------------------------------+-----------------------------+
+| BarcodeSet             | PacBio.DataSet.BarcodeSet                      | .barcodeset.xml             |
++------------------------+------------------------------------------------+-----------------------------+
+| ConsensusReadSet       | PacBio.DataSet.ConsensusReadSet                | .consensusreadset.xml       |
++------------------------+------------------------------------------------+-----------------------------+
+| ConsensusAlignmentSet  | PacBio.DataSet.ConsensusAlignmentSet           | .consensusalignmentset.xml  |
++------------------------+------------------------------------------------+-----------------------------+
+| ContigSet              | PacBio.DataSet.ContigSet                       | .contigset.xml              |
++------------------------+------------------------------------------------+-----------------------------+
+| ReferenceSet           | PacBio.DataSet.ReferenceSet                    | .referenceset.xml           |
++------------------------+------------------------------------------------+-----------------------------+
+| GmapReferenceSet       | PacBio.DataSet.GmapReferenceSet                | .gmapreferenceset.xml       |
++------------------------+------------------------------------------------+-----------------------------+
+| TranscriptSet          | PacBio.DataSet.TranscriptSet                   | .transcriptset.xml          |
++------------------------+------------------------------------------------+-----------------------------+
+| TranscriptAlignmentSet | PacBio.DataSet.TranscriptAlignmentSet          | .transcriptalignmentset.xml |
++-----------------------+------------------------------------------------+------------------------------+
 
 
 DataSet External Resource MetaTypes and File Extensions
@@ -440,63 +443,65 @@ parent ``ExternalResource``'s elements. Note that while this specification allow
 to in some cases refer to other DataSets, they should in no cases refer to a DataSet of the same type as the parent
 (e.g. SubreadSet's should not refer to external SubreadSet's).
 
-+-----------------------+------------------------------------------------+---------------------------+
-| DataSet or Tag        | ExternalResource MetaType                      | File Extensions           |
-+=======================+================================================+===========================+
-| SubreadSet            | PacBio.SubreadFile.SubreadBamFile              | .bam                      |
-+-----------------------+------------------------------------------------+---------------------------+
-|                       | PacBio.SubreadFile.ScrapsBamFile               | .bam                      |
-+-----------------------+------------------------------------------------+---------------------------+
-|                       | PacBio.SubreadFile.HqRegionBamFile             | .bam                      |
-+-----------------------+------------------------------------------------+---------------------------+
-|                       | PacBio.SubreadFile.HqScrapsBamFile             | .bam                      |
-+-----------------------+------------------------------------------------+---------------------------+
-|                       | PacBio.SubreadFile.LqRegionBamFile             | .bam                      |
-+-----------------------+------------------------------------------------+---------------------------+
-|                       | PacBio.SubreadFile.LqScrapsBamFile             | .bam                      |
-+-----------------------+------------------------------------------------+---------------------------+
-|                       | PacBio.SubreadFile.PolymeraseBamFile           | .bam                      |
-+-----------------------+------------------------------------------------+---------------------------+
-|                       | PacBio.SubreadFile.PolymeraseScrapsBamFile     | .bam                      |
-+-----------------------+------------------------------------------------+---------------------------+
-|                       | PacBio.SubreadFile.ChipStatsFile               | .sts.xml                  |
-+-----------------------+------------------------------------------------+---------------------------+
-|                       | PacBio.SubreadFile.ChipStatsH5File             | .sts.h5                   |
-+-----------------------+------------------------------------------------+---------------------------+
-|                       | PacBio.SubreadFile.AdapterFastaFile            | .fasta                    |
-+-----------------------+------------------------------------------------+---------------------------+
-|                       | PacBio.SubreadFile.ControlFastaFile            | .fasta                    |
-+-----------------------+------------------------------------------------+---------------------------+
-| HdfSubreadSet         | PacBio.SubreadFile.BaxFile                     | .bax.h5                   |
-+-----------------------+------------------------------------------------+---------------------------+
-| AlignmentSet          | PacBio.AlignmentFile.AlignmentBamFile          | .bam                      |
-+-----------------------+------------------------------------------------+---------------------------+
-| BarcodeSet            | PacBio.BarcodeFile.BarcodeFastaFile            | .fasta                    |
-+-----------------------+------------------------------------------------+---------------------------+
-| ConsensusReadSet      | PacBio.ConsensusReadFile.ConsensusReadBamFile  | .bam                      |
-+-----------------------+------------------------------------------------+---------------------------+
-| ConsensusAlignmentSet | PacBio.AlignmentFile.ConsensusAlignmentBamFile | .bam                      |
-+-----------------------+------------------------------------------------+---------------------------+
-| TranscriptSet         | PacBio.TranscriptFile.TranscriptBamFile        | .bam                      |
-+-----------------------+------------------------------------------------+---------------------------+
-| ContigSet             | PacBio.ContigFile.ContigFastaFile              | .fasta                    |
-+-----------------------+------------------------------------------------+---------------------------+
-| ReferenceSet          | PacBio.ReferenceFile.ReferenceFastaFile        | .fasta                    |
-+-----------------------+------------------------------------------------+---------------------------+
-| Bam ExternalResource  | PacBio.Index.BamIndex                          | .bam.bai                  |
-+-----------------------+------------------------------------------------+---------------------------+
-|                       | PacBio.Index.PacBioIndex                       | .bam.pbi                  |
-+-----------------------+------------------------------------------------+---------------------------+
-| Fasta ExternalResource| PacBio.Index.SamIndex                          | .fasta.fai                |
-+-----------------------+------------------------------------------------+---------------------------+
-|                       | PacBio.Index.SaWriterIndex                     | .fasta.sa                 |
-+-----------------------+------------------------------------------------+---------------------------+
-|                       | PacBio.GmapDB.GmapDBSummary                    | ?                         |
-+-----------------------+------------------------------------------------+---------------------------+
-|                       | PacBio.Index.NgmlrRefEncoded                   | .ngm                      |
-+-----------------------+------------------------------------------------+---------------------------+
-|                       | PacBio.Index.NgmlrRefTable                     | .ngm                      |
-+-----------------------+------------------------------------------------+---------------------------+
++------------------------+-------------------------------------------------+---------------------------+
+| DataSet or Tag         | ExternalResource MetaType                       | File Extensions           |
++========================+=================================================+===========================+
+| SubreadSet             | PacBio.SubreadFile.SubreadBamFile               | .bam                      |
++------------------------+-------------------------------------------------+---------------------------+
+|                        | PacBio.SubreadFile.ScrapsBamFile                | .bam                      |
++------------------------+-------------------------------------------------+---------------------------+
+|                        | PacBio.SubreadFile.HqRegionBamFile              | .bam                      |
++------------------------+-------------------------------------------------+---------------------------+
+|                        | PacBio.SubreadFile.HqScrapsBamFile              | .bam                      |
++------------------------+-------------------------------------------------+---------------------------+
+|                        | PacBio.SubreadFile.LqRegionBamFile              | .bam                      |
++------------------------+-------------------------------------------------+---------------------------+
+|                        | PacBio.SubreadFile.LqScrapsBamFile              | .bam                      |
++------------------------+-------------------------------------------------+---------------------------+
+|                        | PacBio.SubreadFile.PolymeraseBamFile            | .bam                      |
++------------------------+-------------------------------------------------+---------------------------+
+|                        | PacBio.SubreadFile.PolymeraseScrapsBamFile      | .bam                      |
++------------------------+-------------------------------------------------+---------------------------+
+|                        | PacBio.SubreadFile.ChipStatsFile                | .sts.xml                  |
++------------------------+-------------------------------------------------+---------------------------+
+|                        | PacBio.SubreadFile.ChipStatsH5File              | .sts.h5                   |
++------------------------+-------------------------------------------------+---------------------------+
+|                        | PacBio.SubreadFile.AdapterFastaFile             | .fasta                    |
++------------------------+-------------------------------------------------+---------------------------+
+|                        | PacBio.SubreadFile.ControlFastaFile             | .fasta                    |
++------------------------+-------------------------------------------------+---------------------------+
+| HdfSubreadSet          | PacBio.SubreadFile.BaxFile                      | .bax.h5                   |
++------------------------+-------------------------------------------------+---------------------------+
+| AlignmentSet           | PacBio.AlignmentFile.AlignmentBamFile           | .bam                      |
++------------------------+-------------------------------------------------+---------------------------+
+| BarcodeSet             | PacBio.BarcodeFile.BarcodeFastaFile             | .fasta                    |
++------------------------+-------------------------------------------------+---------------------------+
+| ConsensusReadSet       | PacBio.ConsensusReadFile.ConsensusReadBamFile   | .bam                      |
++------------------------+-------------------------------------------------+---------------------------+
+| ConsensusAlignmentSet  | PacBio.AlignmentFile.ConsensusAlignmentBamFile  | .bam                      |
++------------------------+-------------------------------------------------+---------------------------+
+| TranscriptSet          | PacBio.TranscriptFile.TranscriptBamFile         | .bam                      |
++------------------------+-------------------------------------------------+---------------------------+
+| TranscriptAlignmentSet | PacBio.AlignmentFile.TranscriptAlignmentBamFile | .bam                      |
++------------------------+-------------------------------------------------+---------------------------+
+| ContigSet              | PacBio.ContigFile.ContigFastaFile               | .fasta                    |
++------------------------+-------------------------------------------------+---------------------------+
+| ReferenceSet           | PacBio.ReferenceFile.ReferenceFastaFile         | .fasta                    |
++------------------------+-------------------------------------------------+---------------------------+
+| Bam ExternalResource   | PacBio.Index.BamIndex                           | .bam.bai                  |
++------------------------+-------------------------------------------------+---------------------------+
+|                        | PacBio.Index.PacBioIndex                        | .bam.pbi                  |
++------------------------+-------------------------------------------------+---------------------------+
+| Fasta ExternalResource | PacBio.Index.SamIndex                           | .fasta.fai                |
++------------------------+-------------------------------------------------+---------------------------+
+|                        | PacBio.Index.SaWriterIndex                      | .fasta.sa                 |
++------------------------+-------------------------------------------------+---------------------------+
+|                        | PacBio.GmapDB.GmapDBSummary                     | ?                         |
++------------------------+-------------------------------------------------+---------------------------+
+|                        | PacBio.Index.NgmlrRefEncoded                    | .ngm                      |
++------------------------+-------------------------------------------------+---------------------------+
+|                        | PacBio.Index.NgmlrRefTable                      | .ngm                      |
++------------------------+-------------------------------------------------+---------------------------+
 
 Some ``ExternalResource``'s themselves contain associated ``ExternalResources``'s, for example the
 indices associated with FASTA files. These associated files are nested within the primary ``ExternalResource``
@@ -514,27 +519,29 @@ Where ``MetaType`` has been transformed into a lowercase, underscore separated
 string and the time string format directives map to the following entities\: year, month, day, hour,
 minute, second, millisecond.
 
-+-----------------------+--------------------------------------------------------+-------------------+
-| DataSet               | TimeStampedName                                        | DataSet UI Name   |
-+=======================+========================================================+===================+
-| SubreadSet            | pacbio_dataset_subreadset-<yymmdd_HHmmssttt>           | BAM Data          |
-+-----------------------+--------------------------------------------------------+-------------------+
-| HdfSubreadSet         | pacbio_dataset_hdfsubreadset-<yymmdd_HHmmssttt>        | RS II Data        |
-+-----------------------+--------------------------------------------------------+-------------------+
-| AlignmentSet          | pacbio_dataset_alignmentset-<yymmdd_HHmmssttt>         | TBD               |
-+-----------------------+--------------------------------------------------------+-------------------+
-| BarcodeSet            | pacbio_dataset_barcodeset-<yymmdd_HHmmssttt>           | Barcode           |
-+-----------------------+--------------------------------------------------------+-------------------+
-| ConsensusReadSet      | pacbio_dataset_consensusreadset-<yymmdd_HHmmssttt>     | TBD               |
-+-----------------------+--------------------------------------------------------+-------------------+
-| ConsensusAlignmentSet | pacbio_dataset_consensusalignmentset-<yymmdd_HHmmssttt>| TBD               |
-+-----------------------+--------------------------------------------------------+-------------------+
-| ContigSet             | pacbio_dataset_contigset-<yymmdd_HHmmssttt>            | TBD               |
-+-----------------------+--------------------------------------------------------+-------------------+
-| ReferenceSet          | pacbio_dataset_referenceset-<yymmdd_HHmmssttt>         | Reference         |
-+-----------------------+--------------------------------------------------------+-------------------+
-| TranscriptSet         | pacbio_dataset_transcriptset-<yymmdd_HHmmssttt>        | TBD               |
-+-----------------------+--------------------------------------------------------+-------------------+
++------------------------+----------------------------------------------------------+-------------------+
+| DataSet                | TimeStampedName                                          | DataSet UI Name   |
++========================+==========================================================+===================+
+| SubreadSet             | pacbio_dataset_subreadset-<yymmdd_HHmmssttt>             | BAM Data          |
++------------------------+----------------------------------------------------------+-------------------+
+| HdfSubreadSet          | pacbio_dataset_hdfsubreadset-<yymmdd_HHmmssttt>          | RS II Data        |
++------------------------+----------------------------------------------------------+-------------------+
+| AlignmentSet           | pacbio_dataset_alignmentset-<yymmdd_HHmmssttt>           | TBD               |
++------------------------+----------------------------------------------------------+-------------------+
+| BarcodeSet             | pacbio_dataset_barcodeset-<yymmdd_HHmmssttt>             | Barcode           |
++------------------------+----------------------------------------------------------+-------------------+
+| ConsensusReadSet       | pacbio_dataset_consensusreadset-<yymmdd_HHmmssttt>       | TBD               |
++------------------------+----------------------------------------------------------+-------------------+
+| ConsensusAlignmentSet  | pacbio_dataset_consensusalignmentset-<yymmdd_HHmmssttt>  | TBD               |
++------------------------+----------------------------------------------------------+-------------------+
+| ContigSet              | pacbio_dataset_contigset-<yymmdd_HHmmssttt>              | TBD               |
++------------------------+----------------------------------------------------------+-------------------+
+| ReferenceSet           | pacbio_dataset_referenceset-<yymmdd_HHmmssttt>           | Reference         |
++------------------------+----------------------------------------------------------+-------------------+
+| TranscriptSet          | pacbio_dataset_transcriptset-<yymmdd_HHmmssttt>          | TBD               |
++------------------------+----------------------------------------------------------+-------------------+
+| TranscriptAlignmentSet | pacbio_dataset_transcriptalignmentset-<yymmdd_HHmmssttt> | TBD               |
++------------------------+----------------------------------------------------------+-------------------+
 
 Note that all PacBio.Index.\* ``ExternalResource``'s are given a ``TimeStampedName`` attribute
 with an ``"index-"`` prefix.
