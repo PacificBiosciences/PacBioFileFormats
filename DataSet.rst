@@ -429,7 +429,7 @@ all three should be consistent.
 +------------------------+------------------------------------------------+-----------------------------+
 | TranscriptSet          | PacBio.DataSet.TranscriptSet                   | .transcriptset.xml          |
 +------------------------+------------------------------------------------+-----------------------------+
-| TranscriptAlignmentSet | PacBio.DataSet.TranscriptAlignmentSet          | .transcripalignmentset.xml  |
+| TranscriptAlignmentSet | PacBio.DataSet.TranscriptAlignmentSet          | .transcriptalignmentset.xml |
 +-----------------------+------------------------------------------------+------------------------------+
 
 
