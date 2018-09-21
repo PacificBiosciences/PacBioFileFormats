@@ -92,7 +92,7 @@ The DataSet XSD_ defines DataSet subclasses for the most common entities consume
 - ContigSet - Any FASTA containing contigs, e.g. those produced by HGAP.
 - BarcodeSet - The FASTA file and metadata used by barcode detection.
 - TranscriptSet - Processed RNA transcripts in BAM format.
-- TranscriptAlignedSet - Processed and aligned RNA transcripts in BAM format.
+- TranscriptAlignmentSet - Processed and aligned RNA transcripts in BAM format.
 
 
 SubreadSet example
