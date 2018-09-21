@@ -540,7 +540,7 @@ minute, second, millisecond.
 +------------------------+----------------------------------------------------------+-------------------+
 | TranscriptSet          | pacbio_dataset_transcriptset-<yymmdd_HHmmssttt>          | TBD               |
 +------------------------+----------------------------------------------------------+-------------------+
-| TranscriptAlignmentSet | pacbio_dataset_transcripalignmenttset-<yymmdd_HHmmssttt> | TBD               |
+| TranscriptAlignmentSet | pacbio_dataset_transcriptalignmentset-<yymmdd_HHmmssttt> | TBD               |
 +------------------------+----------------------------------------------------------+-------------------+
 
 Note that all PacBio.Index.\* ``ExternalResource``'s are given a ``TimeStampedName`` attribute
