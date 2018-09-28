@@ -23,8 +23,8 @@ the *pbcore* Python library.
 Version
 =======
 
-The PacBio BAM specification version described here is 3.0.5. PacBio
-BAM files adhering to this spec contain the tag ``pb:3.0.5`` in the
+The PacBio BAM specification version described here is 3.0.6. PacBio
+BAM files adhering to this spec contain the tag ``pb:3.0.6`` in the
 ``@HD`` header.
 
 
@@ -173,11 +173,13 @@ SAM/BAM spec, we encode special information as follows.
 
   ``ID`` tag (identifier)
       contains an 8-character string interpretable as the hexadecimal
-      representation of an integer.  Read groups should have distinct
-      ``ID`` values.
+      representation of an integer.  Optionally, a read group identifier may
+      contain barcode labels to distinguish demultiplexed samples. Read groups
+      should have distinct ``ID`` values.
 
       .. note::
-         Read group identifiers for PacBio data are calculated as follows::
+         Standard read group identifiers for PacBio data are calculated as
+         follows::
 
            RGID_STRING := md5(movieName + "//" + readType))[:8]
            RGID_INT    := int32.Parse(RGID_STRING)
@@ -197,6 +199,15 @@ SAM/BAM spec, we encode special information as follows.
          Example: CCS reads for a movie named "movie32" would have
              - RGID_STRING = "f5b4ffb6"
              - RGID_INT    = -172687434
+
+         Optional barcode labels will be appended to the RGID_STRING as
+         follows::
+
+           {RGID_STRING}/{bcForward}--{bcReverse}
+
+         where the ``bcForward`` and ``bcReverse`` labels correspond to the
+         0-based positions in the FASTA file of barcodes. These are the same
+         values used to populate a barcoded record's ``bc`` tag.
 
   ``PL`` tag ("platform"):
       contains ``"PACBIO"``
