@@ -181,7 +181,7 @@ SAM/BAM spec, we encode special information as follows.
          Standard read group identifiers for PacBio data are calculated as
          follows::
 
-           RGID_STRING := md5(movieName + "//" + readType))[:8]
+           RGID_STRING := md5(movieName + "//" + readType)[:8]
            RGID_INT    := int32.Parse(RGID_STRING)
 
          where `movieName` is the moviename (@RG::PU) and `readType`
