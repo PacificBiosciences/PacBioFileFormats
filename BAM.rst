@@ -200,7 +200,7 @@ SAM/BAM spec, we encode special information as follows.
              - RGID_STRING = "f5b4ffb6"
              - RGID_INT    = -172687434
 
-         Optional barcode labels will be appended to the RGID_STRING as
+         Optional barcode labels must be appended to the RGID_STRING as
          follows::
 
            {RGID_STRING}/{bcForward}--{bcReverse}
@@ -218,6 +218,19 @@ SAM/BAM spec, we encode special information as follows.
 
   ``PU`` tag ("platform unit"):
       contains the PacBio movie name.
+
+  ``BC`` tag ("barcodes"):
+      contains the barcode sequences associated with this read group. This tag
+      is not required in all PacBio BAM files, but must be provided when the
+      read group ID includes barcode labels.
+
+      The value must be represented in the format recommended by the SAM/BAM
+      spec::
+
+        {seq1}-{seq2}
+
+      Note that this format differs slightly from the one used in the read
+      group ID's barcode label - a single dash as the separator rather than two.
 
   ``DS`` tag ("description"):
       contains some semantic information about the reads in the group,
