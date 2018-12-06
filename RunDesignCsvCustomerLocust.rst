@@ -15,6 +15,8 @@ The Run Design CSV is a comma-separated file which can be imported into SMRT Lin
 +----------------------------------------+----------------------------------------------------------------------------+-------------------------------------------------------------------+
 | Run Name                               | 20170530_A6_Iguana_VVnC_SampleSheet_TEMPLATE                               | Can be any ASCII string.                                          |
 +----------------------------------------+----------------------------------------------------------------------------+-------------------------------------------------------------------+
+| System Name                            | Sequel                                                                     | Must be either Sequel or Sequel II                                |
++----------------------------------------+----------------------------------------------------------------------------+-------------------------------------------------------------------+
 | Run Description                        | ecoliK12_pbi_March2013                                                     | Can be any ASCII string.                                          |
 +----------------------------------------+----------------------------------------------------------------------------+-------------------------------------------------------------------+
 | Is Collection                          | TRUE                                                                       | Must be a Boolean value. Boolean details below.                   |
@@ -77,6 +79,7 @@ Specifically, it must satisfy the regular expression:
 Required Fields
 ---------------
   - Run Name
+  - System Name
   - Well No.
   - Sample Name
   - Collection Time
