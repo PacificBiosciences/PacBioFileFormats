@@ -23,8 +23,8 @@ the *pbcore* Python library.
 Version
 =======
 
-The PacBio BAM specification version described here is 3.0.6. PacBio
-BAM files adhering to this spec contain the tag ``pb:3.0.6`` in the
+The PacBio BAM specification version described here is 3.0.7. PacBio
+BAM files adhering to this spec contain the tag ``pb:3.0.7`` in the
 ``@HD`` header.
 
 
@@ -459,12 +459,14 @@ together values from this flags enum::
 
   enum LocalContextFlags
   {
-      ADAPTER_BEFORE = 1,
-      ADAPTER_AFTER  = 2,
-      BARCODE_BEFORE = 4,
-      BARCODE_AFTER  = 8,
-      FORWARD_PASS   = 16,
-      REVERSE_PASS   = 32
+      ADAPTER_BEFORE     = 1,
+      ADAPTER_AFTER      = 2,
+      BARCODE_BEFORE     = 4,
+      BARCODE_AFTER      = 8,
+      FORWARD_PASS       = 16,
+      REVERSE_PASS       = 32,
+      ADAPTER_BEFORE_BAD = 64,
+      ADAPTER_AFTER_BAD  = 128
   };
 
 Orientation of a subread (designated by one of the mutually
@@ -485,6 +487,14 @@ ZMW.
 
 The ``ADAPTER_*`` and ``BARCODE_*`` flags reflect whether the
 subread is flanked by adapters or barcodes at the ends.
+
+The ``ADAPTER_BEFORE_BAD`` and ``ADAPTER_AFTER_BAD`` flags indicate
+that one or both adapters flanking this subread do not align to the
+adapter reference sequence(s). The adapter on this flank could be missing
+from the pbell molecule, or obscured by a local decrease in accuracy.
+Likewise, some nearby barcode or insert bases may be missing or
+obscured. ``ADAPTER_*_BAD`` flags can not be set unless the
+corresponding ``ADAPTER_*`` flag is set.
 
 This tag is mandatory for subread records, but will be absent from
 non-subread records (scraps, ZMW read, CCS read, etc.)
