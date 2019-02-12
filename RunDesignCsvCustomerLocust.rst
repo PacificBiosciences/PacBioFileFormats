@@ -11,31 +11,39 @@ The Run Design CSV is a comma-separated file which can be imported into SMRT Lin
 +----------------------------------------+----------------------------------------------------------------------------+-------------------------------------------------------------------+
 | Experiment Id                          | 325/3250057                                                                | Must be a valid experiment ID. Details below.                     |
 +----------------------------------------+----------------------------------------------------------------------------+-------------------------------------------------------------------+
-| Experiment Description                 | 20170530_A6_Iguana_VVnC_SampleSheet_TEMPLATE                               | Can be any ASCII string. Defaults to Run Description.             |
+| Experiment Description                 | 20170530_A6_Iguana_VVnC_SampleSheet_TEMPLATE                               | Can be any ASCII string. Defaults to Run Comments.             |
 +----------------------------------------+----------------------------------------------------------------------------+-------------------------------------------------------------------+
 | Run Name                               | 20170530_A6_Iguana_VVnC_SampleSheet_TEMPLATE                               | Can be any ASCII string.                                          |
 +----------------------------------------+----------------------------------------------------------------------------+-------------------------------------------------------------------+
 | System Name                            | Sequel                                                                     | Must be either Sequel or Sequel II                                |
 +----------------------------------------+----------------------------------------------------------------------------+-------------------------------------------------------------------+
-| Run Description                        | ecoliK12_pbi_March2013                                                     | Can be any ASCII string.                                          |
+| Run Comments                           | ecoliK12_pbi_March2013                                                     | Can be any ASCII string.                                          |
 +----------------------------------------+----------------------------------------------------------------------------+-------------------------------------------------------------------+
 | Is Collection                          | TRUE                                                                       | Must be a Boolean value. Boolean details below.                   |
 +----------------------------------------+----------------------------------------------------------------------------+-------------------------------------------------------------------+
-| Well No.                               | A01                                                                        | Must be a valid well number. Details below.                       |
+| Sample Well                            | A01                                                                        | Must be a valid well number. Details below.                       |
 +----------------------------------------+----------------------------------------------------------------------------+-------------------------------------------------------------------+
 | Sample Name                            | SMS_Iguana_A6_3230046_A01_TestCase_SB_BindKit_ChemKitv2_8rxnKit            | Can be any ASCII string.                                          |
 +----------------------------------------+----------------------------------------------------------------------------+-------------------------------------------------------------------+
-| Collection Time                        | 120                                                                        | Must be a float >= 1 and <= 1200. Time is in minutes.             |
+| Read Type                              | CLR                                                                        | Must be either CLR or CCS.                                        |
 +----------------------------------------+----------------------------------------------------------------------------+-------------------------------------------------------------------+
-| Sample Description                     | SMS_Iguana_A6_3230046_A01_TestCase_SB_BindKit_ChemKit                      | Can be any ASCII string.                                          |
+| Movie Time per SMRT Cell (hours)       | 120                                                                        | Must be a float >= 1 and <= 1200. Time is in minutes.             |
 +----------------------------------------+----------------------------------------------------------------------------+-------------------------------------------------------------------+
-| Insert Size                            | 2000                                                                       | Must be an integer >= 10. Units are in bp.                        |
+| Use Predictive Loading                 | TRUE                                                                       | Must be a Boolean value. Boolean details below.                   |
 +----------------------------------------+----------------------------------------------------------------------------+-------------------------------------------------------------------+
-| On Plate Loading Concentration         | 5                                                                          | Must be a float. Units are in pM.                                 |
+| Loading Target (P1 + P2)               | 0.4                                                                        | Must be a float between 0.01 and 1.                               |
++----------------------------------------+----------------------------------------------------------------------------+-------------------------------------------------------------------+
+| Maximum Loading Time (hours)           | 2.1                                                                        | Must be a float between 1 and 4.                                  |
++----------------------------------------+----------------------------------------------------------------------------+-------------------------------------------------------------------+
+| Sample Comment                         | SMS_Iguana_A6_3230046_A01_TestCase_SB_BindKit_ChemKit                      | Can be any ASCII string.                                          |
++----------------------------------------+----------------------------------------------------------------------------+-------------------------------------------------------------------+
+| Insert Size (bp)                       | 2000                                                                       | Must be an integer >= 10. Units are in bp.                        |
++----------------------------------------+----------------------------------------------------------------------------+-------------------------------------------------------------------+
+| On-Plate Loading Concentration (pM)    | 5                                                                          | Must be a float. Units are in pM.                                 |
 +----------------------------------------+----------------------------------------------------------------------------+-------------------------------------------------------------------+
 | Size Selection                         | FALSE                                                                      | Must be a Boolean value. Boolean details below. Default is False. |
 +----------------------------------------+----------------------------------------------------------------------------+-------------------------------------------------------------------+
-| DNA Template Prep Kit Box Barcode      | DM1117100259100111716                                                      | Must be valid kit barcode. Details below.                         |
+| Template Prep Kit Box Barcode          | DM1117100259100111716                                                      | Must be valid kit barcode. Details below.                         |
 +----------------------------------------+----------------------------------------------------------------------------+-------------------------------------------------------------------+
 | DNA Control Complex Box Barcode        | DM1234101084300123120                                                      | Must be valid kit barcode. Details below.                         |
 +----------------------------------------+----------------------------------------------------------------------------+-------------------------------------------------------------------+
@@ -47,7 +55,7 @@ The Run Design CSV is a comma-separated file which can be imported into SMRT Lin
 +----------------------------------------+----------------------------------------------------------------------------+-------------------------------------------------------------------+
 | Automation Parameters                  | ExtensionTime=double:60|ExtendFirst=boolean:True                           | Must follow format demonstrated in Value Example. Details below.  |
 +----------------------------------------+----------------------------------------------------------------------------+-------------------------------------------------------------------+
-| Enable CCS Analysis                    | TRUE                                                                       | Must be a Boolean value. Boolean details below.                   |
+| Generate CCS Data                      | TRUE                                                                       | Must be a Boolean value. Boolean details below.                   |
 +----------------------------------------+----------------------------------------------------------------------------+-------------------------------------------------------------------+
 | Sample is Barcoded                     | TRUE                                                                       | Must be a Boolean value. Details on booleans below.               |
 +----------------------------------------+----------------------------------------------------------------------------+-------------------------------------------------------------------+
@@ -79,12 +87,11 @@ Specifically, it must satisfy the regular expression:
 Required Fields
 ---------------
   - Run Name
-  - System Name
-  - Well No.
+  - Sample Well
   - Sample Name
-  - Collection Time
-  - Insert Size
-  - DNA Template Prep Kit Box Barcode
+  - Movie Time per SMRT Cell (hours)
+  - Insert Size (bp)
+  - Template Prep Kit Box Barcode
   - Binding Kit Box Barcode
   - Sequencing Kit Box Barcode
 
@@ -105,7 +112,7 @@ Specifically, Experiment IDs cannot satisfy the regular expressions:
   - ``/(?:^\/)|\/\/|(?:\/$)/``
   - ``/ /g``
 
-Well No.
+Sample Well
 --------
 The well number must start with a letter "A" through "H", and end in a number "01" through "12",
 i.e. "A01" through "H12". In other words, it must satisfy the regular expression:
