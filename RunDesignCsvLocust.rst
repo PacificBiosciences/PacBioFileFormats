@@ -95,7 +95,6 @@ Specifically, it must satisfy the regular expression:
 Required Fields
 ---------------
   - Run Name
-  - System Name
   - Sample Well
   - Sample Name
   - Movie Time per SMRT Cell (hours)
