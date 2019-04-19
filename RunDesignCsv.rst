@@ -213,6 +213,7 @@ A maximum of 384 barcodes is permitted per sample.
 
 Auto Analysis fields
 --------------------
+Auto-analysis is only supported on Sequel II.
 These fields include: Pipeline Id, Analysis Name, Entry Points, Task Options.
 You may define one analysis for each collection and bio sample.
 Pipeline Id, Analysis Name and Entry Points fields are required.
