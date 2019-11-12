@@ -341,10 +341,12 @@ Use of read tags for per-read information
   | qe        | i          | 0-based end of query in the ZMW read (absent in CCS)             |
   +-----------+------------+------------------------------------------------------------------+
   | ws        | i          | Start of first base of the query ('qs') in approximate raw       |
-  |           |            | frame count since start of movie (absent in CCS)                 |
+  |           |            | frame count since start of movie. For a CCS read,                |
+  |           |            | the start of the first base of the first incorporated subread.   |
   +-----------+------------+------------------------------------------------------------------+
   | we        | i          | Start of last base of the query ('qe - 1') in approximate raw    |
-  |           |            | frame count since start of movie (absent in CCS)                 |
+  |           |            | frame count since start of movie. For a CCS read,                |
+  |           |            | the start of the last base of the last incorporated subread.     |
   +-----------+------------+------------------------------------------------------------------+
   | zm        | i          | ZMW hole number                                                  |
   +-----------+------------+------------------------------------------------------------------+
