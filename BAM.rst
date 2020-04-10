@@ -401,6 +401,43 @@ Notes:
 - Encoding of kinetics features (``ip``, ``pw``) is described below.
 
 
+Use of read tags for HiFi per-read-base kinetic information
+===========================================================
+
+The following read tags contain averaged kinetic information (IPD/PulseWidth) 
+from subreads when applying CCS to generate HiFi reads. These are computed 
+and stored independently for both orientations of the insert. Forward is 
+defined with respect to the orientation represented in ``SEQ`` and is 
+considered to be the native orientation. As with other PacBio-specific 
+tags, aligners will not re-orient these fields.
+
+
+  +-----------+---------------+----------------------------------------------------+
+  | **Tag**   | **Type**      |**Description**                                     |
+  +===========+===============+====================================================+
+  | fi        | B,C           | Forward IPD (codec V1)                             |
+  +-----------+---------------+----------------------------------------------------+
+  | ri        | B,C           | Reverse IPD (codec V1)                             |
+  +-----------+---------------+----------------------------------------------------+
+  | fp        | B,C           | Forward PulseWidth (codec V1)                      |
+  +-----------+---------------+----------------------------------------------------+
+  | rp        | B,C           | Reverse PulseWidth (codec V1)                      |
+  +-----------+---------------+----------------------------------------------------+
+  | fn        | i             | Forward number of complete passes (zero or more)   |
+  +-----------+---------------+----------------------------------------------------+
+  | rn        | i             | Reverse number of complete passes (zero or more)   |
+  +-----------+---------------+----------------------------------------------------+
+
+
+Notes:
+- When CCS filtering is disabled, no averaging occurs with ZMWs that don't 
+  have enough passes to generate HiFi reads. Instead, the pw/ip values are 
+  passed as is from a representative subread.
+- Minor cases exist where a certain orientation may get filtered out entirely 
+  from a ZMW, preventing valid values from being passed for that record. In 
+  these cases, empty lists will be passed for the respective record/orientation 
+  and number of passes will be set to zero.
+
 
 How to annotate scrap reads
 ===========================
