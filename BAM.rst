@@ -559,9 +559,7 @@ In multiplexed workflows, we record per-subread tags representing the
 barcode call and a score representing the confidence of that call.
 The actual data used to inform the barcode calls---the barcode
 sequences and associated pulse features---will be retained in the
-associated ``scraps.bam`` file, so that ``bam2bam`` can be used at a
-later time to reconstitute the full-length ZMW reads in order,
-for example, to repeat barcode calling with different options.
+associated ``scraps.bam`` file.
 
 
   +-----------+---------------+----------------------------------------------------+
