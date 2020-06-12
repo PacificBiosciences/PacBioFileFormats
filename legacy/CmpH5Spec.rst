@@ -186,7 +186,7 @@ groups:
     d. Datasets encoding information about the sequencing chemistry
        that was used.  This is encoded in one of two manners:
 
-      1.  Datasets ``SequencingKit``, ``BindingKit``, and
+      1. Datasets ``SequencingKit``, ``BindingKit``, and
          ``SoftwareVersion`` represent the partnumbers read by the
          instrument barcode reader for each movie run, as well as the
          basecaller version.  Decoding of this identifying "triple"

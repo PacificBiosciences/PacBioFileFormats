@@ -267,7 +267,6 @@ SAM/BAM spec, we encode special information as follows.
          will only be encountered in intermediate steps before
          secondary analysis.
 
-      |
       **Base feature manifest---absent item  means feature absent from reads:**
 
 
@@ -484,8 +483,7 @@ and for the present moment, the encoded probability reflects the
 confidence of a basecall against alternatives including substitution,
 deletion, and insertion.
 
-*We expect that more details will follow here in a later spec
- revision.*
+*We expect that more details will follow here in a later spec revision.*
 
 __ `specifications for BAM/SAM`
 
