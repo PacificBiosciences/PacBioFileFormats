@@ -24,9 +24,6 @@ legacy `cmp.h5` format.
    FASTA
    DataSet
    RunDesignCsv
-   RunDesignCsvCustomer
-   RunDesignCsvLocust
-   RunDesignCsvCustomerLocust
 
 
 Legacy formats

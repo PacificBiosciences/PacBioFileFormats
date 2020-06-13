@@ -129,7 +129,7 @@ Cell No.
 The cell numbers must satisfy a valid cell re-use scheme.
 
 Sample Well
---------
+-----------
 The well number must start with a letter "A" through "H", and end in a number "01" through "12",
 i.e. "A01" through "H12". In other words, it must satisfy the regular expression:
 
@@ -150,6 +150,7 @@ Acceptable boolean values for true are:
   - "t"
   - "yes"
   - "y"
+
 Acceptable boolean values for false are:
 
   - "false"
