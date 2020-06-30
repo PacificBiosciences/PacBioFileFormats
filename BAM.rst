@@ -104,7 +104,7 @@ For CCS reads, the ``QNAME`` convention is::
 
   {movieName}/{holeNumber}/ccs
 
-The ``QNAME`` for CCS reads may (optionally) include a suffix ``fwd`` or
+In "by-strand mode" the ``QNAME`` for CCS reads may include a suffix ``fwd`` or
 ``rev`` to convey strand information::
 
   {movieName}/{holeNumber}/ccs/fwd
