@@ -442,6 +442,10 @@ Notes:
   from a ZMW, preventing valid values from being passed for that record. In 
   these cases, empty lists will be passed for the respective record/orientation 
   and number of passes will be set to zero.
+- Flanking zeroes in kinetics arrays should be ignored for the respective strand.
+  For instance, when ``SEQ`` is ``AAACGCGTTT`` and ``fp:B:C,0,0,0,3,4,5,6,0,0,0``,
+  then any downstream application should only use ``CGCG`` in its analysis, and
+  ignore the ``AAA`` and ``TTT`` stretches.
 
 
 How to annotate scrap reads
