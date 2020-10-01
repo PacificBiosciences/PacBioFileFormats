@@ -48,13 +48,13 @@ Pulse features
 ==============
 
 Background: A spike in the trace can be identified as a pulse and
-a pulse can be called as a base. Thus, the number of pulse calls is at 
+a pulse can be called as a base. Thus, the number of pulse calls is at
 least equal the number of base calls, as they are also pulses.
 As some pulses do not qualify as bases, the number of pulses is
 possibly greater than the number of bases.
 
 The pulse BAM extends the vanilla PacBio BAM format with additional
-per-read tags. These new pulse tags are of equal length, 
+per-read tags. These new pulse tags are of equal length,
 one entry per pulse:
 
     +---------------------+---------+--------+--------------------+--------------------------------+
@@ -127,7 +127,7 @@ Unresolved questions
 
 - Where will baseline information be stored?  Current plan is to store
   it in ``sts.h5`` file (which needs a spec of its own).
-- The pkmid/pkmean values are stored in photoelections, which means we need 
-  the gain in order to compute the values in counts.  This has internal value 
-  when back-converting internal BAMs to pls.h5 files, which uses counts to 
+- The pkmid/pkmean values are stored in photoelections, which means we need
+  the gain in order to compute the values in counts.  This has internal value
+  when back-converting internal BAMs to pls.h5 files, which uses counts to
   represent pk values.
