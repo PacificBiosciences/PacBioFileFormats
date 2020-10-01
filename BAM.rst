@@ -358,6 +358,9 @@ Use of read tags for per-read information
   | np        | i          | NumPasses (1 for subreads, variable for CCS---encodes number of  |
   |           |            | *complete* passes of the insert)                                 |
   +-----------+------------+------------------------------------------------------------------+
+  | ec        | f          | Effective coverage for CCS reads, the average subread coverage   |
+  |           |            | across all windows (only present in CCS reads)                   |
+  +-----------+------------+------------------------------------------------------------------+
   | rq        | f          | Float in [0, 1] encoding expected accuracy                       |
   +-----------+------------+------------------------------------------------------------------+
   | sn        | B,f        | 4 floats for the average signal-to-noise ratio of A, C, G, and T |
