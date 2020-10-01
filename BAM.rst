@@ -265,7 +265,7 @@ SAM/BAM spec, we encode special information as follows.
       |                   | spike-in controls, otherwise CONTROL   |                |
       |                   | key is absent                          |                |
       +-------------------+----------------------------------------+----------------+
-      
+
       .. note::
 
          The READTYPE values encountered in secondary analysis will be
@@ -358,6 +358,9 @@ Use of read tags for per-read information
   | np        | i          | NumPasses (1 for subreads, variable for CCS---encodes number of  |
   |           |            | *complete* passes of the insert)                                 |
   +-----------+------------+------------------------------------------------------------------+
+  | ec        | f          | Effective coverage for CCS reads, the average subread coverage   |
+  |           |            | across all windows (only present in CCS reads)                   |
+  +-----------+------------+------------------------------------------------------------------+
   | rq        | f          | Float in [0, 1] encoding expected accuracy                       |
   +-----------+------------+------------------------------------------------------------------+
   | sn        | B,f        | 4 floats for the average signal-to-noise ratio of A, C, G, and T |
@@ -409,11 +412,11 @@ Notes:
 Use of read tags for HiFi per-read-base kinetic information
 ===========================================================
 
-The following read tags contain averaged kinetic information (IPD/PulseWidth) 
-from subreads when applying CCS to generate HiFi reads. These are computed 
-and stored independently for both orientations of the insert. Forward is 
-defined with respect to the orientation represented in ``SEQ`` and is 
-considered to be the native orientation. As with other PacBio-specific 
+The following read tags contain averaged kinetic information (IPD/PulseWidth)
+from subreads when applying CCS to generate HiFi reads. These are computed
+and stored independently for both orientations of the insert. Forward is
+defined with respect to the orientation represented in ``SEQ`` and is
+considered to be the native orientation. As with other PacBio-specific
 tags, aligners will not re-orient these fields.
 
 
@@ -435,12 +438,12 @@ tags, aligners will not re-orient these fields.
 
 
 Notes:
-- When CCS filtering is disabled, no averaging occurs with ZMWs that don't 
-  have enough passes to generate HiFi reads. Instead, the pw/ip values are 
+- When CCS filtering is disabled, no averaging occurs with ZMWs that don't
+  have enough passes to generate HiFi reads. Instead, the pw/ip values are
   passed as is from a representative subread.
-- Minor cases exist where a certain orientation may get filtered out entirely 
-  from a ZMW, preventing valid values from being passed for that record. In 
-  these cases, empty lists will be passed for the respective record/orientation 
+- Minor cases exist where a certain orientation may get filtered out entirely
+  from a ZMW, preventing valid values from being passed for that record. In
+  these cases, empty lists will be passed for the respective record/orientation
   and number of passes will be set to zero.
 - Flanking zeroes in kinetics arrays should be ignored for the respective strand.
   For instance, when ``SEQ`` is ``AAACGCGTTT`` and ``fp:B:C,0,0,0,3,4,5,6,0,0,0``,
@@ -454,10 +457,10 @@ How to annotate scrap reads
 Reads that belong to a read group with READTYPE=SCRAP have to be annotated
 in a hierarchical fashion:
 
-1) Classification with tag *sz* occurs on a per ZMW level, distinguishing 
-   between spike-in controls, sentinels of the basecaller, malformed ZMWs, 
+1) Classification with tag *sz* occurs on a per ZMW level, distinguishing
+   between spike-in controls, sentinels of the basecaller, malformed ZMWs,
    and user-defined templates.
-2) A region-wise annotation with tag *sc* to label adapters, barcodes, 
+2) A region-wise annotation with tag *sc* to label adapters, barcodes,
    low-quality regions, and filtered subreads.
 
   +-----------+---------------+-----------------------------------------+
@@ -594,15 +597,15 @@ associated ``scraps.bam`` file.
 
 - The integer (``int``) ``bq`` tag contains the barcode call confidence.
   If the ``BarcodeQuality`` element of the header is set to ``Score``,
-  then the tag represents the mean normalized sum of the calculated 
-  Smith-Waterman scores that support the call in the ``bc`` tag across all 
+  then the tag represents the mean normalized sum of the calculated
+  Smith-Waterman scores that support the call in the ``bc`` tag across all
   subreads. For each barcode, the sum of the Smith-Waterman score is normalized
   by the length of the barcode times the match score, then multiplied by 100
   and rounded; this provides an integer value between 0 - 100.
-  On the other hand, if the value of the header-tag is ``Probability`` instead, 
-  then the tag value is a the Phred-scaled posterior probability that the 
+  On the other hand, if the value of the header-tag is ``Probability`` instead,
+  then the tag value is a the Phred-scaled posterior probability that the
   barcode call in ``bc`` is correct.
-  In both cases, the value will never exceed the ``int8`` range, but for 
+  In both cases, the value will never exceed the ``int8`` range, but for
   backward-compatibility reasons we keep the BAM ``bq`` as ``int``.
   This contract allows the PBI to store ``bq`` as a much smaller `int8``.
 
