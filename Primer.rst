@@ -77,11 +77,9 @@ BAM everywhere
 
 *Unaligned* BAM files representing the *subreads* will be produced
 natively by the PacBio instrument.  The subreads BAM will be the
-starting point for secondary analysis.  In addition, the *scraps*
-arising from cutting out adapter and barcode sequences will be
-retained in a ``scraps.bam`` file, to enable reconstruction of HQ
-regions of the ZMW reads, in case the customer needs to rerun
-barcode finding with a different option.
+starting point for secondary analysis.  In addition, the artifacts
+resulting from removing adapter and LQ region sequences will be
+retained in a ``scraps.bam`` file.
 
 The circular consensus tool/workflow (CCS) will take as input an
 unaligned subreads BAM file and produce an output BAM file containing
