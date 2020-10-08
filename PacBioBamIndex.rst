@@ -26,10 +26,13 @@ the *PacBio BAM index*, which supports the two use cases above.
 Version
 ===========
 
-This is version ``3.0.2`` of the ``bam.pbi`` specification.
+This is version ``4.0.0`` of the ``bam.pbi`` specification.
 
 Changelog
 ===========
+
+  [4.0.0] - 2020-10-08
+    * Added nInsOps, nDelOps fields to mapped data section.
 
   [3.0.2] - 2018-09-13
     * qStart,qLen for CCS records now stored as (0,qLen) instead of (-1,-1)
@@ -192,15 +195,19 @@ followed by *N* tStart values, then *N* tEnd values, and so on.
 +----------------+----------+-----------------------------------------------+
 | mapQV          | uint8_t  | The mapping quality [valid ranges 0-254]      |
 +----------------+----------+-----------------------------------------------+
+| nInsOps        | uint32_t | Number of insertion operations (not bases)    |
++----------------+----------+-----------------------------------------------+
+| nDelOps        | uint32_t | Number of deletion operations (not bases)     |
++----------------+----------+-----------------------------------------------+
 
 .. note::
-  ``nDel`` and ``nIns`` values are absent in the index.
+  Inserted and deleted base counts are not included in the index.
   These values are readily computed as::
 
-    nIns = aEnd - aStart - nM - nMM
-    nDel = tEnd - tStart - nM - nMM
+    nInsertedBases = aEnd - aStart - nM - nMM
+    nDeletedBases = tEnd - tStart - nM - nMM
 
-  Alignment length is computed as nM + nMM + nIns + nDel, which is::
+  Alignment length can be computed using::
 
     aEnd - aStart + tEnd - tStart - nM - nMM
 
