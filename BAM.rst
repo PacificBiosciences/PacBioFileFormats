@@ -23,8 +23,8 @@ the *pbcore* Python library.
 Version
 =======
 
-The PacBio BAM specification version described here is 3.0.7. PacBio
-BAM files adhering to this spec contain the tag ``pb:3.0.7`` in the
+The PacBio BAM specification version described here is 4.0.0. PacBio
+BAM files adhering to this spec contain the tag ``pb:4.0.0`` in the
 ``@HD`` header.
 
 
@@ -177,7 +177,7 @@ SAM/BAM spec, we encode special information as follows.
 
 ``@RG`` (read group) header entries:
 
-  ``ID`` tag (identifier)
+  ``ID`` tag (identifier):
       contains an 8-character string interpretable as the hexadecimal
       representation of an integer.  Optionally, a read group identifier may
       contain barcode labels to distinguish demultiplexed samples. Read groups
@@ -218,7 +218,7 @@ SAM/BAM spec, we encode special information as follows.
   ``PL`` tag ("platform"):
       contains ``"PACBIO"``
 
-  ``PM`` tag ("platform model")
+  ``PM`` tag ("platform model"):
       contains ``"ASTRO"``, ``"RS"``, or ``"SEQUEL"``, reflecting the
       PacBio instrument series
 
@@ -231,12 +231,14 @@ SAM/BAM spec, we encode special information as follows.
       read group ID includes barcode labels.
 
       The value must be represented in the format recommended by the SAM/BAM
-      spec::
+      spec. Barcode *sequences* will be concatenated by a single dash. If both
+      barcodes are the same, only one needs to be provided.
 
+        {seq}
         {seq1}-{seq2}
 
-      Note that this format differs slightly from the one used in the read
-      group ID's barcode label - a single dash as the separator rather than two.
+      Note that this differs from the format used to label barcode indices on
+      a read group's ID.
 
   ``DS`` tag ("description"):
       contains some semantic information about the reads in the group,
@@ -572,7 +574,6 @@ The actual data used to inform the barcode calls---the barcode
 sequences and associated pulse features---will be retained in the
 associated ``scraps.bam`` file.
 
-
   +-----------+---------------+----------------------------------------------------+
   | **Tag**   | **Type**      |**Description**                                     |
   +===========+===============+====================================================+
@@ -607,7 +608,26 @@ associated ``scraps.bam`` file.
   barcode call in ``bc`` is correct.
   In both cases, the value will never exceed the ``int8`` range, but for
   backward-compatibility reasons we keep the BAM ``bq`` as ``int``.
-  This contract allows the PBI to store ``bq`` as a much smaller `int8``.
+  This contract allows the PBI to store ``bq`` as a much smaller ``int8``.
+
+The following (optional) tags describe clipped barcode sequences:
+
+  +-----------+---------------+-------------------------------------------------------+
+  | **Tag**   | **Type**      | **Description**                                       |
+  +===========+===============+=======================================================+
+  | bl        | Z             | Barcode sequence clipped from leading end             |
+  +-----------+---------------+-------------------------------------------------------+
+  | bt        | Z             | Barcode sequence clipped from trailing end            |
+  +-----------+---------------+-------------------------------------------------------+
+  | ql        | Z             | Qualities of barcode bases clipped from leading end,  |
+  |           |               | stored as a FASTQ string                              |
+  +-----------+---------------+-------------------------------------------------------+
+  | qt        | Z             | Qualities of barcode bases clipped from trailing end, |
+  |           |               | stored as a FASTQ string                              |
+  +-----------+---------------+-------------------------------------------------------+
+  | bx        | B,i           | Pair of clipped barcode sequence lengths              |
+  +-----------+---------------+-------------------------------------------------------+
+
 
 Barcode information will follow the same convention in CCS output
 (``ccs.bam`` files).
