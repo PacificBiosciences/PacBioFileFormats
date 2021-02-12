@@ -216,14 +216,20 @@ SAM/BAM spec, we encode special information as follows.
          values used to populate a barcoded record's ``bc`` tag.
 
   ``PL`` tag ("platform"):
-      contains ``"PACBIO"``
+      contains ``"PACBIO"``.
 
   ``PM`` tag ("platform model"):
       contains ``"ASTRO"``, ``"RS"``, or ``"SEQUEL"``, reflecting the
-      PacBio instrument series
+      PacBio instrument series.
 
   ``PU`` tag ("platform unit"):
       contains the PacBio movie name.
+
+  ``LB`` tag ("Well Sample Name"):
+      contains the user-supplied name of the library.
+
+  ``SM`` tag ("Bio Sample Name"):
+      contains the user-supplied name of the biological sample.
 
   ``BC`` tag ("barcodes"):
       contains the barcode sequences associated with this read group. This tag
