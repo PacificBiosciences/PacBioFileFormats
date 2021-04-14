@@ -414,6 +414,9 @@ Notes:
 - *DeletionTag* and *SubstitutionTag* represent alternate basecalls,
   or "N" when there is no alternate basecall available.  In other
   words, they are strings over the alphabet "ACGTN".
+- The IPD (interpulse duration) value associated with a base is the number of
+  frames *preceding* its incorporation, while the PW (pulse width) is the
+  number of frames during its incorporation.
 - Encoding of kinetics features (``ip``, ``pw``) is described below.
 
 
