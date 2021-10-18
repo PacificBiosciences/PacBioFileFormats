@@ -426,8 +426,9 @@ Use of read tags for HiFi per-read-base kinetic information
 The following read tags contain averaged kinetic information (IPD/PulseWidth)
 from subreads when applying CCS to generate HiFi reads. These are computed
 and stored independently for both orientations of the insert. Forward is
-defined with respect to the orientation represented in ``SEQ`` and is
-considered to be the native orientation. As with other PacBio-specific
+defined & stored with respect to the orientation represented in ``SEQ`` and is
+considered to be the native orientation. Reverse tags are stored in the opposite
+direction, e.g. from the last base to the first. As with other PacBio-specific
 tags, aligners will not re-orient these fields.
 
 
@@ -447,8 +448,27 @@ tags, aligners will not re-orient these fields.
   | rn        | i             | Reverse number of complete passes (zero or more)   |
   +-----------+---------------+----------------------------------------------------+
 
+The following clipping example illustrates the coordinate system for these tags,
+shown as stored in the BAM file::
+
+  --------
+  Original
+  --------
+
+      SEQ:  A   A   C   C   G   T   T   A   G   C
+    fi/fp: f0, f1, f2, f3, f4, f5, f6, f7, f8, f9
+    ri/rp: r9, r8, r7, r6, r5, r4, r3, r2, r1, r0
+
+  -----------------
+  Clipped to [1, 4)
+  -----------------
+
+      SEQ:  A   C   C
+    fi/fp: f1, f2, f3
+    ri/rp: r3, r2, r1
 
 Notes:
+
 - When CCS filtering is disabled, no averaging occurs with ZMWs that don't
   have enough passes to generate HiFi reads. Instead, the pw/ip values are
   passed as is from a representative subread.
