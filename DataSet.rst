@@ -75,6 +75,12 @@ and three optional\:
     top-level DataSet. For example, a DataSet that resulted from merging multiple DataSets
     can store a record of the original DataSets in this section, along with their original metadata.
 
+5.  An optional ``<pbbase:SupplementalResources>`` section with references to
+    external data or metadata sources in any format, separate from the main
+    data files in ExternalResources, but represented using the same
+    ``<pbbase:ExternalResource>`` model.  This may include files such as
+    reports or unbarcoded reads BAM.
+
 
 Types of DataSets
 ---------------------
