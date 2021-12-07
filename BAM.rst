@@ -286,6 +286,12 @@ SAM/BAM spec, we encode special information as follows.
       |                   | spike-in controls, otherwise CONTROL   |                |
       |                   | key is absent                          |                |
       +-------------------+----------------------------------------+----------------+
+      | STRAND            | Stores strandness of single-stranded   | FORWARD        |
+      |                   | reads as FORWARD or REVERSE.           |                |
+      |                   | Key is absent if reads are             |                |
+      |                   | double-stranded.                       |                |
+      |                   | Only applies to READTYPE CCS.          |                |
+      +-------------------+----------------------------------------+----------------+
 
       .. note::
 
