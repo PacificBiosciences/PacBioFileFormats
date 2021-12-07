@@ -188,13 +188,26 @@ SAM/BAM spec, we encode special information as follows.
          follows::
 
            RGID_STRING := md5(movieName + "//" + readType)[:8]
-           RGID_INT    := int32.Parse(RGID_STRING)
 
          where `movieName` is the moviename (@RG::PU) and `readType`
          is the read type (found in @RG::DS).  Note that `movieName`
          is lowercase while `readType` is uppercase.  `md5` is
          understood to be the (lowercase) hex md5 digest of the input
          string.
+
+         Optionally for `readType` CCS, strandness can be encoded in the ``ID``.
+         This is to ensure that multiple types of reads, double- and single-
+         stranded, can be stored in the same BAM file, without hole number
+         collisions in the PacBio BAM index file.
+         The RGID_STRING is then defined as::
+
+           RGID_STRING := md5(movieName + "//" + readType + "// + strand)[:8]
+
+         where strand must be lowercase ``fwd`` or ``rev``; it may not be empty.
+
+         The RGID_INT is defined as::
+
+           RGID_INT    := int32.Parse(RGID_STRING)
 
          RGID_STRING is used in the @RG header and in the `RG` tag of
          BAM records, while RGID_INT is used in the PacBio BAM index
