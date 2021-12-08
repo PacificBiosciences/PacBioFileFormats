@@ -635,6 +635,29 @@ non-subread records (scraps, ZMW read, CCS read, etc.)
   | cx        | i             | Subread local context Flags                        |
   +-----------+---------------+----------------------------------------------------+
 
+Missing adapter annotation in CCS reads
+=======================================
+
+The ``ma`` and ``ac`` tags indicate whether the molecule that produces a CCS
+read is missing a SMRTbell adapter on its left/start or right/end. The tags are
+produced by CCS version 6.3.0 and newer based on the ``ADAPTER_BEFORE_BAD`` and
+``ADAPTER_AFTER_BAD`` information in the subread ``cx`` tag.
+
+  +-----------+---------------+-------------------------------------------------------------------+
+  | **Tag**   | **Type**      |**Description**                                                    |
+  +===========+===============+===================================================================+
+  | ac        | B,i           | Array containing four counts, in order:                           |
+  |           |               | - detected adapters on left/start                                 |
+  |           |               | - missing adapters on left/start                                  |
+  |           |               | - detected adapters on right/end                                  |
+  |           |               | - missing adapter on right/end                                    |
+  +-----------+---------------+-------------------------------------------------------------------+
+  | ma        | i             | Bitmask storing if an adapter is missing on either side of the    |
+  |           |               | molecule. A value of 0 indicates neither end has a confirmed      |
+  |           |               | missing adapter.                                                  |
+  |           |               | - 0x1 if adapter is missing on left/start                         |
+  |           |               | - 0x2 if adapter is missing on right/end                          |
+  +-----------+---------------+-------------------------------------------------------------------+
 
 Barcode analysis
 ================
