@@ -2,8 +2,8 @@
 BAM format specification for PacBio
 ===================================
 
-.. moduleauthor:: David Alexander, Marcus Kinsella, Derek Barnett,
-                  Armin Toepfer, Brett Bowman
+.. moduleauthor:: Derek Barnett, David Seifert, James Drake, Jessica Mattick,
+                  Martin Smith, Armin Toepfer
 
 The BAM format is a binary, compressed, record-oriented container
 format for raw or aligned sequence reads.  The associated SAM format
@@ -23,8 +23,8 @@ the *pbcore* Python library.
 Version
 =======
 
-The PacBio BAM specification version described here is 4.0.0. PacBio
-BAM files adhering to this spec contain the tag ``pb:4.0.0`` in the
+The PacBio BAM specification version described here is 5.0.0. PacBio
+BAM files adhering to this spec contain the tag ``pb:5.0.0`` in the
 ``@HD`` header.
 
 
@@ -504,7 +504,7 @@ Notes:
 Use of read tags for per-read-base base modifications
 =====================================================
 
-The following read tags encode base modification information. Base modifications are 
+The following read tags encode base modification information. Base modifications are
 encoded according to the `SAM tags specifications`_ and any conflict is unintentional.
 
 
@@ -519,8 +519,8 @@ encoded according to the `SAM tags specifications`_ and any conflict is unintent
 
 Notes:
 
-- For informational purposes only: The continuous probability range of 0.0 to 1.0 is 
-  remapped to the discrete integers 0 to 255 inclusively in the ``Ml`` tag. 
+- For informational purposes only: The continuous probability range of 0.0 to 1.0 is
+  remapped to the discrete integers 0 to 255 inclusively in the ``Ml`` tag.
   The probability range corresponding to an integer *N* is *N/256* to *(N + 1)/256*.
 
 
