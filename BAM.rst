@@ -504,7 +504,7 @@ Notes:
 Use of read tags for per-read-base base modifications
 =====================================================
 
-The following read tags encode base modification information. Base modifications are 
+The following read tags encode base modification information. Base modifications are
 encoded according to the `SAM tags specifications`_ and any conflict is unintentional.
 
 
@@ -519,8 +519,8 @@ encoded according to the `SAM tags specifications`_ and any conflict is unintent
 
 Notes:
 
-- For informational purposes only: The continuous probability range of 0.0 to 1.0 is 
-  remapped to the discrete integers 0 to 255 inclusively in the ``Ml`` tag. 
+- For informational purposes only: The continuous probability range of 0.0 to 1.0 is
+  remapped to the discrete integers 0 to 255 inclusively in the ``Ml`` tag.
   The probability range corresponding to an integer *N* is *N/256* to *(N + 1)/256*.
 
 
