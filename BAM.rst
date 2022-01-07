@@ -2,8 +2,8 @@
 BAM format specification for PacBio
 ===================================
 
-.. moduleauthor:: David Alexander, Marcus Kinsella, Derek Barnett,
-                  Armin Toepfer, Brett Bowman
+.. moduleauthor:: Derek Barnett, David Seifert, James Drake, Jessica Mattick,
+                  Martin Smith, Armin Toepfer
 
 The BAM format is a binary, compressed, record-oriented container
 format for raw or aligned sequence reads.  The associated SAM format
@@ -23,8 +23,8 @@ the *pbcore* Python library.
 Version
 =======
 
-The PacBio BAM specification version described here is 4.0.0. PacBio
-BAM files adhering to this spec contain the tag ``pb:4.0.0`` in the
+The PacBio BAM specification version described here is 5.0.0. PacBio
+BAM files adhering to this spec contain the tag ``pb:5.0.0`` in the
 ``@HD`` header.
 
 
