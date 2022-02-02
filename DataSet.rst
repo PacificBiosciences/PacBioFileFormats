@@ -12,7 +12,7 @@ Version
 =======
 
 This document defines the 4.0.1 SMRT Link DataSet abstraction and its
-XML file representation. The 4.0.1 format is produced by the 10.0.0 release of PacBio
+XML file representation. The 4.0.1 format is produced by the 11.0.0 release of PacBio
 Primary Analysis and SMRT Link software.
 
 
