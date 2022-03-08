@@ -23,8 +23,8 @@ the *pbcore* Python library.
 Version
 =======
 
-The PacBio BAM specification version described here is 5.0.0. PacBio
-BAM files adhering to this spec contain the tag ``pb:5.0.0`` in the
+The PacBio BAM specification version described here is 6.0.0. PacBio
+BAM files adhering to this spec contain the tag ``pb:6.0.0`` in the
 ``@HD`` header.
 
 
@@ -88,6 +88,10 @@ the alignment (as found in the CIGAR).
    `aStart, aEnd` were stored, although in that file format they were
    referred to as `rStart, rEnd`.
 
+HiFi reads
+==========
+HiFi reads are defined as consensus reads with a QV >=20. These are treated in 
+the same manner as CCS reads in PacBio BAM files, unless noted otherwise.
 
 QNAME convention
 ================
@@ -104,12 +108,21 @@ For CCS reads, the ``QNAME`` convention is::
 
   {movieName}/{holeNumber}/ccs
 
-In "by-strand mode" the ``QNAME`` for CCS reads may include a suffix ``fwd`` or
-``rev`` to convey strand information::
+The ``QNAME`` for by-strand CCS reads includes a suffix ``fwd`` or ``rev`` to 
+indicate strand relative to the other by-strand read for the ZMW. Strand 
+assignment by CCS is arbitrary and does not imply the strand that may be 
+assigned during mapping.
 
   {movieName}/{holeNumber}/ccs/fwd
   {movieName}/{holeNumber}/ccs/rev
 
+For segmented CCS reads, the base ``QNAME`` follows the CCS read conventions, 
+while also appending the 0-based coordinate interval ``[qStart, qEnd)`` that 
+represents a span within the source read:: 
+
+  {movieName}/{holeNumber}/ccs/{qStart}_{qEnd}
+  {movieName}/{holeNumber}/ccs/fwd/{qStart}_{qEnd}
+  {movieName}/{holeNumber}/ccs/rev/{qStart}_{qEnd}
 
 CIGAR conventions
 =================
@@ -155,17 +168,16 @@ use a ``suffix.bam`` filename convention:
 BAM sorting conventions
 =======================
 
-*Aligned* PacBio BAM files shall be sorted by position in the standard
+*Aligned* PacBio reads shall be sorted by position in the standard
 fashion as done by ``samtools sort``.  The BAM ``@HD::SO`` tag shall
 be set to ``coordinate``.
 
-*Unaligned* PacBio BAM files shall be sorted by ``QNAME``, so that all
-subreads from a ZMW hole are stored contiguously in a file, with
-groups by ZMW hole number in numerical order, and within a ZMW,
-numerically by ``qStart``.  In case subreads and CCS reads are
-combined in a BAM, the CCS reads will sort after the subreads (``ccs``
-follows ``{qStart}_{qEnd}``). Note that this sorting is not strictly
-alphabetical, so we shall set the BAM ``@HD::SO`` tag to ``unknown``.
+*Unaligned* PacBio reads are grouped by ZMW hole number, sorted in numerical order.
+Reads from a ZMW are stored contiguously in a BAM file. Within a ZMW subreads 
+are stored first, sorted numerically by ``{qStart}_{qEnd}``, followed by CCS 
+reads, and finally segmented CCS reads, sorted numerically by ``{qStart}_{qEnd}``. 
+This is similar to sorting by ``QNAME`` but not strictly alphabetical, so the 
+BAM ``@HD:SO`` header tag is set to ``unknown``.
 
 
 Use of headers for file-level information
@@ -268,37 +280,40 @@ SAM/BAM spec, we encode special information as follows.
 
       .. tabularcolumns:: |l|p{5cm}|l|
 
-      +-------------------+----------------------------------------+----------------+
-      | Key               | Value spec                             | Value example  |
-      +===================+========================================+================+
-      | READTYPE          | One of ZMW, HQREGION,                  | SUBREAD        |
-      |                   | SUBREAD, CCS, SCRAP, or UNKNOWN        |                |
-      +-------------------+----------------------------------------+----------------+
-      | BINDINGKIT        | Binding kit part number                | 100236500      |
-      +-------------------+----------------------------------------+----------------+
-      | SEQUENCINGKIT     | Sequencing kit part number             | 001558034      |
-      +-------------------+----------------------------------------+----------------+
-      | BASECALLERVERSION | Basecaller version number              | 2.1            |
-      +-------------------+----------------------------------------+----------------+
-      | FRAMERATEHZ       | Frame rate in Hz                       | 100            |
-      +-------------------+----------------------------------------+----------------+
-      | CONTROL           | TRUE if reads are classified as        | TRUE           |
-      |                   | spike-in controls, otherwise CONTROL   |                |
-      |                   | key is absent                          |                |
-      +-------------------+----------------------------------------+----------------+
-      | STRAND            | Stores strandness of single-stranded   | FORWARD        |
-      |                   | reads as FORWARD or REVERSE.           |                |
-      |                   | Key is absent if reads are             |                |
-      |                   | double-stranded.                       |                |
-      |                   | Only applies to READTYPE CCS.          |                |
-      +-------------------+----------------------------------------+----------------+
+      +-------------------+-------------------------------------------+------------------+
+      | Key               | Value spec                                | Value example    |
+      +===================+===========================================+==================+
+      | READTYPE          | One of SUBREAD, CCS, SEGMENT,             | SUBREAD          |
+      |                   | ZMW, HQREGION, SCRAP, or UNKNOWN          |                  |
+      +-------------------+-------------------------------------------+------------------+
+      | SOURCE            | For segmented reads, the READTYPE of its  | CCS              |
+      |                   | source read. Key is present for segmented |                  |
+      |                   | reads only.                               |                  |
+      +-------------------+-------------------------------------------+------------------+
+      | BINDINGKIT        | Binding kit part number                   | 100-236-500      |
+      +-------------------+-------------------------------------------+------------------+
+      | SEQUENCINGKIT     | Sequencing kit part number                | 001-558-034      |
+      +-------------------+-------------------------------------------+------------------+
+      | BASECALLERVERSION | Basecaller version number                 | 5.0.0            |
+      +-------------------+-------------------------------------------+------------------+
+      | FRAMERATEHZ       | Frame rate in Hz                          | 100              |
+      +-------------------+-------------------------------------------+------------------+
+      | CONTROL           | TRUE if reads are classified as           | TRUE             |
+      |                   | spike-in controls, otherwise CONTROL      |                  |
+      |                   | key is absent                             |                  |
+      +-------------------+-------------------------------------------+------------------+
+      | STRAND            | Stores strandness of single-stranded      | FORWARD          |
+      |                   | reads as FORWARD or REVERSE.              |                  |
+      |                   | Key is absent if reads are                |                  |
+      |                   | double-stranded. Only applies to CCS or   |                  |
+      |                   | segmented CCS reads.                      |                  |
+      +-------------------+-------------------------------------------+------------------+
 
       .. note::
 
-         The READTYPE values encountered in secondary analysis will be
-         limited to SUBREAD and CCS.  The remaining READTYPE values
-         will only be encountered in intermediate steps before
-         secondary analysis.
+         The READTYPE values encountered in secondary analysis will be limited to SUBREAD, 
+         CCS, and SEGMENT.  The remaining READTYPE values will only be 
+         encountered in intermediate steps before secondary analysis.
 
       **Base feature manifest---absent item  means feature absent from reads:**
 
@@ -361,38 +376,43 @@ SAM/BAM spec, we encode special information as follows.
       +---------------------+-----------------------------------------+----------------------------------+
 
 
-
 Use of read tags for per-read information
 =========================================
 
-  +-----------+------------+------------------------------------------------------------------+
-  | **Tag**   | **Type**   | **Description**                                                  |
-  +===========+============+==================================================================+
-  | qs        | i          | 0-based start of query in the ZMW read (absent in CCS)           |
-  +-----------+------------+------------------------------------------------------------------+
-  | qe        | i          | 0-based end of query in the ZMW read (absent in CCS)             |
-  +-----------+------------+------------------------------------------------------------------+
-  | ws        | i          | Start of first base of the query ('qs') in approximate raw       |
-  |           |            | frame count since start of movie. For a CCS read,                |
-  |           |            | the start of the first base of the first incorporated subread.   |
-  +-----------+------------+------------------------------------------------------------------+
-  | we        | i          | Start of last base of the query ('qe - 1') in approximate raw    |
-  |           |            | frame count since start of movie. For a CCS read,                |
-  |           |            | the start of the last base of the last incorporated subread.     |
-  +-----------+------------+------------------------------------------------------------------+
-  | zm        | i          | ZMW hole number                                                  |
-  +-----------+------------+------------------------------------------------------------------+
-  | np        | i          | NumPasses (1 for subreads, variable for CCS---encodes number of  |
-  |           |            | *complete* passes of the insert)                                 |
-  +-----------+------------+------------------------------------------------------------------+
-  | ec        | f          | Effective coverage for CCS reads, the average subread coverage   |
-  |           |            | across all windows (only present in CCS reads)                   |
-  +-----------+------------+------------------------------------------------------------------+
-  | rq        | f          | Float in [0, 1] encoding expected accuracy                       |
-  +-----------+------------+------------------------------------------------------------------+
-  | sn        | B,f        | 4 floats for the average signal-to-noise ratio of A, C, G, and T |
-  |           |            | (in that order) over the HQRegion                                |
-  +-----------+------------+------------------------------------------------------------------+
+  +-----------+------------+-------------------------------------------------------------------------+
+  | **Tag**   | **Type**   | **Description**                                                         |
+  +===========+============+=========================================================================+
+  | qs        | i          | 0-based start of query in the ZMW read (absent in CCS).                 |
+  |           |            | For segmented CCS reads, the 0-based start of the query in its source   |
+  |           |            | read.                                                                   | 
+  +-----------+------------+-------------------------------------------------------------------------+
+  | qe        | i          | 0-based end of query in the ZMW read (absent in CCS).                   |
+  |           |            | For segmented CCS reads, the 0-based end of the query in its source     | 
+  |           |            | read.                                                                   |
+  +-----------+------------+-------------------------------------------------------------------------+
+  | ws        | i          | Start of first base of the query ('qs') in approximate raw frame count  |
+  |           |            | since start of movie. For CCS and segmented CCS reads, the start of the | 
+  |           |            | first base of the first incorporated subread.                           |
+  +-----------+------------+-------------------------------------------------------------------------+
+  | we        | i          | Start of last base of the query ('qe - 1') in approximate raw frame     |
+  |           |            | count since start of movie. For CCS and segmented CCS reads, the start  |
+  |           |            | of the last base of the last incorporated subread.                      |
+  +-----------+------------+-------------------------------------------------------------------------+
+  | zm        | i          | ZMW hole number                                                         |
+  +-----------+------------+-------------------------------------------------------------------------+
+  | np        | i          | Number of passes. 1 for subreads, variable for CCS and segmented CCS    | 
+  |           |            | reads - encodes number of *complete* passes of the insert. Segmented    |
+  |           |            | CCS reads inherit this value from the source read.                      |
+  +-----------+------------+-------------------------------------------------------------------------+
+  | ec        | f          | Effective coverage. The average subread coverage across all windows     |
+  |           |            | (only present in CCS and segmented CCS reads). Segmented CCS reads      |
+  |           |            | reads inherit this value from the source read.                          |
+  +-----------+------------+-------------------------------------------------------------------------+
+  | rq        | f          | Float in [0, 1] encoding expected accuracy                              |
+  +-----------+------------+-------------------------------------------------------------------------+
+  | sn        | B,f        | 4 floats for the average signal-to-noise ratio of A, C, G, and T (in    |
+  |           |            | (that order) over the HQRegion                                          |
+  +-----------+------------+-------------------------------------------------------------------------+
 
 
 
@@ -827,6 +847,39 @@ internal analysis use cases:
 
 A reference implementation of this encoding/decoding scheme can be
 found in `pbcore`.
+
+
+Segmented reads
+===============
+
+Some library preparation approaches produce SMRTbell molecules that are a 
+concatenation of smaller DNA fragments separated by known sequences (segment 
+adapters). Segmented reads are the result of splitting the read generated from 
+those molecules back into the constituent fragments. 
+
+The segment adapter sequences provide markers for splitting the source read 
+and their expected sequential order allows the detection of malformed reads. 
+These sequences are excised from segmented reads stored in the BAM file.
+
+  +-----------+------------+--------------------------------------------------------------+
+  | **Tag**   | **Type**   | **Description**                                              |
+  +===========+============+==============================================================+
+  | di        | i          | Index of this segment [0, N), denoting its position within   |
+  |           |            | the source read                                              |
+  +-----------+------------+--------------------------------------------------------------+
+  | qs        | i          | 0-based start of segment in its source read                  |
+  +-----------+------------+--------------------------------------------------------------+
+  | qe        | i          | 0-based end of segment in its source read                    |
+  +-----------+------------+--------------------------------------------------------------+
+  | dl        | i          | 0-based segment adapter index matching the left flank        |
+  |           |            | -1 if not applicable                                         |
+  +-----------+------------+--------------------------------------------------------------+
+  | dr        | i          | 0-based segment adapter index matching the right flank       |
+  |           |            | -1 if not applicable                                         |
+  +-----------+------------+--------------------------------------------------------------+
+  | ds        | B,C        | Supplemental data enabling reconstitution of the source read |
+  |           |            | Binary representation, for internal use only                 |
+  +-----------+------------+--------------------------------------------------------------+
 
 
 Unresolved issues
