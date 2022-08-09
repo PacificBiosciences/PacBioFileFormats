@@ -508,6 +508,16 @@ to in some cases refer to other DataSets, they should in no cases refer to a Dat
 +------------------------+-------------------------------------------------+---------------------------+
 |                        | PacBio.Index.NgmlrRefTable                      | .ngm                      |
 +------------------------+-------------------------------------------------+---------------------------+
+| ReferenceSet           | PacBio.ReferenceFile.ReferenceAnnotationFile    | .gtf                      |
++------------------------+-------------------------------------------------+---------------------------+
+| ReferenceSet           | PacBio.ReferenceFile.PolyAMotifFile             | .txt                      |
++------------------------+-------------------------------------------------+---------------------------+
+| ReferenceSet           | PacBio.ReferenceFile.CagePeakFile               | .bed                      |
++------------------------+-------------------------------------------------+---------------------------+
+| ReferenceSet           | PacBio.ReferenceFile.IntropolisFile             | .tsv                      |
++------------------------+-------------------------------------------------+---------------------------+
+| ReferenceSet           | PacBio.Index.PigeonIndex                        | .pgi                      |
++------------------------+-------------------------------------------------+---------------------------+
 
 Some ``ExternalResource``'s themselves contain associated ``ExternalResources``'s, for example the
 indices associated with FASTA files. These associated files are nested within the primary ``ExternalResource``
