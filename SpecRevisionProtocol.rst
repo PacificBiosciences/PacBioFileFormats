@@ -9,19 +9,19 @@ Introduction
 ============
 
 Experience has taught that there is no such thing as a *small*
-specification change.  Any specification change can entail a lot of
-work for a lot of people.  Even a seemingly minor specification change
+specification change. Any specification change can entail a lot of
+work for a lot of people. Even a seemingly minor specification change
 could entail the following:
 
 1. Core APIs (`pbbam` and `pbcore`) need to adopt a policy of either
-   backwards-compatibility or of rejecting old data.  The issue of
+   backwards-compatibility or of rejecting old data. The issue of
    forwards-compatibility (old code, new data) needs to be considered
    in the specification revision; this is admittedly thornier.
    Telling people to update their software is not as easy as it
    sounds.
 
 2. If core APIs are not or (cannot be) made backwards compatible, then
-   *all test data must be regenerated*.  This is a burden on the test
+   *all test data must be regenerated*. This is a burden on the test
    team.
 
 3. Data-producing code (e.g. `baz2bam`, `bax2bam`, `bam2bam`) may need
@@ -33,7 +33,7 @@ could entail the following:
 
 Clearly specification revisions should be considered carefully,
 especially now that our platform has stabilitized---we need to value
-stability over design perfection.  This protocol is designed to
+stability over design perfection. This protocol is designed to
 enforce slow and deliberate review of proposed spec changes.
 
 
@@ -41,7 +41,7 @@ People
 ======
 
 The following stakeholders are considered the **core team**: Aaron,
-Armin, Brett, Dave, Derek, Jim Drake, Nat, Martin, Yuan.  Decisions should be
+Armin, Brett, Dave, Derek, Jim Drake, Nat, Martin, Yuan. Decisions should be
 reached by unanimous consent.
 
 Aaron and Dave are the **sudoer team** and may waive cooling-off
@@ -58,11 +58,11 @@ We will adhere to the following protocol to revise a format specification:
 2. 1-week period for collecting comments (*waivable by sudoers*)
 
 3. Meeting to discuss the proposal, at which we should weigh the
-   impact of the proposal.  If the core team agrees on the proposal, a
+   impact of the proposal. If the core team agrees on the proposal, a
    *plan of action* should be agreed-upon.
 
 4. 1-week cooling-off period. Sometimes it takes a while to think of a
-   design flaw.  (*waivable by sudoers*)
+   design flaw. (*waivable by sudoers*)
 
 5. If no flaws are uncovered during the cooling-off period, go forward
    with the revision by:
@@ -74,7 +74,7 @@ Suggested order-of-updates
 ==========================
 
 The "plan of action" has to consider the order of software changes to
-be performed.  Here is a typical, suggested order of operations that
+be performed. Here is a typical, suggested order of operations that
 has worked well for us in staging changes to the BAM format, at least
 for changes that respect software compatibility with older BAM files:
 

@@ -9,7 +9,7 @@ PacBio bioinformatics file formats
 
 As of the 3.0 release of SMRTanalysis, PacBio is embracing the
 industry standard BAM format for (both aligned and unaligned) basecall
-data files.  We have also formulated a BAM companion file format
+data files. We have also formulated a BAM companion file format
 (`bam.pbi`) enabling fast access to a richer set of per-read
 information as well as compatibility for software built around the
 legacy `cmp.h5` format.

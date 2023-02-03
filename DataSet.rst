@@ -78,7 +78,7 @@ and three optional\:
 5.  An optional ``<pbbase:SupplementalResources>`` section with references to
     external data or metadata sources in any format, separate from the main
     data files in ExternalResources, but represented using the same
-    ``<pbbase:ExternalResource>`` model.  This may include files such as
+    ``<pbbase:ExternalResource>`` model. This may include files such as
     reports or unbarcoded reads BAM.
 
 
@@ -621,7 +621,7 @@ Mutability and equality
 To allow user editing of attributes such as Name without affecting the
 underlying DataSet we define the Core DataSet as the XML with the user
 editable attributes (Name, Description and Tags) removed (not set to "",
-but absent).  This Core DataSet is immutable and is the entity on which
+but absent). This Core DataSet is immutable and is the entity on which
 identity operations are defined. As a consequence, any modifications
 to fields other than Name, Description or Tags requires giving the DataSet
 a new universal UniqueId (aka UUID). Operations such as md5 checksum should

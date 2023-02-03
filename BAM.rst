@@ -6,13 +6,13 @@ BAM format specification for PacBio
                   Martin Smith, Armin Toepfer
 
 The BAM format is a binary, compressed, record-oriented container
-format for raw or aligned sequence reads.  The associated SAM format
-is a text representation of the same data.  The `specifications for
+format for raw or aligned sequence reads. The associated SAM format
+is a text representation of the same data. The `specifications for
 BAM/SAM`_ are maintained by the SAM/BAM Format Specification Working
 Group.
 
 PacBio-produced BAM files are fully compatible with the BAM
-specification.  In this document we describe the way we make use of
+specification. In this document we describe the way we make use of
 the extensibility mechanisms of the BAM specification to encode
 PacBio-specific information, as well as conventions we adhere to.
 
@@ -35,7 +35,7 @@ The BAM format uses a 0-based coordinate system to refer to positions
 and intervals on the reference.
 
 PacBio also uses a 0-based coordinate system to refer to positions and
-intervals within sequence reads.  Positions in PacBio reads are
+intervals within sequence reads. Positions in PacBio reads are
 reckoned from the first ZMW read base (as base 0), *not* the
 first base in the HQ region.
 
@@ -60,7 +60,7 @@ a single pass of the insert DNA molecule.
 
 Upon alignment, generally only a subsequence of the query will align
 to the reference genome, and that subsequence is referred to as the
-*aligned query*.  Under *soft-clipping*, the entirety of the query is
+*aligned query*. Under *soft-clipping*, the entirety of the query is
 stored in the aligned BAM, but the CIGAR field indicates that some
 bases at either end are excluded from the alignment.
 
@@ -84,13 +84,13 @@ the alignment (as found in the CIGAR).
 
 .. note::
    In the legacy cmp.h5 file format, soft-clipping was not possible,
-   and the bounds of the original query were not stored.  Only
+   and the bounds of the original query were not stored. Only
    `aStart, aEnd` were stored, although in that file format they were
    referred to as `rStart, rEnd`.
 
 HiFi reads
 ==========
-HiFi reads are defined as consensus reads with a QV >=20. These are treated in 
+HiFi reads are defined as consensus reads with a QV >=20. These are treated in
 the same manner as CCS reads in PacBio BAM files, unless noted otherwise.
 
 QNAME convention
@@ -108,17 +108,17 @@ For CCS reads, the ``QNAME`` convention is::
 
   {movieName}/{holeNumber}/ccs
 
-The ``QNAME`` for by-strand CCS reads includes a suffix ``fwd`` or ``rev`` to 
-indicate strand relative to the other by-strand read for the ZMW. Strand 
-assignment by CCS is arbitrary and does not imply the strand that may be 
+The ``QNAME`` for by-strand CCS reads includes a suffix ``fwd`` or ``rev`` to
+indicate strand relative to the other by-strand read for the ZMW. Strand
+assignment by CCS is arbitrary and does not imply the strand that may be
 assigned during mapping.
 
   {movieName}/{holeNumber}/ccs/fwd
   {movieName}/{holeNumber}/ccs/rev
 
-For segmented CCS reads, the base ``QNAME`` follows the CCS read conventions, 
-while also appending the 0-based coordinate interval ``[qStart, qEnd)`` that 
-represents a span within the source read:: 
+For segmented CCS reads, the base ``QNAME`` follows the CCS read conventions,
+while also appending the 0-based coordinate interval ``[qStart, qEnd)`` that
+represents a span within the source read::
 
   {movieName}/{holeNumber}/ccs/{qStart}_{qEnd}
   {movieName}/{holeNumber}/ccs/fwd/{qStart}_{qEnd}
@@ -129,7 +129,7 @@ CIGAR conventions
 
 The "M" CIGAR op (``BAM_CMATCH``) is *forbidden* in PacBio BAM files.
 PacBio BAM files use the more explicit ops "X" (``BAM_CDIFF``) and "="
-(``BAM_CEQUAL``).  PacBio software will abort if ``BAM_CMATCH`` is
+(``BAM_CEQUAL``). PacBio software will abort if ``BAM_CMATCH`` is
 found in a CIGAR field.
 
 
@@ -160,7 +160,7 @@ use a ``suffix.bam`` filename convention:
   :sup:`1`
     Data in a ``subreads.bam`` file should be ``analysis ready``, meaning
     that all of the data present is expected to be useful for down-stream
-    analyses.  Any subreads for which we have strong evidence will not
+    analyses. Any subreads for which we have strong evidence will not
     be useful (e.g. double-adapter inserts, single-molecule artifacts)
     should be excluded from this file and placed in ``scraps.bam`` as
     a ``Filtered`` with an SC tag of ``F``.
@@ -169,14 +169,14 @@ BAM sorting conventions
 =======================
 
 *Aligned* PacBio reads shall be sorted by position in the standard
-fashion as done by ``samtools sort``.  The BAM ``@HD::SO`` tag shall
+fashion as done by ``samtools sort``. The BAM ``@HD::SO`` tag shall
 be set to ``coordinate``.
 
 *Unaligned* PacBio reads are grouped by ZMW hole number, sorted in numerical order.
-Reads from a ZMW are stored contiguously in a BAM file. Within a ZMW subreads 
-are stored first, sorted numerically by ``{qStart}_{qEnd}``, followed by CCS 
-reads, and finally segmented CCS reads, sorted numerically by ``{qStart}_{qEnd}``. 
-This is similar to sorting by ``QNAME`` but not strictly alphabetical, so the 
+Reads from a ZMW are stored contiguously in a BAM file. Within a ZMW subreads
+are stored first, sorted numerically by ``{qStart}_{qEnd}``, followed by CCS
+reads, and finally segmented CCS reads, sorted numerically by ``{qStart}_{qEnd}``.
+This is similar to sorting by ``QNAME`` but not strictly alphabetical, so the
 BAM ``@HD:SO`` header tag is set to ``unknown``.
 
 
@@ -191,7 +191,7 @@ SAM/BAM spec, we encode special information as follows.
 
   ``ID`` tag (identifier):
       contains an 8-character string interpretable as the hexadecimal
-      representation of an integer.  Optionally, a read group identifier may
+      representation of an integer. Optionally, a read group identifier may
       contain barcode labels to distinguish demultiplexed samples. Read groups
       should have distinct ``ID`` values.
 
@@ -202,8 +202,8 @@ SAM/BAM spec, we encode special information as follows.
            RGID_STRING := md5(movieName + "//" + readType)[:8]
 
          where `movieName` is the moviename (@RG::PU) and `readType`
-         is the read type (found in @RG::DS).  Note that `movieName`
-         is lowercase while `readType` is uppercase.  `md5` is
+         is the read type (found in @RG::DS). Note that `movieName`
+         is lowercase while `readType` is uppercase. `md5` is
          understood to be the (lowercase) hex md5 digest of the input
          string.
 
@@ -311,8 +311,8 @@ SAM/BAM spec, we encode special information as follows.
 
       .. note::
 
-         The READTYPE values encountered in secondary analysis will be limited to SUBREAD, 
-         CCS, and SEGMENT.  The remaining READTYPE values will only be 
+         The READTYPE values encountered in secondary analysis will be limited to SUBREAD,
+         CCS, and SEGMENT. The remaining READTYPE values will only be
          encountered in intermediate steps before secondary analysis.
 
       **Base feature manifest---absent item  means feature absent from reads:**
@@ -384,14 +384,14 @@ Use of read tags for per-read information
   +===========+============+=========================================================================+
   | qs        | i          | 0-based start of query in the ZMW read (absent in CCS).                 |
   |           |            | For segmented CCS reads, the 0-based start of the query in its source   |
-  |           |            | read.                                                                   | 
+  |           |            | read.                                                                   |
   +-----------+------------+-------------------------------------------------------------------------+
   | qe        | i          | 0-based end of query in the ZMW read (absent in CCS).                   |
-  |           |            | For segmented CCS reads, the 0-based end of the query in its source     | 
+  |           |            | For segmented CCS reads, the 0-based end of the query in its source     |
   |           |            | read.                                                                   |
   +-----------+------------+-------------------------------------------------------------------------+
   | ws        | i          | Start of first base of the query ('qs') in approximate raw frame count  |
-  |           |            | since start of movie. For CCS and segmented CCS reads, the start of the | 
+  |           |            | since start of movie. For CCS and segmented CCS reads, the start of the |
   |           |            | first base of the first incorporated subread.                           |
   +-----------+------------+-------------------------------------------------------------------------+
   | we        | i          | Start of last base of the query ('qe - 1') in approximate raw frame     |
@@ -400,7 +400,7 @@ Use of read tags for per-read information
   +-----------+------------+-------------------------------------------------------------------------+
   | zm        | i          | ZMW hole number                                                         |
   +-----------+------------+-------------------------------------------------------------------------+
-  | np        | i          | Number of passes. 1 for subreads, variable for CCS and segmented CCS    | 
+  | np        | i          | Number of passes. 1 for subreads, variable for CCS and segmented CCS    |
   |           |            | reads - encodes number of *complete* passes of the insert. Segmented    |
   |           |            | CCS reads inherit this value from the source read.                      |
   +-----------+------------+-------------------------------------------------------------------------+
@@ -451,7 +451,7 @@ Notes:
 
 - QV metrics are ASCII+33 encoded as strings
 - *DeletionTag* and *SubstitutionTag* represent alternate basecalls,
-  or "N" when there is no alternate basecall available.  In other
+  or "N" when there is no alternate basecall available. In other
   words, they are strings over the alphabet "ACGTN".
 - The IPD (interpulse duration) value associated with a base is the number of
   frames *preceding* its incorporation, while the PW (pulse width) is the
@@ -603,7 +603,7 @@ one orientation or the other (as can be deduced when asymmetric
 adapters or barcodes are used).
 
 To facilitate such algorithms, we furnish the ``cx`` bitmask tag for
-subread records.  The ``cx`` value is calculated by binary OR-ing
+subread records. The ``cx`` value is calculated by binary OR-ing
 together values from this flags enum::
 
   enum LocalContextFlags
@@ -621,10 +621,10 @@ together values from this flags enum::
 Orientation of a subread (designated by one of the mutually
 exclusive ``FORWARD_PASS`` or ``REVERSE_PASS`` bits) can be reckoned
 only if either the adapters or barcode design is asymmetric,
-otherwise these flags must be left unset.  The convention for what
+otherwise these flags must be left unset. The convention for what
 is considered a "forward" or "reverse" pass is determined by a
 per-ZMW convention, defining one element of the asymmetric
-barcode/adapter pair as the "front" and the other as the "back".  It
+barcode/adapter pair as the "front" and the other as the "back". It
 is up to tools producing the BAM to determine whether to use
 adapters or barcodes to reckon the orientation, but if pass
 directions cannot be confidently and consistently assessed for the
@@ -698,16 +698,16 @@ associated ``scraps.bam`` file.
 
 - Both the ``bc`` and ``bq`` tags are calculated ``per-ZMW``, so every
   subread belonging to a given ZMW should share identical ``bc`` and
-  ``bq`` values.  The tags are also inter-depedent, so if a subread
+  ``bq`` values. The tags are also inter-depedent, so if a subread
   has the ``bc`` tag, it must also have a ``bq`` tag and vise-versa.
   If the tags are present for any subread in a ZMW, they must be present
-  for all of them.  In the absence of barcodes, both the ``bc`` and
+  for all of them. In the absence of barcodes, both the ``bc`` and
   ``bq`` tags will be absent
 
 - The ``bc`` tag contains the *barcode call*, a ``uint16[2]``
   representing the inferred forward and reverse barcodes sequences (as
   determined by their ordering in the Barcode FASTA), or more
-  succinctly, it contains the integer pair :math:`B_F, B_R`.  Integer
+  succinctly, it contains the integer pair :math:`B_F, B_R`. Integer
   codes represent 0-based position in the FASTA file of barcodes.
 
 - The integer (``int``) ``bq`` tag contains the barcode call confidence.
@@ -776,7 +776,7 @@ Alignment: the contract for a mapper
 
 An aligner is expected to accept BAM input and produce aligned BAM
 output, where each aligned BAM record in the output preserves intact
-all tags present in the original record.  The aligner should not
+all tags present in the original record. The aligner should not
 attempt to orient or complement any of the tags.
 
 (Note that this contrasts with the handling of `SEQ` and `QUAL`, which
@@ -788,7 +788,7 @@ Alignment: soft-clipping
 ========================
 
 In the standard production configuration, PacBio's aligners will be
-used to align either subreads or CCS reads.  In either case, we will
+used to align either subreads or CCS reads. In either case, we will
 use *soft clipping* to preserve the unaligned bases at either end of
 the query in the aligned BAM file.
 
@@ -797,19 +797,19 @@ Encoding of kinetics pulse features
 ===================================
 
 Interpulse duration (IPD) and pulsewidth are measured in frames;
-natively they are recorded as a ``uint16`` per pulse/base event.  They
+natively they are recorded as a ``uint16`` per pulse/base event. They
 may be encoded in BAM read tags in one of two fashions:
 
   - losslessly as an array of ``uint16``; necessary for PacBio-internal
     applications but entails greater disk space usage.
 
   - lossy 8-bit compression stored as a ``uint8`` array, following the
-    codec specified below ("codec V1").  Provides a substantial
+    codec specified below ("codec V1"). Provides a substantial
     disk-space savings without affecting important production use
     cases (base modification detection).
 
 In the default production instrument configuration, the lossy encoding
-will be used.  The instrument can be switched into a mode
+will be used. The instrument can be switched into a mode
 (PacBio-internal mode) where it will emit the full lossless kinetic
 features.
 
@@ -830,9 +830,9 @@ codepoints is as follows (**codec v1**):
 
 In other words, we use the first 64 codepoints to encode frame counts
 at single frame resolution, the next 64 to encode the frame counts at
-two-frame resolution, and so on.  Durations exceeding 952 frames are
-capped at 952.  Durations not enumerated in "Frames" above are rounded
-to the nearest enumerated duration then encoded.  For example, a
+two-frame resolution, and so on. Durations exceeding 952 frames are
+capped at 952. Durations not enumerated in "Frames" above are rounded
+to the nearest enumerated duration then encoded. For example, a
 duration of 194 frames would round to 196 and then be encoded as
 codepoint 129.
 
@@ -852,13 +852,13 @@ found in `pbcore`.
 Segmented reads
 ===============
 
-Some library preparation approaches produce SMRTbell molecules that are a 
-concatenation of smaller DNA fragments separated by known sequences (segment 
-adapters). Segmented reads are the result of splitting the read generated from 
-those molecules back into the constituent fragments. 
+Some library preparation approaches produce SMRTbell molecules that are a
+concatenation of smaller DNA fragments separated by known sequences (segment
+adapters). Segmented reads are the result of splitting the read generated from
+those molecules back into the constituent fragments.
 
-The segment adapter sequences provide markers for splitting the source read 
-and their expected sequential order allows the detection of malformed reads. 
+The segment adapter sequences provide markers for splitting the source read
+and their expected sequential order allows the detection of malformed reads.
 These sequences are excised from segmented reads stored in the BAM file.
 
   +-----------+------------+--------------------------------------------------------------+

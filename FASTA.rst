@@ -4,29 +4,29 @@ FASTA file format
 Best practices
 --------------
 
-The ubiquitous FASTA_ format is flexible, to a fault.  The following
+The ubiquitous FASTA_ format is flexible, to a fault. The following
 best practices will guarantee success in using FASTA files with PacBio
 software (for example as genome references).
 
     1.  Sequences in FASTA files should be wrapped at a uniform line
-        length, to enable indexing.  (A common convention is to wrap
+        length, to enable indexing. (A common convention is to wrap
         lines at 60 characters.)  Windows and UNIX line endings are
         both acceptable.
 
     2.  FASTA files should contain no empty lines (or lines containing
-        only whitespace [#whitespace]_).  FASTA files should contain
+        only whitespace [#whitespace]_). FASTA files should contain
         no unnecessary whitespace (for example, no trailing whitespace
         on sequence lines).
 
     3.  Sequence contigs in a FASTA file are preceded by identifying
-        header lines.  The *header*, which is the text between the '>'
+        header lines. The *header*, which is the text between the '>'
         character and the newline, is comprised of:
 
             - an *identifier*, which is the first whitespace-delimited
               token of the header
 
             - an (optional) *comment*, which consists of the suffix
-              of the header following the first whitespace.  Some APIs
+              of the header following the first whitespace. Some APIs
               may call this string the *description* or the
               *metadata*, but the usage of the comment is completely
               application-defined.
@@ -56,7 +56,7 @@ Examples
 --------
 
 The following FASTA file would be accepted by the PacBio reference
-uploader.  Downstream files (reports, variant call files) would report
+uploader. Downstream files (reports, variant call files) would report
 the chromosomes as 'chr1', 'chr2'::
 
   >chr1 Jackalope chromosome 1;length=7
@@ -80,7 +80,7 @@ Implications for bioinformatics tool writers
 
 Since a FASTA presented to a bioinformatics tool may contain
 characters beyond "GATCN", tools should use a FASTA reader API capable
-of normalizing sequence characters.  For example, SeqAn_ uses a
+of normalizing sequence characters. For example, SeqAn_ uses a
 `Dna5String` abstraction to project input sequence characters into
 "GATCN"; FASTA readers in pbcore will soon offer normalization.
 

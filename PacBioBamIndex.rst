@@ -6,7 +6,7 @@ PacBio BAM index file (``bam.pbi``) format
 
 PacBio's previous alignment file format (``cmp.h5``) contained a data
 table called the *alignment index* that recorded auxiliary identifying
-information and precomputed summary statistics per aligned read.  This
+information and precomputed summary statistics per aligned read. This
 table served several purposes:
 
   1. it enabled fast random access to aligned reads satisfying fairly
@@ -154,7 +154,7 @@ followed by *N* qStart values, then *N* qEnd values, and so on.
      RGID_INT    := int32.Parse(RGID_STRING)
 
      RGID_STRING is used in the @RG header and in the `RG` tag of BAM
-     records.  RGID_INT is used here in the PBI index.
+     records. RGID_INT is used here in the PBI index.
 
      Note that RGID_INT may be negative.
 
@@ -245,10 +245,10 @@ The lookup table is laid out as a column (array) of tuples, one per reference.
   (thus a tId of -1 will follow all other tId values)
 
 :sup:`2`
-  Data fields ``beginRow`` and ``endRow``.  If ``tId[i]==t``, then
+  Data fields ``beginRow`` and ``endRow``. If ``tId[i]==t``, then
   ``[beginRow, endRow)`` represents range of reads (by 0-based
   ordinal position in the BAM file) mapped to the reference contig
-  with *tId* of *t*.  If no BAM records are aligned to *t*, then we
+  with *tId* of *t*. If no BAM records are aligned to *t*, then we
   should have ``beginRow, endRow = -1``.
 
 .. _`Barcode Data`:

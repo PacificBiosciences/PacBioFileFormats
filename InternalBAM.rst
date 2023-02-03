@@ -10,7 +10,7 @@ PacBio-internal BAM flavors
 ===========================
 
 Several PacBio-internal use cases require extra information to be
-carried in our BAM files.  There is currently a single "internal"
+carried in our BAM files. There is currently a single "internal"
 flavor of the BAM spec documented here.
 
 The internal analysis files will be fully compliant with the PacBio
@@ -40,7 +40,7 @@ Note that the precise start frame of a pulse or base event must be
 identified using this tag; it *cannot* safely be identified by doing a
 cumulative sum of (pulse-width-in-frames + pre-pulse-frames), because
 occasionally the pre-pulse-frames cannot be represented exactly due to
-the truncation to max(uint16) before storage in the BAM.  (The same
+the truncation to max(uint16) before storage in the BAM. (The same
 held true for RS bas/pls .h5 files).
 
 
@@ -102,9 +102,9 @@ Baseline sigma
 ##############
 
 Additionally we need to encode the *baseline sigma* for each channel
-for a read.  The baseline sigma is a piecewise constant function of
+for a read. The baseline sigma is a piecewise constant function of
 time, changing at an interval on the order of 10 to 100 seconds (i.e.,
-slowly!).  We tally the number of pulses in each interval ("block")
+slowly!). We tally the number of pulses in each interval ("block")
 and the baseline sigma for each channel during that block, as follows:
 
 - "bs" tag = BaselineSigma = `{ A_0, C_0, G_0, T_0, A_1, C_1, G_1, T_1, ... }` (as `float32[]` / `B,f`), where subscript denotes block number.
@@ -128,6 +128,6 @@ Unresolved questions
 - Where will baseline information be stored?  Current plan is to store
   it in ``sts.h5`` file (which needs a spec of its own).
 - The pkmid/pkmean values are stored in photoelections, which means we need
-  the gain in order to compute the values in counts.  This has internal value
+  the gain in order to compute the values in counts. This has internal value
   when back-converting internal BAMs to pls.h5 files, which uses counts to
   represent pk values.
