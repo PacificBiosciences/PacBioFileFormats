@@ -80,7 +80,8 @@ takes as input an unaligned subreads BAM file and produces an output BAM file
 containing unaligned *consensus* reads with predicted accuracy QV >=20, called
 HiFi reads. HiFi reads is the first-class data type.
 
-Access to *subreads* is no longer available since SMRT Link version 11.0.
+Access to *subreads* is no longer available since SMRT Link version 11.0 on
+Sequel IIe and is not available at all on Revio.
 
 Alignment (mapping) programs take unaligned BAM files as input and will produce
 *aligned* BAM files, faithfully retaining all tags and headers.
