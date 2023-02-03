@@ -375,6 +375,21 @@ Use of read tags for per-read information
   +-----------+------------+-------------------------------------------------------------------------+
 
 
+Use of read tags for fail per-read information
+==============================================
+
+  +-----------+------------+-----------------------------------------------------------------------------+
+  | **Tag**   | **Type**   | **Description**                                                             |
+  +===========+============+=============================================================================+
+  | af        | i          | Adapter found in CCS read. The stored value indicates the pattern:          |
+  |           |            |                                                                             |
+  |           |            | * ``1`` for CCS reads which are a concatenation of the adapter, with        |
+  |           |            |     possible short non-adapter sequence in between                          |
+  |           |            | * ``2`` for CCS reads with miscalled adapter which is enclosed by a         |
+  |           |            |     sequence and its reverse complement, either spanning to the end         |
+  |           |            | * ``3`` for CCS reads that have one or more adapters close to either end    |
+  +-----------+------------+-----------------------------------------------------------------------------+
+
 
 Use of read tags for per-read-base information
 ==============================================
