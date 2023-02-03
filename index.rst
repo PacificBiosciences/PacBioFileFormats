@@ -12,6 +12,7 @@ enabling fast access to a richer set of per-read information.
    Primer
    BAM
    PacBioBamIndex
+   FileStructure
    FASTA
    DataSet
    RunDesignCsv
