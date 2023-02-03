@@ -24,11 +24,11 @@ could entail the following:
    *all test data must be regenerated*. This is a burden on the test
    team.
 
-3. Data-producing code (e.g. `baz2bam`, `bax2bam`, `bam2bam`) may need
+3. Data-producing code (e.g. `baz2bam`, `ccs`, `lima`, `skera`) may need
    to be updated.
 
-4. Data-consuming code (back-converters like `bam2bax`; all analysis
-   applications; internal tools like PulseRecognizer)
+4. Data-consuming code (all analysis applications; internal tools and library
+   like `pbbamr`)
 
 
 Clearly specification revisions should be considered carefully,
@@ -40,19 +40,19 @@ enforce slow and deliberate review of proposed spec changes.
 People
 ======
 
-The following stakeholders are considered the **core team**: Aaron,
-Armin, Brett, Dave, Derek, Jim Drake, Nat, Martin, Yuan. Decisions should be
-reached by unanimous consent.
+The following stakeholders are considered the **core team**: Armin T, David T,
+Derek B, Jim D, Nat E, Martin S. Decisions should be reached by unanimous
+consent.
 
-Aaron and Dave are the **sudoer team** and may waive cooling-off
-periods by unanimous consent in case an urgent spec change is needed.
+Armin and Jim are the **sudoer team** and may waive cooling-off periods by
+unanimous consent in case an urgent spec change is needed.
 
 Protocol
 ========
 
 We will adhere to the following protocol to revise a format specification:
 
-1. Specification change proposal submitted as github pull request
+1. Specification change proposal submitted as internal pull request
    here; core team notified by email and invited to comment.
 
 2. 1-week period for collecting comments (*waivable by sudoers*)
@@ -68,7 +68,8 @@ We will adhere to the following protocol to revise a format specification:
    with the revision by:
 
       - merging the spec revision pull request;
-      - record the items in the plan of action as bugs in bugzilla and begin implementation work
+      - record the items in the plan of action as stories in jira and begin
+        implementation work
 
 Suggested order-of-updates
 ==========================
@@ -80,8 +81,8 @@ for changes that respect software compatibility with older BAM files:
 
   1. Core library updates: `pbbam`, `pbcore`
   2. Testing: `pbvalidate`
-  3. Data producers: `baz2bam`, `bax2bam`
-  4. Data consumers: `bam2bax`, `bam2bam`
+  3. Data producers: `baz2bam`, `ccs`, `lima`, `skera`
+  4. Data consumers: `pbmm2`, `pbbamr`
 
 It's advisable to do development on a branch until ready for
 integration.

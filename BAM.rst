@@ -82,12 +82,6 @@ In our BAM files, the qStart, qEnd are contained in the ``qs`` and
 ``qs`` and ``qe`` by the number of soft-clipped bases at the ends of
 the alignment (as found in the CIGAR).
 
-.. note::
-   In the legacy cmp.h5 file format, soft-clipping was not possible,
-   and the bounds of the original query were not stored. Only
-   `aStart, aEnd` were stored, although in that file format they were
-   referred to as `rStart, rEnd`.
-
 HiFi reads
 ==========
 HiFi reads are defined as consensus reads with a QV >=20. These are treated in
@@ -139,31 +133,15 @@ BAM filename conventions
 Since we will be using BAM format for different kinds of data, we will
 use a ``suffix.bam`` filename convention:
 
-  +------------------------------------+------------------------------+
-  | Data type                          | Filename template            |
-  +====================================+==============================+
-  | ZMW reads from movie               | *movieName*.zmws.bam         |
-  +------------------------------------+------------------------------+
-  | Analysis-ready subreads :sup:`1`   | *movieName*.subreads.bam     |
-  |  from movie                        |                              |
-  +------------------------------------+------------------------------+
-  | Excised adapters, barcodes, and    | *movieName*.scraps.bam       |
-  |  rejected subreads                 |                              |
-  +------------------------------------+------------------------------+
-  | CCS reads computed from movie      | *movieName*.ccs.bam          |
-  +------------------------------------+------------------------------+
-  | Aligned subreads in a job          | *jobID*.aligned_subreads.bam |
-  +------------------------------------+------------------------------+
-  | Aligned CCS in a job               | *jobID*.aligned_ccs.bam      |
-  +------------------------------------+------------------------------+
-
-  :sup:`1`
-    Data in a ``subreads.bam`` file should be ``analysis ready``, meaning
-    that all of the data present is expected to be useful for down-stream
-    analyses. Any subreads for which we have strong evidence will not
-    be useful (e.g. double-adapter inserts, single-molecule artifacts)
-    should be excluded from this file and placed in ``scraps.bam`` as
-    a ``Filtered`` with an SC tag of ``F``.
+  +------------------------------------+--------------------------------+
+  | Data type                          | Filename template              |
+  +====================================+================================+
+  | HiFi reads computed from movie     | *movieName*.hifi_reads.bam     |
+  +------------------------------------+--------------------------------+
+  | Aligned HiFi in a job              | *jobID*.aligned.hifi_reads.bam |
+  +------------------------------------+--------------------------------+
+  | Rejected CCS reads                 | *movieName*.fail_reads.bam     |
+  +------------------------------------+--------------------------------+
 
 BAM sorting conventions
 =======================
@@ -172,12 +150,13 @@ BAM sorting conventions
 fashion as done by ``samtools sort``. The BAM ``@HD::SO`` tag shall
 be set to ``coordinate``.
 
-*Unaligned* PacBio reads are grouped by ZMW hole number, sorted in numerical order.
-Reads from a ZMW are stored contiguously in a BAM file. Within a ZMW subreads
-are stored first, sorted numerically by ``{qStart}_{qEnd}``, followed by CCS
-reads, and finally segmented CCS reads, sorted numerically by ``{qStart}_{qEnd}``.
-This is similar to sorting by ``QNAME`` but not strictly alphabetical, so the
-BAM ``@HD:SO`` header tag is set to ``unknown``.
+*Unaligned* PacBio reads are grouped by ZMW hole number, but since SMRT Link
+v11.0 no longer sorted by hole number. Reads from a ZMW are stored contiguously
+in a BAM file. Within a ZMW subreads are stored first, sorted numerically by
+``{qStart}_{qEnd}``, followed by CCS reads, and finally segmented CCS reads,
+sorted numerically by ``{qStart}_{qEnd}``. This is similar to sorting by
+``QNAME`` but not strictly alphabetical, so the BAM ``@HD:SO`` header tag is set
+to ``unknown``.
 
 
 Use of headers for file-level information
@@ -589,8 +568,6 @@ and for the present moment, the encoded probability reflects the
 confidence of a basecall against alternatives including substitution,
 deletion, and insertion.
 
-*We expect that more details will follow here in a later spec revision.*
-
 __ `specifications for BAM/SAM`
 
 
@@ -881,14 +858,6 @@ These sequences are excised from segmented reads stored in the BAM file.
   |           |            | Binary representation, for internal use only                 |
   +-----------+------------+--------------------------------------------------------------+
 
-
-Unresolved issues
-=================
-
-- Need to move from strings to proper array types for QVs
-- '/' preferable to ':' in "IPD:CodecV1"
-- Desire for spec for shorter movienames, especially if these are
-  ending up in QNAMEs.
 
 .. _specifications for BAM/SAM: http://samtools.github.io/hts-specs/SAMv1.pdf
 .. _SAM tags specifications: http://samtools.github.io/hts-specs/SAMtags.pdf

@@ -1,7 +1,7 @@
 Brief primer and lexicon for PacBio SMRT sequencing
 ===================================================
 
-PacBio SMRT sequencing operates within a silicon chip (a **SMRTcell**)
+PacBio SMRT sequencing operates within a silicon chip (a **SMRT Cell**)
 fabricated to contain a large number of microscopic holes (**ZMWs**,
 or **zero-mode waveguides**), each assigned a **hole number**.
 
@@ -75,16 +75,14 @@ output the subreads detected within the HQ region.
 BAM everywhere
 --------------
 
-*Unaligned* BAM files representing the *subreads* will be produced
-natively by the PacBio instrument. The subreads BAM will be the
-starting point for secondary analysis. In addition, the artifacts
-resulting from removing adapter and LQ region sequences will be
-retained in a ``scraps.bam`` file.
+As of Sequel IIe and Revio, the on-instrument circular consensus tool (CCS)
+takes as input an unaligned subreads BAM file and produces an output BAM file
+containing unaligned *consensus* reads with predicted accuracy QV >=20, called
+HiFi reads. HiFi reads is the first-class data type.
 
-The circular consensus tool/workflow (CCS) will take as input an
-unaligned subreads BAM file and produce an output BAM file containing
-unaligned *consensus* reads.
+Access to *subreads* is no longer available since SMRT Link version 11.0.
 
-Alignment (mapping) programs take these unaligned BAM files as input
-and will produce *aligned* BAM files, faithfully retaining all tags
-and headers.
+Alignment (mapping) programs take unaligned BAM files as input and will produce
+*aligned* BAM files, faithfully retaining all tags and headers.
+
+Secondary applications take (un)aligned BAM files and produce new BAM files.

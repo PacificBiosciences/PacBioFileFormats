@@ -1,18 +1,9 @@
-.. FileFormats documentation master file, created by
-   sphinx-quickstart on Tue Apr 30 08:43:59 2013.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
-
 PacBio bioinformatics file formats
 ==================================
 
-As of the 3.0 release of SMRTanalysis, PacBio is embracing the
-industry standard BAM format for (both aligned and unaligned) basecall
-data files. We have also formulated a BAM companion file format
-(`bam.pbi`) enabling fast access to a richer set of per-read
-information as well as compatibility for software built around the
-legacy `cmp.h5` format.
+PacBio uses the industry standard BAM format for (both aligned and unaligned)
+read data files. We have also formulated a BAM companion file format (`bam.pbi`)
+enabling fast access to a richer set of per-read information.
 
 
 .. toctree::

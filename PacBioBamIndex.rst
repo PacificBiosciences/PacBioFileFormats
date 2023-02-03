@@ -2,7 +2,7 @@
 PacBio BAM index file (``bam.pbi``) format
 ==========================================
 
-.. moduleauthor:: Derek Barnett, David Alexander, Marcus Kinsella, Yuan Li, James Drake
+.. moduleauthor:: Derek Barnett, James Drake
 
 PacBio's previous alignment file format (``cmp.h5``) contained a data
 table called the *alignment index* that recorded auxiliary identifying

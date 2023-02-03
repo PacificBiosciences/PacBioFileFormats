@@ -1,6 +1,6 @@
 Documentation rendered here:
 ----------------------------
-http://pacbiofileformats.readthedocs.org/en/10.0
+http://pacbiofileformats.readthedocs.org/en/12.0
 
 
 Disclaimer
