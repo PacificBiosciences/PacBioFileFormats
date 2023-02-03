@@ -2,9 +2,6 @@
 BAM format additions for *PacBio-internal* analysis
 ===================================================
 
-.. moduleauthor:: David Alexander, John Nguyen
-
-
 
 PacBio-internal BAM flavors
 ===========================
@@ -13,9 +10,10 @@ Several PacBio-internal use cases require extra information to be
 carried in our BAM files. There is currently a single "internal"
 flavor of the BAM spec documented here.
 
-The internal analysis files will be fully compliant with the PacBio
-BAM spec (with spec version noted in the ``@HD::pb`` tag) but will
-include additional per-read tags containing additional information.
+The internal analysis files will be fully compliant with the PacBio BAM spec
+(with spec version noted in the ``@HD::pb`` tag), are an extension of the
+**subreads** BAM spec, but will include additional per-read tags containing
+additional information.
 
 
 Kinetic information

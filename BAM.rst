@@ -90,15 +90,8 @@ the same manner as CCS reads in PacBio BAM files, unless noted otherwise.
 QNAME convention
 ================
 
-By convention the ``QNAME`` ("query template name") for unrolled reads
-and subreads is in the following format::
-
-   {movieName}/{holeNumber}/{qStart}_{qEnd}
-
-where ``[qStart, qEnd)`` is the 0-based coordinate interval
-representing the span of the *query* in the ZMW read, as above.
-
-For CCS reads, the ``QNAME`` convention is::
+By convention the ``QNAME`` ("query template name") for CCS / HiFi reads, the
+convention is::
 
   {movieName}/{holeNumber}/ccs
 
@@ -300,18 +293,6 @@ SAM/BAM spec, we encode special information as follows.
       +---------------------+-----------------------------------------+----------------+
       | Key                 | Value spec                              | Value example  |
       +=====================+=========================================+================+
-      | DeletionQV          | Name of tag used for DeletionQV         | dq             |
-      +---------------------+-----------------------------------------+----------------+
-      | DeletionTag         | Name of tag used for DeletionTag        | dt             |
-      +---------------------+-----------------------------------------+----------------+
-      | InsertionQV         | Name of tag used for InsertionQV        | iq             |
-      +---------------------+-----------------------------------------+----------------+
-      | MergeQV             | Name of tag used for MergeQV            | mq             |
-      +---------------------+-----------------------------------------+----------------+
-      | SubstitutionQV      | Name of tag used for SubstitutionQV     | sq             |
-      +---------------------+-----------------------------------------+----------------+
-      | SubstitutionTag     | Name of tag used for SubstitutionTag    | st             |
-      +---------------------+-----------------------------------------+----------------+
       | Ipd:Frames          | Name of tag used for IPD, in raw frame  | ip             |
       |                     | count.                                  |                |
       +---------------------+-----------------------------------------+----------------+
@@ -361,21 +342,21 @@ Use of read tags for per-read information
   +-----------+------------+-------------------------------------------------------------------------+
   | **Tag**   | **Type**   | **Description**                                                         |
   +===========+============+=========================================================================+
-  | qs        | i          | 0-based start of query in the ZMW read (absent in CCS).                 |
+  | qs        | i          | Absent in CCS.                                                          |
   |           |            | For segmented CCS reads, the 0-based start of the query in its source   |
   |           |            | read.                                                                   |
   +-----------+------------+-------------------------------------------------------------------------+
-  | qe        | i          | 0-based end of query in the ZMW read (absent in CCS).                   |
+  | qe        | i          | Absent in CCS.                                                          |
   |           |            | For segmented CCS reads, the 0-based end of the query in its source     |
   |           |            | read.                                                                   |
   +-----------+------------+-------------------------------------------------------------------------+
-  | ws        | i          | Start of first base of the query ('qs') in approximate raw frame count  |
-  |           |            | since start of movie. For CCS and segmented CCS reads, the start of the |
-  |           |            | first base of the first incorporated subread.                           |
+  | ws        | i          | For CCS and segmented CCS reads, the start of the first base of the     |
+  |           |            | first incorporated subread in approximate raw frame count since start   |
+  |           |            | of movie.                                                               |
   +-----------+------------+-------------------------------------------------------------------------+
-  | we        | i          | Start of last base of the query ('qe - 1') in approximate raw frame     |
-  |           |            | count since start of movie. For CCS and segmented CCS reads, the start  |
-  |           |            | of the last base of the last incorporated subread.                      |
+  | we        | i          | For CCS and segmented CCS reads, the start of the last base of the      |
+  |           |            | first incorporated subread in approximate raw frame count since start   |
+  |           |            | of movie.                                                               |
   +-----------+------------+-------------------------------------------------------------------------+
   | zm        | i          | ZMW hole number                                                         |
   +-----------+------------+-------------------------------------------------------------------------+
@@ -408,18 +389,6 @@ read record has been aligned to the reverse strand.
   +-----------+---------------+----------------------------------------------------+
   | **Tag**   | **Type**      |**Description**                                     |
   +===========+===============+====================================================+
-  | dq        | Z             | DeletionQV                                         |
-  +-----------+---------------+----------------------------------------------------+
-  | dt        | Z             | DeletionTag                                        |
-  +-----------+---------------+----------------------------------------------------+
-  | iq        | Z             | InsertionQV                                        |
-  +-----------+---------------+----------------------------------------------------+
-  | mq        | Z             | MergeQV                                            |
-  +-----------+---------------+----------------------------------------------------+
-  | sq        | Z             | SubstitutionQV                                     |
-  +-----------+---------------+----------------------------------------------------+
-  | st        | Z             | SubstitutionTag                                    |
-  +-----------+---------------+----------------------------------------------------+
   | ip        | B,C *or* B,S  | IPD (raw frames or codec V1)                       |
   +-----------+---------------+----------------------------------------------------+
   | pw        | B,C *or* B,S  | PulseWidth (raw frames or codec V1)                |
@@ -429,9 +398,6 @@ read record has been aligned to the reverse strand.
 Notes:
 
 - QV metrics are ASCII+33 encoded as strings
-- *DeletionTag* and *SubstitutionTag* represent alternate basecalls,
-  or "N" when there is no alternate basecall available. In other
-  words, they are strings over the alphabet "ACGTN".
 - The IPD (interpulse duration) value associated with a base is the number of
   frames *preceding* its incorporation, while the PW (pulse width) is the
   number of frames during its incorporation.
@@ -523,39 +489,6 @@ Notes:
   The probability range corresponding to an integer *N* is *N/256* to *(N + 1)/256*.
 
 
-How to annotate scrap reads
-===========================
-
-Reads that belong to a read group with READTYPE=SCRAP have to be annotated
-in a hierarchical fashion:
-
-1) Classification with tag *sz* occurs on a per ZMW level, distinguishing
-   between spike-in controls, sentinels of the basecaller, malformed ZMWs,
-   and user-defined templates.
-2) A region-wise annotation with tag *sc* to label adapters, barcodes,
-   low-quality regions, and filtered subreads.
-
-  +-----------+---------------+-----------------------------------------+
-  | **Tag**   | **Type**      |**Description**                          |
-  +===========+===============+=========================================+
-  | sz        | A             | ZMW classification annotation, one of   |
-  |           |               | N:=Normal, C:=Control, M:=Malformed,    |
-  |           |               | or S:=Sentinel :sup:`1`                 |
-  +-----------+---------------+-----------------------------------------+
-  | sc        | A             | Scrap region-type annotation, one of    |
-  |           |               | A:=Adapter, B:=Barcode, L:=LQRegion,    |
-  |           |               | or F:=Filtered :sup:`2`                 |
-  +-----------+---------------+-----------------------------------------+
-
-  :sup:`1`
-    reads in the subreads/hqregions/zmws.bam file are implicitly
-    marked as Normal, as they stem from user-defined templates.
-
-  :sup:`2`
-    sc tags 'A', 'B', and 'L' denote specific classes of non-subread data,
-    whereas the 'F' tag is reserved for subreads that are undesirable for
-    downstream analysis, e.g., being artifactual or too short.
-
 QUAL
 ====
 
@@ -570,67 +503,6 @@ deletion, and insertion.
 
 __ `specifications for BAM/SAM`
 
-
-Subread local context
-=====================
-
-Some algorithms can make use of knowledge that a subread was flanked
-on both sides by adapter or barcode hits, or that the subread was in
-one orientation or the other (as can be deduced when asymmetric
-adapters or barcodes are used).
-
-To facilitate such algorithms, we furnish the ``cx`` bitmask tag for
-subread records. The ``cx`` value is calculated by binary OR-ing
-together values from this flags enum::
-
-  enum LocalContextFlags
-  {
-      ADAPTER_BEFORE     = 1,
-      ADAPTER_AFTER      = 2,
-      BARCODE_BEFORE     = 4,
-      BARCODE_AFTER      = 8,
-      FORWARD_PASS       = 16,
-      REVERSE_PASS       = 32,
-      ADAPTER_BEFORE_BAD = 64,
-      ADAPTER_AFTER_BAD  = 128
-  };
-
-Orientation of a subread (designated by one of the mutually
-exclusive ``FORWARD_PASS`` or ``REVERSE_PASS`` bits) can be reckoned
-only if either the adapters or barcode design is asymmetric,
-otherwise these flags must be left unset. The convention for what
-is considered a "forward" or "reverse" pass is determined by a
-per-ZMW convention, defining one element of the asymmetric
-barcode/adapter pair as the "front" and the other as the "back". It
-is up to tools producing the BAM to determine whether to use
-adapters or barcodes to reckon the orientation, but if pass
-directions cannot be confidently and consistently assessed for the
-subreads from a ZMW, neither orientation flag should be set. Tools
-consuming the BAM should be aware that orientation information may
-be unavailable for subreads in a ZMW, but if is available for any
-subread in the ZMW, it will be available for all subreads in the
-ZMW.
-
-The ``ADAPTER_*`` and ``BARCODE_*`` flags reflect whether the
-subread is flanked by adapters or barcodes at the ends.
-
-The ``ADAPTER_BEFORE_BAD`` and ``ADAPTER_AFTER_BAD`` flags indicate
-that one or both adapters flanking this subread do not align to the
-adapter reference sequence(s). The adapter on this flank could be missing
-from the pbell molecule, or obscured by a local decrease in accuracy.
-Likewise, some nearby barcode or insert bases may be missing or
-obscured. ``ADAPTER_*_BAD`` flags can not be set unless the
-corresponding ``ADAPTER_*`` flag is set.
-
-This tag is mandatory for subread records, but will be absent from
-non-subread records (scraps, ZMW read, CCS read, etc.)
-
-
-  +-----------+---------------+----------------------------------------------------+
-  | **Tag**   | **Type**      |**Description**                                     |
-  +===========+===============+====================================================+
-  | cx        | i             | Subread local context Flags                        |
-  +-----------+---------------+----------------------------------------------------+
 
 Missing adapter annotation in CCS reads
 =======================================
@@ -655,6 +527,7 @@ produced by CCS version 6.3.0 and newer based on the ``ADAPTER_BEFORE_BAD`` and
   |           |               | - 0x1 if adapter is missing on left/start                         |
   |           |               | - 0x2 if adapter is missing on right/end                          |
   +-----------+---------------+-------------------------------------------------------------------+
+
 
 Barcode analysis
 ================
@@ -722,30 +595,6 @@ The following (optional) tags describe clipped barcode sequences:
 
 Barcode information will follow the same convention in CCS output
 (``ccs.bam`` files).
-
-Examples (subreads)
--------------------
-
-.. tabularcolumns:: |l|p{1.5cm}|p{1.5cm}|p{4cm}|
-
-+--------------------------+-----------+----------+---------------------+
-|Scenario                  | ``bc``    |  ``bq``  | ``cx``              |
-+==========================+===========+==========+=====================+
-| No barcodes, end-to-end, | *absent*  | *absent* | ``1|2 = 3``         |
-| unknown orientation      |           |          |                     |
-+--------------------------+-----------+----------+---------------------+
-| Asymmetric barcodes,     | { 1, 37 } |   35     | ``1|2|4|8|16 = 31`` |
-| end-to-end, forward pass |           |          |                     |
-+--------------------------+-----------+----------+---------------------+
-| Symmetric barcodes,      | { 8, 8 }  |   33     |  ``1|2|4|8 = 15``   |
-| end-to end               |           |          |                     |
-+--------------------------+-----------+----------+---------------------+
-| Barcoded, HQ region      | { 8, 8 }  |   33     | ``1|4 = 5``         |
-| terminates before second |           |          |                     |
-| barcode; unknown         |           |          |                     |
-| orientation              |           |          |                     |
-+--------------------------+-----------+----------+---------------------+
-
 
 
 Alignment: the contract for a mapper

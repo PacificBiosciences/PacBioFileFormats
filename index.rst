@@ -17,6 +17,16 @@ enabling fast access to a richer set of per-read information.
    RunDesignCsv
 
 
+Internal file formats
+=====================
+
+.. toctree::
+   :maxdepth: 1
+
+   SubreadsBAM
+   SubreadsInternalBAM
+
+
 APIs available
 ==============
 
