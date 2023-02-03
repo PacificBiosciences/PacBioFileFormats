@@ -420,8 +420,8 @@ Use of read tags for per-read-base information
 ==============================================
 
 The following read tags encode features measured/calculated
-per-basecall.  Unlike ``SEQ`` and ``QUAL``, aligners will not orient
-these tags.  They will be maintained in *native* orientation (in the
+per-basecall. Unlike ``SEQ`` and ``QUAL``, aligners will not orient
+these tags. They will be maintained in *native* orientation (in the
 same order and sense as collected from the instrument) even if the
 read record has been aligned to the reverse strand.
 
