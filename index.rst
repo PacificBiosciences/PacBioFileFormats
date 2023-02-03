@@ -26,17 +26,6 @@ legacy `cmp.h5` format.
    RunDesignCsv
 
 
-Legacy formats
-==============
-
-
-.. toctree::
-   :maxdepth: 1
-
-   legacy/BasH5Spec
-   legacy/CmpH5Spec
-
-
 APIs available
 ==============
 
