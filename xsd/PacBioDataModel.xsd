@@ -2,423 +2,438 @@
 <?xml-stylesheet type="text/xsl" href="xs3p.xsl"?>
 <!-- edited with XMLSpy v2016 (x64) (http://www.altova.com) by efayad@pacificbiosciences.com (Pacific Biosciences) -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://pacificbiosciences.com/PacBioDataModel.xsd" xmlns:pbbase="http://pacificbiosciences.com/PacBioBaseDataModel.xsd" xmlns:pbpn="http://pacificbiosciences.com/PacBioPartNumbers.xsd" xmlns:pbmeta="http://pacificbiosciences.com/PacBioCollectionMetadata.xsd" xmlns:pbds="http://pacificbiosciences.com/PacBioDatasets.xsd" xmlns:pbsample="http://pacificbiosciences.com/PacBioSampleInfo.xsd" targetNamespace="http://pacificbiosciences.com/PacBioDataModel.xsd" elementFormDefault="qualified" attributeFormDefault="unqualified">
-	<xs:import namespace="http://pacificbiosciences.com/PacBioBaseDataModel.xsd" schemaLocation="PacBioBaseDataModel.xsd"/>
-	<xs:import namespace="http://pacificbiosciences.com/PacBioCollectionMetadata.xsd" schemaLocation="PacBioCollectionMetadata.xsd"/>
-	<xs:import namespace="http://pacificbiosciences.com/PacBioDatasets.xsd" schemaLocation="PacBioDatasets.xsd"/>
-	<xs:import namespace="http://pacificbiosciences.com/PacBioPartNumbers.xsd" schemaLocation="PacBioPartNumbers.xsd"/>
-	<xs:import namespace="http://pacificbiosciences.com/PacBioSampleInfo.xsd" schemaLocation="PacBioSampleInfo.xsd"/>
-	<xs:element name="Assay" type="AssayType"/>
-	<xs:element name="ChipLayout">
-		<xs:annotation>
-			<xs:documentation>Part of the RunResources; specifies a ChipLayout which is compatible with the collection protocols defined on the plate</xs:documentation>
-		</xs:annotation>
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element ref="Validation" minOccurs="0"/>
-			</xs:sequence>
-			<xs:attribute name="Name" type="xs:string" use="required"/>
-			<xs:attribute name="PartNumber" type="xs:string" use="required"/>
-			<xs:attribute name="Quantity">
-				<xs:annotation>
-					<xs:documentation>The number of cells required, of a particular part number</xs:documentation>
-				</xs:annotation>
-			</xs:attribute>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="CompatibleChipLayouts">
-		<xs:annotation>
-			<xs:documentation>A set of Chip Layouts deemed compatible with the current plate</xs:documentation>
-		</xs:annotation>
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element ref="ChipLayout" maxOccurs="unbounded"/>
-				<xs:element ref="Validation" minOccurs="0"/>
-			</xs:sequence>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="CompatibleSequencingKits">
-		<xs:annotation>
-			<xs:documentation>A set of reagent kits deemed compatible with the current plate</xs:documentation>
-		</xs:annotation>
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element ref="pbpn:SequencingKit"/>
-				<xs:element ref="RequiredTips"/>
-				<xs:element ref="EstimatedTotalRunTime"/>
-			</xs:sequence>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="EstimatedTotalRunTime">
-		<xs:annotation>
-			<xs:documentation>The total amount of time the run is estimated to require.  A confidence value (defaulted to 90%) indicates the degree of certainty associated with the estimate</xs:documentation>
-		</xs:annotation>
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element ref="Validation" minOccurs="0"/>
-			</xs:sequence>
-			<xs:attribute name="Value" type="xs:string" use="required"/>
-			<xs:attribute name="Confidence" type="xs:int" use="required"/>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="Events" type="pbbase:RecordedEventType"/>
-	<xs:element name="Input" type="pbbase:InputOutputDataType"/>
-	<xs:element name="Output" type="pbbase:InputOutputDataType"/>
-	<xs:element name="Parameter">
-		<xs:annotation>
-			<xs:documentation>A variable, as a name/value pair, associated with a protocol (one of Collection, Primary, and Secondary)</xs:documentation>
-		</xs:annotation>
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element ref="Validation" minOccurs="0"/>
-			</xs:sequence>
-			<xs:attribute name="Name" use="required">
-				<xs:simpleType>
-					<xs:restriction base="xs:string">
-						<xs:enumeration value="AverageReadLength"/>
-						<xs:enumeration value="AcquisitionTime"/>
-						<xs:enumeration value="InsertSize"/>
-						<xs:enumeration value="ReuseComplex"/>
-						<xs:enumeration value="StageHS"/>
-						<xs:enumeration value="JobId"/>
-						<xs:enumeration value="JobName"/>
-						<xs:enumeration value="NumberOfCollections"/>
-						<xs:enumeration value="StrobeByTime"/>
-						<xs:enumeration value="UsedControl"/>
-						<xs:enumeration value="Use2ndLook"/>
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:attribute>
-			<xs:attribute name="Value" type="xs:string" use="required"/>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="PacBioDataModel">
-		<xs:annotation>
-			<xs:documentation>PacBio Data Model root element</xs:documentation>
-		</xs:annotation>
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element name="ExperimentContainer" type="ExperimentContainerType"/>
-				<xs:any minOccurs="0">
-					<xs:annotation>
-						<xs:documentation>By using the "any" element we can extend (after "ProjectContainer") the content of "PacBioDataModel" with any element</xs:documentation>
-					</xs:annotation>
-				</xs:any>
-			</xs:sequence>
-			<xs:attribute name="Version" type="xs:string" use="optional">
-				<xs:annotation>
-					<xs:documentation>An optional identifier denoting the revision of this particular entity</xs:documentation>
-				</xs:annotation>
-			</xs:attribute>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="RequiredSMRTCells">
-		<xs:annotation>
-			<xs:documentation>Part of the RunResources; specifies the required number of SMRT cells</xs:documentation>
-		</xs:annotation>
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element ref="Validation" minOccurs="0"/>
-			</xs:sequence>
-			<xs:attribute name="Quantity" type="xs:int" use="required"/>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="RequiredTips">
-		<xs:annotation>
-			<xs:documentation>Part of the RunResources; specifies the required number of tips via two attributes, Left and Right</xs:documentation>
-		</xs:annotation>
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element ref="Validation" minOccurs="0"/>
-			</xs:sequence>
-			<xs:attribute name="Left" type="xs:int" use="required"/>
-			<xs:attribute name="Right" type="xs:int" use="required"/>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="RunResources">
-		<xs:annotation>
-			<xs:documentation>This is an output field specifying the requirements for the run, e.g. number of tips, estimated run time, etc.</xs:documentation>
-		</xs:annotation>
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element ref="CompatibleSequencingKits" maxOccurs="unbounded"/>
-				<xs:element ref="CompatibleChipLayouts"/>
-				<xs:element ref="Validation" minOccurs="0"/>
-			</xs:sequence>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="SampleComment">
-		<xs:annotation>
-			<xs:documentation>A general sample description</xs:documentation>
-		</xs:annotation>
-		<xs:complexType mixed="true">
-			<xs:sequence>
-				<xs:element ref="Validation" minOccurs="0"/>
-			</xs:sequence>
-			<xs:attribute name="Value" type="xs:string"/>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="Validation">
-		<xs:annotation>
-			<xs:documentation xml:lang="en">
+  <xs:import namespace="http://pacificbiosciences.com/PacBioBaseDataModel.xsd" schemaLocation="PacBioBaseDataModel.xsd"/>
+  <xs:import namespace="http://pacificbiosciences.com/PacBioCollectionMetadata.xsd" schemaLocation="PacBioCollectionMetadata.xsd"/>
+  <xs:import namespace="http://pacificbiosciences.com/PacBioDatasets.xsd" schemaLocation="PacBioDatasets.xsd"/>
+  <xs:import namespace="http://pacificbiosciences.com/PacBioPartNumbers.xsd" schemaLocation="PacBioPartNumbers.xsd"/>
+  <xs:import namespace="http://pacificbiosciences.com/PacBioSampleInfo.xsd" schemaLocation="PacBioSampleInfo.xsd"/>
+  <xs:element name="Assay" type="AssayType"/>
+  <xs:element name="ChipLayout">
+    <xs:annotation>
+      <xs:documentation>Part of the RunResources; specifies a ChipLayout which is compatible with the collection protocols defined on the plate</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="Validation" minOccurs="0"/>
+      </xs:sequence>
+      <xs:attribute name="Name" type="xs:string" use="required"/>
+      <xs:attribute name="PartNumber" type="xs:string" use="required"/>
+      <xs:attribute name="Quantity">
+        <xs:annotation>
+          <xs:documentation>The number of cells required, of a particular part number</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CompatibleChipLayouts">
+    <xs:annotation>
+      <xs:documentation>A set of Chip Layouts deemed compatible with the current plate</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="ChipLayout" maxOccurs="unbounded"/>
+        <xs:element ref="Validation" minOccurs="0"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CompatibleSequencingKits">
+    <xs:annotation>
+      <xs:documentation>A set of reagent kits deemed compatible with the current plate</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="pbpn:SequencingKit"/>
+        <xs:element ref="RequiredTips"/>
+        <xs:element ref="EstimatedTotalRunTime"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EstimatedTotalRunTime">
+    <xs:annotation>
+      <xs:documentation>The total amount of time the run is estimated to require.  A confidence value (defaulted to 90%) indicates the degree of certainty associated with the estimate</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="Validation" minOccurs="0"/>
+      </xs:sequence>
+      <xs:attribute name="Value" type="xs:string" use="required"/>
+      <xs:attribute name="Confidence" type="xs:int" use="required"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Events" type="pbbase:RecordedEventType"/>
+  <xs:element name="Input" type="pbbase:InputOutputDataType"/>
+  <xs:element name="Output" type="pbbase:InputOutputDataType"/>
+  <xs:element name="Parameter">
+    <xs:annotation>
+      <xs:documentation>A variable, as a name/value pair, associated with a protocol (one of Collection, Primary, and Secondary)</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="Validation" minOccurs="0"/>
+      </xs:sequence>
+      <xs:attribute name="Name" use="required">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="AverageReadLength"/>
+            <xs:enumeration value="AcquisitionTime"/>
+            <xs:enumeration value="InsertSize"/>
+            <xs:enumeration value="ReuseComplex"/>
+            <xs:enumeration value="StageHS"/>
+            <xs:enumeration value="JobId"/>
+            <xs:enumeration value="JobName"/>
+            <xs:enumeration value="NumberOfCollections"/>
+            <xs:enumeration value="StrobeByTime"/>
+            <xs:enumeration value="UsedControl"/>
+            <xs:enumeration value="Use2ndLook"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="Value" type="xs:string" use="required"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="PacBioDataModel">
+    <xs:annotation>
+      <xs:documentation>PacBio Data Model root element</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="ExperimentContainer" type="ExperimentContainerType"/>
+        <xs:any minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>By using the "any" element we can extend (after "ProjectContainer") the content of "PacBioDataModel" with any element</xs:documentation>
+          </xs:annotation>
+        </xs:any>
+      </xs:sequence>
+      <xs:attribute name="Version" type="xs:string" use="optional">
+        <xs:annotation>
+          <xs:documentation>An optional identifier denoting the revision of this particular entity</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RequiredSMRTCells">
+    <xs:annotation>
+      <xs:documentation>Part of the RunResources; specifies the required number of SMRT cells</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="Validation" minOccurs="0"/>
+      </xs:sequence>
+      <xs:attribute name="Quantity" type="xs:int" use="required"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RequiredTips">
+    <xs:annotation>
+      <xs:documentation>Part of the RunResources; specifies the required number of tips via two attributes, Left and Right</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="Validation" minOccurs="0"/>
+      </xs:sequence>
+      <xs:attribute name="Left" type="xs:int" use="required"/>
+      <xs:attribute name="Right" type="xs:int" use="required"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RunResources">
+    <xs:annotation>
+      <xs:documentation>This is an output field specifying the requirements for the run, e.g. number of tips, estimated run time, etc.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="CompatibleSequencingKits" maxOccurs="unbounded"/>
+        <xs:element ref="CompatibleChipLayouts"/>
+        <xs:element ref="Validation" minOccurs="0"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SampleComment">
+    <xs:annotation>
+      <xs:documentation>A general sample description</xs:documentation>
+    </xs:annotation>
+    <xs:complexType mixed="true">
+      <xs:sequence>
+        <xs:element ref="Validation" minOccurs="0"/>
+      </xs:sequence>
+      <xs:attribute name="Value" type="xs:string"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Validation">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">
         A validation type which is an element/part of every other element in the schema.  It is used to communicate validation issues as part of the output.
       </xs:documentation>
-		</xs:annotation>
-		<xs:complexType>
-			<xs:attribute name="IsValid" type="xs:boolean" use="required">
-				<xs:annotation>
-					<xs:documentation xml:lang="en">
+    </xs:annotation>
+    <xs:complexType>
+      <xs:attribute name="IsValid" type="xs:boolean" use="required">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">
             Indicates whether or not the element is valid.  The assumption is that the
             Validation element is omitted unless the element is invalid, in which case,
             the Validation element would describe the problem.
           </xs:documentation>
-				</xs:annotation>
-			</xs:attribute>
-			<xs:attribute name="ID" type="xs:string" use="required">
-				<xs:annotation>
-					<xs:documentation xml:lang="en">
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="ID" type="xs:string" use="required">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">
             An identifier which can be used by client applications to translate/map
             to a human decipherable message.
           </xs:documentation>
-				</xs:annotation>
-			</xs:attribute>
-			<xs:attribute name="Source" use="required">
-				<xs:annotation>
-					<xs:documentation xml:lang="en">
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="Source" use="required">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">
             This is the element which has experienced a validation issue.
           </xs:documentation>
-				</xs:annotation>
-				<xs:simpleType>
-					<xs:restriction base="xs:string">
-						<xs:enumeration value="PlateId"/>
-						<xs:enumeration value="PlateDefinition"/>
-						<xs:enumeration value="SchemaVersion"/>
-						<xs:enumeration value="DefType"/>
-						<xs:enumeration value="Owner"/>
-						<xs:enumeration value="CreatedBy"/>
-						<xs:enumeration value="Comments"/>
-						<xs:enumeration value="OutputPath"/>
-						<xs:enumeration value="Collections"/>
-						<xs:enumeration value="Collection"/>
-						<xs:enumeration value="DNATemplatePrepKitDefinition"/>
-						<xs:enumeration value="BindingKitDefinition"/>
-						<xs:enumeration value="RunResources"/>
-						<xs:enumeration value="CompatibleChipLayouts"/>
-						<xs:enumeration value="ChipLayout"/>
-						<xs:enumeration value="CompatibleSequencingKits"/>
-						<xs:enumeration value="SequencingKit"/>
-						<xs:enumeration value="RequiredTips"/>
-						<xs:enumeration value="EstimatedTotalRunTime"/>
-						<xs:enumeration value="RequiredSMRTCells"/>
-						<xs:enumeration value="CollectionAutomation"/>
-						<xs:enumeration value="Basecaller"/>
-						<xs:enumeration value="SecondaryAnalysisAutomation"/>
-						<xs:enumeration value="WellNo"/>
-						<xs:enumeration value="SampleName"/>
-						<xs:enumeration value="Barcode"/>
-						<xs:enumeration value="AcquisitionTime"/>
-						<xs:enumeration value="InsertSize"/>
-						<xs:enumeration value="ReuseComplex"/>
-						<xs:enumeration value="StageHS"/>
-						<xs:enumeration value="NumberOfCollections"/>
-						<xs:enumeration value="Confidence"/>
-						<xs:enumeration value="SampleComment"/>
-						<xs:enumeration value="StrobeByTime"/>
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:attribute>
-			<xs:attribute name="ElementPath" type="xs:string" use="optional">
-				<xs:annotation>
-					<xs:documentation xml:lang="en">
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="PlateId"/>
+            <xs:enumeration value="PlateDefinition"/>
+            <xs:enumeration value="SchemaVersion"/>
+            <xs:enumeration value="DefType"/>
+            <xs:enumeration value="Owner"/>
+            <xs:enumeration value="CreatedBy"/>
+            <xs:enumeration value="Comments"/>
+            <xs:enumeration value="OutputPath"/>
+            <xs:enumeration value="Collections"/>
+            <xs:enumeration value="Collection"/>
+            <xs:enumeration value="DNATemplatePrepKitDefinition"/>
+            <xs:enumeration value="BindingKitDefinition"/>
+            <xs:enumeration value="RunResources"/>
+            <xs:enumeration value="CompatibleChipLayouts"/>
+            <xs:enumeration value="ChipLayout"/>
+            <xs:enumeration value="CompatibleSequencingKits"/>
+            <xs:enumeration value="SequencingKit"/>
+            <xs:enumeration value="RequiredTips"/>
+            <xs:enumeration value="EstimatedTotalRunTime"/>
+            <xs:enumeration value="RequiredSMRTCells"/>
+            <xs:enumeration value="CollectionAutomation"/>
+            <xs:enumeration value="Basecaller"/>
+            <xs:enumeration value="SecondaryAnalysisAutomation"/>
+            <xs:enumeration value="WellNo"/>
+            <xs:enumeration value="SampleName"/>
+            <xs:enumeration value="Barcode"/>
+            <xs:enumeration value="AcquisitionTime"/>
+            <xs:enumeration value="InsertSize"/>
+            <xs:enumeration value="ReuseComplex"/>
+            <xs:enumeration value="StageHS"/>
+            <xs:enumeration value="NumberOfCollections"/>
+            <xs:enumeration value="Confidence"/>
+            <xs:enumeration value="SampleComment"/>
+            <xs:enumeration value="StrobeByTime"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="ElementPath" type="xs:string" use="optional">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">
             An optional string attribute which holds the path to the offending element.
           </xs:documentation>
-				</xs:annotation>
-			</xs:attribute>
-			<xs:attribute name="SupplementalInfo" type="xs:string" use="optional">
-				<xs:annotation>
-					<xs:documentation xml:lang="en">
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="SupplementalInfo" type="xs:string" use="optional">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">
             An optional string attribute which holds extraneous information.
           </xs:documentation>
-				</xs:annotation>
-			</xs:attribute>
-		</xs:complexType>
-	</xs:element>
-	<xs:complexType name="AssayType">
-		<xs:complexContent>
-			<xs:extension base="pbbase:DataEntityType">
-				<xs:sequence>
-					<xs:element ref="SubreadSets"/>
-				</xs:sequence>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="ExperimentContainerType">
-		<xs:annotation>
-			<xs:documentation>A composite object type that can encompass multiple runs, possibly across multiple instruments.  
+        </xs:annotation>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="AssayType">
+    <xs:complexContent>
+      <xs:extension base="pbbase:DataEntityType">
+        <xs:sequence>
+          <xs:element ref="SubreadSets"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ExperimentContainerType">
+    <xs:annotation>
+      <xs:documentation>A composite object type that can encompass multiple runs, possibly across multiple instruments.  
 
 One use case may be that a user may have a large genome they'd like to sequence, and it may take multiple runs on multiple instruments, to get enough data.  Another use case may be that a user has multiple samples of the same phenotype which they would like to analyze in a similar fashion/automation, and as such these samples are run as part of one experiment.
 
 The experiment object is intended to be packagable, such that the metadata of all acquisitions within is contained.</xs:documentation>
-		</xs:annotation>
-		<xs:complexContent>
-			<xs:extension base="pbbase:BaseEntityType">
-				<xs:sequence>
-					<xs:element name="InvestigatorName" type="xs:string" minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>An optional PI name</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="CreatedDate" type="xs:date">
-						<xs:annotation>
-							<xs:documentation>Automatically generated creation date</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="Runs" minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>Multiple acquisitions from different instrument runs</xs:documentation>
-						</xs:annotation>
-						<xs:complexType>
-							<xs:sequence>
-								<xs:element name="Run" type="RunType" maxOccurs="unbounded"/>
-							</xs:sequence>
-						</xs:complexType>
-					</xs:element>
-					<xs:element name="DataSets" minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>Pointers to various data elements associated with the acquisitions</xs:documentation>
-						</xs:annotation>
-						<xs:complexType>
-							<xs:sequence>
-								<xs:element ref="pbds:DataSet" minOccurs="0" maxOccurs="unbounded"/>
-							</xs:sequence>
-						</xs:complexType>
-					</xs:element>
-					<xs:element name="RecordedEvents" minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>Journal of metrics, system events, or alarms that were generated during this container's lifetime</xs:documentation>
-						</xs:annotation>
-						<xs:complexType>
-							<xs:sequence>
-								<xs:element name="RecordedEvent" type="pbbase:RecordedEventType" minOccurs="0" maxOccurs="unbounded">
-									<xs:annotation>
-										<xs:documentation>Journal of metrics, system events, or alarms that were generated during this container's lifetime</xs:documentation>
-									</xs:annotation>
-								</xs:element>
-							</xs:sequence>
-						</xs:complexType>
-					</xs:element>
-					<xs:element name="BioSamples" minOccurs="0">
-						<xs:complexType>
-							<xs:sequence>
-								<xs:element name="BioSample" type="pbsample:BioSampleType" minOccurs="0" maxOccurs="unbounded"/>
-							</xs:sequence>
-						</xs:complexType>
-					</xs:element>
-				</xs:sequence>
-				<xs:attribute name="ExperimentId" type="xs:string"/>
-				<xs:attribute name="TimeStampedName" type="xs:string">
-					<xs:annotation>
-						<xs:documentation>This is NOT intended to be used as a unique field.  For uniqueness, use UniqueId.  In order to not utilize customer provided names, this attribute may be used as an alternative means of Human Readable ID, e.g. instrumentId-Run-150304_231155</xs:documentation>
-					</xs:annotation>
-				</xs:attribute>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="RunType">
-		<xs:annotation>
-			<xs:documentation>A run is defined as a set of one or more data collections acquired in sequence on an instrument.  A run specifies the wells and SMRT Cells to include in the sequencing run, along with the collection and analysis automation to use for the selected wells and cells.
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="pbbase:BaseEntityType">
+        <xs:sequence>
+          <xs:element name="InvestigatorName" type="xs:string" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>An optional PI name</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="CreatedDate" type="xs:date">
+            <xs:annotation>
+              <xs:documentation>Automatically generated creation date</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="Runs" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>Multiple acquisitions from different instrument runs</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="Run" type="RunType" maxOccurs="unbounded"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="DataSets" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>Pointers to various data elements associated with the acquisitions</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element ref="pbds:DataSet" minOccurs="0" maxOccurs="unbounded"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="RecordedEvents" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>Journal of metrics, system events, or alarms that were generated during this container's lifetime</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="RecordedEvent" type="pbbase:RecordedEventType" minOccurs="0" maxOccurs="unbounded">
+                  <xs:annotation>
+                    <xs:documentation>Journal of metrics, system events, or alarms that were generated during this container's lifetime</xs:documentation>
+                  </xs:annotation>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="BioSamples" minOccurs="0">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="BioSample" type="pbsample:BioSampleType" minOccurs="0" maxOccurs="unbounded"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute name="ExperimentId" type="xs:string"/>
+        <xs:attribute name="TimeStampedName" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>This is NOT intended to be used as a unique field.  For uniqueness, use UniqueId.  In order to not utilize customer provided names, this attribute may be used as an alternative means of Human Readable ID, e.g. instrumentId-Run-150304_231155</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="RunType">
+    <xs:annotation>
+      <xs:documentation>A run is defined as a set of one or more data collections acquired in sequence on an instrument.  A run specifies the wells and SMRT Cells to include in the sequencing run, along with the collection and analysis automation to use for the selected wells and cells.
 
 </xs:documentation>
-		</xs:annotation>
-		<xs:complexContent>
-			<xs:extension base="pbbase:StrictEntityType">
-				<xs:sequence>
-					<xs:element name="Outputs" minOccurs="0">
-						<xs:complexType>
-							<xs:sequence>
-								<xs:element ref="Output" minOccurs="0" maxOccurs="unbounded"/>
-								<xs:element ref="SubreadSets" minOccurs="0">
-									<xs:annotation>
-										<xs:documentation>When a run definition is created, the placeholder for the output is created as well.  As part of that, the collection metadata will reside within this output placeholder.
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="pbbase:StrictEntityType">
+        <xs:sequence>
+          <xs:element name="Outputs" minOccurs="0">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element ref="Output" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element ref="SubreadSets" minOccurs="0">
+                  <xs:annotation>
+                    <xs:documentation>When a run definition is created, the placeholder for the output is created as well.  As part of that, the collection metadata will reside within this output placeholder.
 
 There will be one SubreadSet placeholder created per collection.</xs:documentation>
-									</xs:annotation>
-								</xs:element>
-							</xs:sequence>
-						</xs:complexType>
-					</xs:element>
-					<xs:element name="Inputs" minOccurs="0">
-						<xs:complexType>
-							<xs:sequence>
-								<xs:element ref="Input" maxOccurs="unbounded"/>
-							</xs:sequence>
-						</xs:complexType>
-					</xs:element>
-					<xs:element ref="Assay" minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>A predefined set of collection definitions for the purpose of conducting a known run type</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element ref="RunResources" minOccurs="0"/>
-					<xs:element name="RecordedEvents" minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>Journal of metrics, system events, or alarms that were generated during this run's lifetime</xs:documentation>
-						</xs:annotation>
-						<xs:complexType>
-							<xs:sequence>
-								<xs:element name="RecordedEvent" type="pbbase:RecordedEventType" minOccurs="0" maxOccurs="unbounded">
-									<xs:annotation>
-										<xs:documentation>Journal of metrics, system events, or alarms that were generated during this run's lifetime.
+                  </xs:annotation>
+                </xs:element>
+                <xs:element name="MultiJobId" type="xs:unsignedInt" minOccurs="0">
+                  <xs:annotation>
+                    <xs:documentation>Id of the SMRT Link MultiJob that will create Jobs to process the Outputs (e.g. SubreadSets) of this Run.</xs:documentation>
+                  </xs:annotation>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="Inputs" minOccurs="0">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element ref="Input" maxOccurs="unbounded"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element ref="Assay" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>A predefined set of collection definitions for the purpose of conducting a known run type</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element ref="RunResources" minOccurs="0"/>
+          <xs:element name="RecordedEvents" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>Journal of metrics, system events, or alarms that were generated during this run's lifetime</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="RecordedEvent" type="pbbase:RecordedEventType" minOccurs="0" maxOccurs="unbounded">
+                  <xs:annotation>
+                    <xs:documentation>Journal of metrics, system events, or alarms that were generated during this run's lifetime.
 In the case of Primary generating the DataSet containing the sts.xml, this RecordedEvent object should be a pointer to the DataSet object generated.</xs:documentation>
-									</xs:annotation>
-								</xs:element>
-							</xs:sequence>
-						</xs:complexType>
-					</xs:element>
-				</xs:sequence>
-				<xs:attribute name="Status" type="pbbase:SupportedRunStates"/>
-				<xs:attribute name="InstrumentId" type="xs:string">
-					<xs:annotation>
-						<xs:documentation>World unique id assigned by PacBio. </xs:documentation>
-					</xs:annotation>
-				</xs:attribute>
-				<xs:attribute name="InstrumentName" type="xs:string">
-					<xs:annotation>
-						<xs:documentation>Friendly name assigned by customer</xs:documentation>
-					</xs:annotation>
-				</xs:attribute>
-				<xs:attribute name="CreatedBy" type="xs:string">
-					<xs:annotation>
-						<xs:documentation>Who created the run. </xs:documentation>
-					</xs:annotation>
-				</xs:attribute>
-				<xs:attribute name="StartedBy" type="xs:string">
-					<xs:annotation>
-						<xs:documentation>Who started the run. Could be different from who created it. </xs:documentation>
-					</xs:annotation>
-				</xs:attribute>
-				<xs:attribute name="WhenStarted">
-					<xs:annotation>
-						<xs:documentation>Date and time of when the overall run was started. </xs:documentation>
-					</xs:annotation>
-					<xs:simpleType>
-						<xs:restriction base="xs:dateTime"/>
-					</xs:simpleType>
-				</xs:attribute>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:element name="CollectionReferences">
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element name="CollectionMetadataRef" type="xs:IDREF" maxOccurs="unbounded"/>
-			</xs:sequence>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="SubreadSets">
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element ref="pbds:SubreadSet" maxOccurs="unbounded"/>
-			</xs:sequence>
-		</xs:complexType>
-	</xs:element>
+                  </xs:annotation>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute name="Status" type="pbbase:SupportedRunStates"/>
+        <xs:attribute name="ChipType" type="pbbase:SupportedChipTypes" use="optional" default="AllChips"/>
+        <xs:attribute name="InstrumentType" type="pbbase:SupportedInstrumentTypes" use="optional" default="Sequel2"/>
+        <xs:attribute name="InstrumentId" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>World unique id assigned by PacBio. </xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="InstrumentName" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>Friendly name assigned by customer</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="CreatedBy" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>Who created the run. </xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="StartedBy" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>Who started the run. Could be different from who created it. </xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="WhenStarted">
+          <xs:annotation>
+            <xs:documentation>Date and time of when the overall run was started. </xs:documentation>
+          </xs:annotation>
+          <xs:simpleType>
+            <xs:restriction base="xs:dateTime"/>
+          </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="WhenCompleted" use="optional">
+          <xs:annotation>
+            <xs:documentation>Date and time of when the overall run was completed. </xs:documentation>
+          </xs:annotation>
+          <xs:simpleType>
+            <xs:restriction base="xs:dateTime"/>
+          </xs:simpleType>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="CollectionReferences">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="CollectionMetadataRef" type="xs:IDREF" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SubreadSets">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="pbds:SubreadSet" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
 </xs:schema>

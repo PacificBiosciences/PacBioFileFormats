@@ -18,193 +18,201 @@
 *******************************************************************************
 -->
 <xs:schema xmlns="http://pacificbiosciences.com/PacBioPipelineStats.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pbbase="http://pacificbiosciences.com/PacBioBaseDataModel.xsd" targetNamespace="http://pacificbiosciences.com/PacBioPipelineStats.xsd" elementFormDefault="qualified" id="PacBioPipelineStats">
-	<xs:import namespace="http://pacificbiosciences.com/PacBioBaseDataModel.xsd" schemaLocation="PacBioBaseDataModel.xsd"/>
-	<!--
+  <xs:import namespace="http://pacificbiosciences.com/PacBioBaseDataModel.xsd" schemaLocation="PacBioBaseDataModel.xsd"/>
+  <!--
   
   Movie Metrics and Classification
   
   -->
-	<!--
+  <!--
   MovieContext
   -->
-	<xs:element name="MovieName" type="xs:string"/>
-	<!--
+  <xs:element name="MovieName" type="xs:string"/>
+  <!--
   MovieLength
   -->
-	<xs:element name="MovieLength" type="xs:double"/>
-	<!--
+  <xs:element name="MovieLength" type="xs:double"/>
+  <!--
   NumDroppedFrames
   -->
-	<xs:element name="NumFramesDropped" type="xs:double"/>
-	<!--
+  <xs:element name="NumFramesDropped" type="xs:double"/>
+  <!--
   NumSequencingZmws
   -->
-	<xs:element name="NumSequencingZmws" type="xs:double"/>
-	<!--
+  <xs:element name="NumSequencingZmws" type="xs:double"/>
+  <!--
+  NumFailedSnrFilterZmws
+  -->
+  <xs:element name="NumFailedSnrFilterZmws" type="xs:int"/>
+  <!--
+  NumFailedDmeZmws
+  -->
+  <xs:element name="NumFailedDmeZmws" type="xs:int"/>
+  <!--
   TraceFileSize
   -->
-	<xs:element name="TraceFileSize" type="xs:long"/>
-	<!--
+  <xs:element name="TraceFileSize" type="xs:long"/>
+  <!--
   PulseFileSize
   -->
-	<xs:element name="PulseFileSize" type="xs:long"/>
-	<!--
+  <xs:element name="PulseFileSize" type="xs:long"/>
+  <!--
   BaseFileSize
   -->
-	<xs:element name="BaseFileSize" type="xs:long"/>
-	<!--
+  <xs:element name="BaseFileSize" type="xs:long"/>
+  <!--
   AdapterDimerFraction
   -->
-	<xs:element name="AdapterDimerFraction" type="xs:double"/>
-	<!--
+  <xs:element name="AdapterDimerFraction" type="xs:double"/>
+  <!--
   ShortInsertFraction
   -->
-	<xs:element name="ShortInsertFraction" type="xs:double"/>
-	<!--
+  <xs:element name="ShortInsertFraction" type="xs:double"/>
+  <!--
   FractionFailedZmwClippedLow
   -->
-	<xs:element name="FailedZmwClippedLowFraction" type="xs:double"/>
-	<!--
+  <xs:element name="FailedZmwClippedLowFraction" type="xs:double"/>
+  <!--
   FractionFailedZmwClippedHigh
   -->
-	<xs:element name="FailedZmwClippedHighFraction" type="xs:double"/>
-	<!--
+  <xs:element name="FailedZmwClippedHighFraction" type="xs:double"/>
+  <!--
   TotalBaseFraction
   -->
-	<xs:element name="TotalBaseFractionValue" type="xs:double"/>
-	<xs:complexType name="TotalBaseFraction">
-		<xs:sequence>
-			<xs:element ref="TotalBaseFractionValue"/>
-		</xs:sequence>
-		<xs:attribute name="Channel" type="xs:string" use="required"/>
-	</xs:complexType>
-	<xs:element name="TotalBaseFractionPerChannel" type="TotalBaseFraction"/>
-	<!--
+  <xs:element name="TotalBaseFractionValue" type="xs:double"/>
+  <xs:complexType name="TotalBaseFraction">
+    <xs:sequence>
+      <xs:element ref="TotalBaseFractionValue"/>
+    </xs:sequence>
+    <xs:attribute name="Channel" type="xs:string" use="required"/>
+  </xs:complexType>
+  <xs:element name="TotalBaseFractionPerChannel" type="TotalBaseFraction"/>
+  <!--
   PkMidCV
   -->
-	<xs:element name="PkMidCVValue" type="xs:double"/>
-	<xs:complexType name="PkMidCV">
-		<xs:sequence>
-			<xs:element ref="PkMidCVValue"/>
-		</xs:sequence>
-		<xs:attribute name="Channel" type="xs:string" use="required"/>
-	</xs:complexType>
-	<xs:element name="PkMidCVPerChannel" type="PkMidCV"/>
-	<!--
+  <xs:element name="PkMidCVValue" type="xs:double"/>
+  <xs:complexType name="PkMidCV">
+    <xs:sequence>
+      <xs:element ref="PkMidCVValue"/>
+    </xs:sequence>
+    <xs:attribute name="Channel" type="xs:string" use="required"/>
+  </xs:complexType>
+  <xs:element name="PkMidCVPerChannel" type="PkMidCV"/>
+  <!--
   Total number of counts in the sample
   -->
-	<xs:element name="SampleSize" type="xs:int">
-		<xs:annotation>
-			<xs:documentation>Number of data values in the sample</xs:documentation>
-		</xs:annotation>
-	</xs:element>
-	<!--
+  <xs:element name="SampleSize" type="xs:int">
+    <xs:annotation>
+      <xs:documentation>Number of data values in the sample</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <!--
   Mean of the sample
   -->
-	<xs:element name="SampleMean" type="xs:double">
-		<xs:annotation>
-			<xs:documentation>Mean of the sample</xs:documentation>
-		</xs:annotation>
-	</xs:element>
-	<!--
+  <xs:element name="SampleMean" type="xs:double">
+    <xs:annotation>
+      <xs:documentation>Mean of the sample</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <!--
   Median of the sample
   -->
-	<xs:element name="SampleMed" type="xs:double">
-		<xs:annotation>
-			<xs:documentation>Median of the sample</xs:documentation>
-		</xs:annotation>
-	</xs:element>
-	<!--
+  <xs:element name="SampleMed" type="xs:double">
+    <xs:annotation>
+      <xs:documentation>Median of the sample</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <!--
   Standard Deviation of the sample
   -->
-	<xs:element name="SampleStd" type="xs:double">
-		<xs:annotation>
-			<xs:documentation>StandardDeviation of the sample</xs:documentation>
-		</xs:annotation>
-	</xs:element>
-	<!--
+  <xs:element name="SampleStd" type="xs:double">
+    <xs:annotation>
+      <xs:documentation>StandardDeviation of the sample</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <!--
   95th Percentile of the sample
   -->
-	<xs:element name="Sample95thPct" type="xs:double">
-		<xs:annotation>
-			<xs:documentation>95th Percentile of the sample</xs:documentation>
-		</xs:annotation>
-	</xs:element>
-	<!-- 
+  <xs:element name="Sample95thPct" type="xs:double">
+    <xs:annotation>
+      <xs:documentation>95th Percentile of the sample</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <!-- 
   Number of Bins in Histogram 
   -->
-	<xs:element name="NumBins" type="xs:int">
-		<xs:annotation>
-			<xs:documentation>Number of Bins in Histogram</xs:documentation>
-		</xs:annotation>
-	</xs:element>
-	<!-- 
+  <xs:element name="NumBins" type="xs:int">
+    <xs:annotation>
+      <xs:documentation>Number of Bins in Histogram</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <!-- 
   Bin Counts in Histogram
   -->
-	<xs:element name="BinCount" type="xs:int">
-		<xs:annotation>
-			<xs:documentation>Bin Counts in Histogram</xs:documentation>
-		</xs:annotation>
-	</xs:element>
-	<!-- 
+  <xs:element name="BinCount" type="xs:int">
+    <xs:annotation>
+      <xs:documentation>Bin Counts in Histogram</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <!-- 
   Bin Width in Histogram
   -->
-	<xs:element name="BinWidth" type="xs:double">
-		<xs:annotation>
-			<xs:documentation>Bin Width in Histogram</xs:documentation>
-		</xs:annotation>
-	</xs:element>
-	<!-- 
+  <xs:element name="BinWidth" type="xs:double">
+    <xs:annotation>
+      <xs:documentation>Bin Width in Histogram</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <!-- 
   Histogram outlier minimum value 
   -->
-	<xs:element name="MinOutlierValue" type="xs:double">
-		<xs:annotation>
-			<xs:documentation>Minimum Outlier Value in Histogram</xs:documentation>
-		</xs:annotation>
-	</xs:element>
-	<!-- 
+  <xs:element name="MinOutlierValue" type="xs:double">
+    <xs:annotation>
+      <xs:documentation>Minimum Outlier Value in Histogram</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <!-- 
    Histogram minimum bin value (less outliers)
   -->
-	<xs:element name="MinBinValue" type="xs:double">
-		<xs:annotation>
-			<xs:documentation>Minimum Value (less outliers) in Histogram</xs:documentation>
-		</xs:annotation>
-	</xs:element>
-	<!-- 
+  <xs:element name="MinBinValue" type="xs:double">
+    <xs:annotation>
+      <xs:documentation>Minimum Value (less outliers) in Histogram</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <!-- 
   
   Histogram maximum bin value (less outliers)
   
   -->
-	<xs:element name="MaxBinValue" type="xs:double">
-		<xs:annotation>
-			<xs:documentation>Maximum Value (less outliers) in Histogram</xs:documentation>
-		</xs:annotation>
-	</xs:element>
-	<!-- 
+  <xs:element name="MaxBinValue" type="xs:double">
+    <xs:annotation>
+      <xs:documentation>Maximum Value (less outliers) in Histogram</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <!-- 
   Histogram outlier maximum value 
   -->
-	<xs:element name="MaxOutlierValue" type="xs:double">
-		<xs:annotation>
-			<xs:documentation>Maximum Value in Histogram</xs:documentation>
-		</xs:annotation>
-	</xs:element>
-	<!--
+  <xs:element name="MaxOutlierValue" type="xs:double">
+    <xs:annotation>
+      <xs:documentation>Maximum Value in Histogram</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <!--
   "Human-Readable" description of movie metric
   -->
-	<xs:element name="MetricDescription" type="xs:string">
-		<xs:annotation>
-			<xs:documentation>Description of metric</xs:documentation>
-		</xs:annotation>
-	</xs:element>
-	<!--
+  <xs:element name="MetricDescription" type="xs:string">
+    <xs:annotation>
+      <xs:documentation>Description of metric</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <!--
   Bin Labels for discrete distributions
   -->
-	<xs:element name="BinLabel" type="xs:string">
-		<xs:annotation>
-			<xs:documentation>Bin Label for Discrete Distribution</xs:documentation>
-		</xs:annotation>
-	</xs:element>
-	<!-- 
+  <xs:element name="BinLabel" type="xs:string">
+    <xs:annotation>
+      <xs:documentation>Bin Label for Discrete Distribution</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <!-- 
   Continuous distribution class
 	<xs:complexType name="ContinuousDist">
 		<xs:sequence>
@@ -213,6 +221,7 @@
 			<xs:element ref="SampleMed"/>
 			<xs:element ref="SampleStd"/>
 			<xs:element ref="Sample95thPct"/>
+			<xs:element ref="SampleN50" minOccurs="0"/>
 			<xs:element ref="NumBins"/>
 			<xs:element ref="BinCount" minOccurs="1" maxOccurs="unbounded"/>
 			<xs:element ref="BinWidth"/>
@@ -224,7 +233,7 @@
 		</xs:sequence>
 		<xs:attribute name="Channel" type="xs:string"/>
 	</xs:complexType>  -->
-	<!-- 
+  <!-- 
   Discrete distribution class
 	<xs:complexType name="DiscreteDist">
 		<xs:sequence>
@@ -234,7 +243,7 @@
 			<xs:element ref="BinLabel" minOccurs="1" maxOccurs="unbounded"/>
 		</xs:sequence>
 	</xs:complexType>  -->
-	<!--
+  <!--
   Time series (for time-dependent metrics)
 	<xs:complexType name="TimeSeries">
 		<xs:sequence>
@@ -245,254 +254,266 @@
 			<xs:element name="Val" type="xs:float" minOccurs="0" maxOccurs="unbounded"/>
 		</xs:sequence>
 	</xs:complexType>  -->
-	<!--
+  <!--
   Specific Distributions
   -->
-	<!--
+  <!--
   Control Read Length Distribution
   -->
-	<xs:element name="ControlReadLenDist" type="pbbase:StatsContinuousDistType"/>
-	<!--
+  <xs:element name="ControlReadLenDist" type="pbbase:StatsContinuousDistType"/>
+  <!--
   Control Read Quality Distribution 
   -->
-	<xs:element name="ControlReadQualDist" type="pbbase:StatsContinuousDistType"/>
-	<!--
+  <xs:element name="ControlReadQualDist" type="pbbase:StatsContinuousDistType"/>
+  <!--
   Baseline Level Distribution - all holes
   -->
-	<xs:element name="BaselineLevelDist" type="pbbase:StatsContinuousDistType"/>
-	<!--
+  <xs:element name="BaselineLevelDist" type="pbbase:StatsContinuousDistType"/>
+  <!--
   Baseline Standard Deviation Distribution - all holes
   -->
-	<xs:element name="BaselineStdDist" type="pbbase:StatsContinuousDistType"/>
-	<!--
+  <xs:element name="BaselineStdDist" type="pbbase:StatsContinuousDistType"/>
+  <!--
   Movie Read Quality Distribution - all holes
   -->
-	<xs:element name="MovieReadQualDist" type="pbbase:StatsContinuousDistType"/>
-	<!--
+  <xs:element name="MovieReadQualDist" type="pbbase:StatsContinuousDistType"/>
+  <!--
   Productivity Distribution - all holes
   -->
-	<xs:element name="ProdDist" type="pbbase:StatsDiscreteDistType"/>
-	<!--
+  <xs:element name="ProdDist" type="pbbase:StatsDiscreteDistType"/>
+  <!--
   ReadType Distribution
   -->
-	<xs:element name="ReadTypeDist" type="pbbase:StatsDiscreteDistType"/>
-	<!--
+  <xs:element name="ReadTypeDist" type="pbbase:StatsDiscreteDistType"/>
+  <!--
   Pulse Rate Distribution - productive holes
   -->
-	<xs:element name="PulseRateDist" type="pbbase:StatsContinuousDistType"/>
-	<!--
+  <xs:element name="PulseRateDist" type="pbbase:StatsContinuousDistType"/>
+  <!--
   Mean Pulse Width Distribution - productive holes
   -->
-	<xs:element name="PulseWidthDist" type="pbbase:StatsContinuousDistType"/>
-	<!--
+  <xs:element name="PulseWidthDist" type="pbbase:StatsContinuousDistType"/>
+  <!--
   Base Rate (global) Distribution - productive holes, HQ regions
   -->
-	<xs:element name="BaseRateDist" type="pbbase:StatsContinuousDistType"/>
-	<!--
+  <xs:element name="BaseRateDist" type="pbbase:StatsContinuousDistType"/>
+  <!--
   Mean Base Width Distribution - productive holes, HQ regions
   -->
-	<xs:element name="BaseWidthDist" type="pbbase:StatsContinuousDistType"/>
-	<!--
+  <xs:element name="BaseWidthDist" type="pbbase:StatsContinuousDistType"/>
+  <!--
   Mean Base IPD Distribution - productive holes, HQ regions
   -->
-	<xs:element name="BaseIpdDist" type="pbbase:StatsContinuousDistType"/>
-	<!--
+  <xs:element name="BaseIpdDist" type="pbbase:StatsContinuousDistType"/>
+  <!--
   Local Base Rate Distribution - productive holes, HQ regions.
   I.e., an estimate of the polymerase rate, exclusing pauses.
   -->
-	<xs:element name="LocalBaseRateDist" type="pbbase:StatsContinuousDistType"/>
-	<!--
+  <xs:element name="LocalBaseRateDist" type="pbbase:StatsContinuousDistType"/>
+  <!--
   Number of unfiltered basecalls Distribution - productive holes
   -->
-	<xs:element name="NumUnfilteredBasecallsDist" type="pbbase:StatsContinuousDistType"/>
-	<!--
+  <xs:element name="NumUnfilteredBasecallsDist" type="pbbase:StatsContinuousDistType"/>
+  <!--
   Polymerase Read Length Distribution - productive holes
   -->
-	<xs:element name="ReadLenDist" type="pbbase:StatsContinuousDistType"/>
-	<!--
+  <xs:element name="ReadLenDist" type="pbbase:StatsContinuousDistType"/>
+  <!--
   Polymerase Read Quality Distribution - productive holes
   -->
-	<xs:element name="ReadQualDist" type="pbbase:StatsContinuousDistType"/>
-	<!--
+  <xs:element name="ReadQualDist" type="pbbase:StatsContinuousDistType"/>
+  <!--
   Distribution of the ratio (Polymerase Read Len)/(Num Unfiltered Basecalls)
   -->
-	<xs:element name="HqBaseFractionDist" type="pbbase:StatsContinuousDistType"/>
-	<!--
+  <xs:element name="HqBaseFractionDist" type="pbbase:StatsContinuousDistType"/>
+  <!--
   Polymerase Read-Mean Base Quality Value Distribution - productive holes
   -->
-	<xs:element name="RmBasQvDist" type="pbbase:StatsContinuousDistType"/>
-	<!--
+  <xs:element name="RmBasQvDist" type="pbbase:StatsContinuousDistType"/>
+  <!--
   Best Estimate (Insert) Read Length Distribution
   -->
-	<xs:element name="InsertReadLenDist" type="pbbase:StatsContinuousDistType"/>
-	<!--
+  <xs:element name="InsertReadLenDist" type="pbbase:StatsContinuousDistType"/>
+  <!--
    Best Estimate (Insert) Read Quality (Predicted Accuracy) Distribution
   -->
-	<xs:element name="InsertReadQualDist" type="pbbase:StatsContinuousDistType"/>
-	<!--
+  <xs:element name="InsertReadQualDist" type="pbbase:StatsContinuousDistType"/>
+  <!--
   Local Yield Distribution - % of productive holes locally
   -->
-	<xs:element name="LocalYieldDist" type="pbbase:StatsContinuousDistType"/>
-	<!--
+  <xs:element name="LocalYieldDist" type="pbbase:StatsContinuousDistType"/>
+  <!--
   Local Snr Distribution - snr per channel locally
   -->
-	<xs:element name="LocalSnrDist" type="pbbase:StatsContinuousDistType"/>
-	<!--
+  <xs:element name="LocalSnrDist" type="pbbase:StatsContinuousDistType"/>
+  <!--
   Trace Clipped Fraction Distribution - Total % traces clipped per channel
   -->
-	<xs:element name="TraceClippedFractionDist" type="pbbase:StatsContinuousDistType"/>
-	<!--
+  <xs:element name="TraceClippedFractionDist" type="pbbase:StatsContinuousDistType"/>
+  <!--
   Trace Low Clipped Fraction Distribution - % traces clipped low per channel
   -->
-	<xs:element name="TraceLowClippedFractionDist" type="pbbase:StatsContinuousDistType"/>
-	<!--
+  <xs:element name="TraceLowClippedFractionDist" type="pbbase:StatsContinuousDistType"/>
+  <!--
   Trace High Clipped Fraction Distribution - % traces clipped high per channel
   -->
-	<xs:element name="TraceHighClippedFractionDist" type="pbbase:StatsContinuousDistType"/>
-	<!--
+  <xs:element name="TraceHighClippedFractionDist" type="pbbase:StatsContinuousDistType"/>
+  <!--
   Pausiness Distribution - % ipds above a threshold
   -->
-	<xs:element name="PausinessDist" type="pbbase:StatsContinuousDistType"/>
-	<!--
+  <xs:element name="PausinessDist" type="pbbase:StatsContinuousDistType"/>
+  <!--
   Adapter Dimer Distribution - % distribution of mean insert length
   -->
-	<xs:element name="MedianInsertDist" type="pbbase:StatsContinuousDistType"/>
-	<!--
+  <xs:element name="MedianInsertDist" type="pbbase:StatsContinuousDistType"/>
+  <!--
   PkMid CV Distribution - % distribution of coefficient of variation of PkMid
   -->
-	<xs:element name="PkMidCVDist" type="pbbase:StatsContinuousDistType"/>
-	<!--
+  <xs:element name="PkMidCVDist" type="pbbase:StatsContinuousDistType"/>
+  <!--
   SNR Distribution - productive holes
   -->
-	<xs:element name="SnrDist" type="pbbase:StatsContinuousDistType"/>
-	<!--
+  <xs:element name="SnrDist" type="pbbase:StatsContinuousDistType"/>
+  <!--
   HQ Region SNR Distribution - robust estimate of SNR distribution over productive holes
   -->
-	<xs:element name="HqRegionSnrDist" type="pbbase:StatsContinuousDistType"/>
-	<!--
+  <xs:element name="HqRegionSnrDist" type="pbbase:StatsContinuousDistType"/>
+  <!--
   HqBasPkMid Distribution - productive holes
   -->
-	<xs:element name="HqBasPkMidDist" type="pbbase:StatsContinuousDistType"/>
-	<!--
+  <xs:element name="HqBasPkMidDist" type="pbbase:StatsContinuousDistType"/>
+  <!--
   BaselineLevelSequencing Distribution - productive holes
   -->
-	<xs:element name="BaselineLevelSequencingDist" type="pbbase:StatsContinuousDistType"/>
-	<!--
+  <xs:element name="BaselineLevelSequencingDist" type="pbbase:StatsContinuousDistType"/>
+  <!--
   BaselineLevelAntihole Distribution - productive holes
   -->
-	<xs:element name="BaselineLevelAntiholeDist" type="pbbase:StatsContinuousDistType"/>
-	<!--
+  <xs:element name="BaselineLevelAntiholeDist" type="pbbase:StatsContinuousDistType"/>
+  <!--
   BaselineLevelAntimirror Distribution - productive holes
   -->
-	<xs:element name="BaselineLevelAntimirrorDist" type="pbbase:StatsContinuousDistType"/>
-	<!--
+  <xs:element name="BaselineLevelAntimirrorDist" type="pbbase:StatsContinuousDistType"/>
+  <!--
   BaselineLevelFiducial Distribution - productive holes
   -->
-	<xs:element name="BaselineLevelFiducialDist" type="pbbase:StatsContinuousDistType"/>
-	<!--
+  <xs:element name="BaselineLevelFiducialDist" type="pbbase:StatsContinuousDistType"/>
+  <!--
+  DmeAngleEst Distribution - productive holes
+  -->
+  <xs:element name="DmeAngleEstDist" type="pbbase:StatsContinuousDistType"/>
+  <!--
+  BaselineLevelScatteringMetrology Distribution - productive holes
+  -->
+  <xs:element name="BaselineLevelScatteringMetrologyDist" type="pbbase:StatsContinuousDistType"/>
+  <!--
   Subsystem Failure Metrics, Added in Software v1.3.1
   -->
-	<xs:element name="MaxPauseFractionVsT" type="xs:double"/>
-	<xs:element name="TMaxPauseFraction" type="xs:int"/>
-	<xs:element name="MaxSlopePauseFractionVsT" type="xs:double"/>
-	<xs:element name="TMaxSlopePauseFraction" type="xs:int"/>
-	<xs:element name="MaxBaseRateRatioVsT" type="xs:double"/>
-	<xs:element name="TMaxBaseRateRatio" type="xs:int"/>
-	<xs:element name="MaxSlopeBaseRateRatioVsT" type="xs:double"/>
-	<xs:element name="TMaxSlopeBaseRateRatio" type="xs:int"/>
-	<xs:element name="SgnMaxSlopeBaseRateRatio" type="xs:int"/>
-	<xs:element name="BaseRateChngStrtToEnd" type="xs:double"/>
-	<xs:element name="YieldCvOverRegions" type="xs:double"/>
-	<xs:element name="YieldChngCntrToEdge" type="xs:double"/>
-	<xs:element name="SnrRatioEdgeToCntr_0" type="xs:double"/>
-	<xs:element name="SnrRatioEdgeToCntr_2" type="xs:double"/>
-	<xs:element name="PauseFractionVsT" type="pbbase:StatsTimeSeriesType"/>
-	<xs:element name="BaseRateRatioVsT" type="pbbase:StatsTimeSeriesType"/>
-	<!--
+  <xs:element name="MaxPauseFractionVsT" type="xs:double"/>
+  <xs:element name="TMaxPauseFraction" type="xs:int"/>
+  <xs:element name="MaxSlopePauseFractionVsT" type="xs:double"/>
+  <xs:element name="TMaxSlopePauseFraction" type="xs:int"/>
+  <xs:element name="MaxBaseRateRatioVsT" type="xs:double"/>
+  <xs:element name="TMaxBaseRateRatio" type="xs:int"/>
+  <xs:element name="MaxSlopeBaseRateRatioVsT" type="xs:double"/>
+  <xs:element name="TMaxSlopeBaseRateRatio" type="xs:int"/>
+  <xs:element name="SgnMaxSlopeBaseRateRatio" type="xs:int"/>
+  <xs:element name="BaseRateChngStrtToEnd" type="xs:double"/>
+  <xs:element name="YieldCvOverRegions" type="xs:double"/>
+  <xs:element name="YieldChngCntrToEdge" type="xs:double"/>
+  <xs:element name="SnrRatioEdgeToCntr_0" type="xs:double"/>
+  <xs:element name="SnrRatioEdgeToCntr_2" type="xs:double"/>
+  <xs:element name="PauseFractionVsT" type="pbbase:StatsTimeSeriesType"/>
+  <xs:element name="BaseRateRatioVsT" type="pbbase:StatsTimeSeriesType"/>
+  <!--
   Other v1.3.1 Metric Additions
   -->
-	<xs:element name="IsReadsFraction" type="xs:double"/>
-	<!--
+  <xs:element name="IsReadsFraction" type="xs:double"/>
+  <!--
   v2.0 Additions - spectral diagnostics
   -->
-	<xs:element name="SpectralDiagRRDist" type="pbbase:StatsContinuousDistType"/>
-	<!--
+  <xs:element name="SpectralDiagRRDist" type="pbbase:StatsContinuousDistType"/>
+  <!--
   PipeStats class for PipelineStats XML
   -->
-	<xs:element name="PipeStats">
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element ref="MovieName" minOccurs="1" maxOccurs="1"/>
-				<xs:element ref="MovieLength" minOccurs="1" maxOccurs="1"/>
-				<xs:element ref="NumFramesDropped" minOccurs="1" maxOccurs="1"/>
-				<xs:element ref="NumSequencingZmws" minOccurs="1" maxOccurs="1"/>
-				<xs:element ref="TraceFileSize" minOccurs="1" maxOccurs="1"/>
-				<xs:element ref="PulseFileSize" minOccurs="1" maxOccurs="1"/>
-				<xs:element ref="BaseFileSize" minOccurs="1" maxOccurs="1"/>
-				<xs:element ref="AdapterDimerFraction" minOccurs="1" maxOccurs="1"/>
-				<xs:element ref="ShortInsertFraction" minOccurs="1" maxOccurs="1"/>
-				<xs:element ref="IsReadsFraction" minOccurs="1" maxOccurs="1"/>
-				<xs:element ref="FailedZmwClippedLowFraction" minOccurs="1" maxOccurs="1"/>
-				<xs:element ref="FailedZmwClippedHighFraction" minOccurs="1" maxOccurs="1"/>
-				<xs:element ref="ControlReadLenDist" minOccurs="0" maxOccurs="1"/>
-				<xs:element ref="ControlReadQualDist" minOccurs="0" maxOccurs="1"/>
-				<xs:element ref="ProdDist" minOccurs="1" maxOccurs="1"/>
-				<xs:element ref="ReadTypeDist" minOccurs="1" maxOccurs="1"/>
-				<xs:element ref="TotalBaseFractionPerChannel" minOccurs="4" maxOccurs="4"/>
-				<xs:element ref="PkMidCVPerChannel" minOccurs="4" maxOccurs="4"/>
-				<xs:element ref="BaselineLevelDist" minOccurs="4" maxOccurs="4"/>
-				<xs:element ref="BaselineStdDist" minOccurs="4" maxOccurs="4"/>
-				<xs:element ref="MovieReadQualDist" minOccurs="1" maxOccurs="1"/>
-				<xs:element ref="PulseRateDist" minOccurs="1" maxOccurs="1"/>
-				<xs:element ref="PulseWidthDist" minOccurs="1" maxOccurs="1"/>
-				<xs:element ref="BaseRateDist" minOccurs="1" maxOccurs="1"/>
-				<xs:element ref="BaseWidthDist" minOccurs="1" maxOccurs="1"/>
-				<xs:element ref="BaseIpdDist" minOccurs="1" maxOccurs="1"/>
-				<xs:element ref="LocalBaseRateDist" minOccurs="1" maxOccurs="1"/>
-				<xs:element ref="NumUnfilteredBasecallsDist" minOccurs="1" maxOccurs="1"/>
-				<xs:element ref="ReadLenDist" minOccurs="1" maxOccurs="1"/>
-				<xs:element ref="ReadQualDist" minOccurs="1" maxOccurs="1"/>
-				<xs:element ref="HqBaseFractionDist" minOccurs="1" maxOccurs="1"/>
-				<xs:element ref="RmBasQvDist" minOccurs="1" maxOccurs="1"/>
-				<xs:element ref="InsertReadLenDist" minOccurs="0" maxOccurs="1"/>
-				<xs:element ref="InsertReadQualDist" minOccurs="0" maxOccurs="1"/>
-				<xs:element ref="LocalYieldDist" minOccurs="1" maxOccurs="1"/>
-				<xs:element ref="LocalSnrDist" minOccurs="4" maxOccurs="4"/>
-				<xs:element ref="TraceClippedFractionDist" minOccurs="4" maxOccurs="4"/>
-				<xs:element ref="TraceLowClippedFractionDist" minOccurs="4" maxOccurs="4"/>
-				<xs:element ref="TraceHighClippedFractionDist" minOccurs="4" maxOccurs="4"/>
-				<xs:element ref="PausinessDist" minOccurs="1" maxOccurs="1"/>
-				<xs:element ref="MedianInsertDist" minOccurs="1" maxOccurs="1"/>
-				<xs:element ref="SnrDist" minOccurs="4" maxOccurs="4"/>
-				<xs:element ref="HqRegionSnrDist" minOccurs="4" maxOccurs="4"/>
-				<xs:element ref="HqBasPkMidDist" minOccurs="4" maxOccurs="4"/>
-				<xs:element ref="BaselineLevelSequencingDist" minOccurs="4" maxOccurs="4"/>
-				<xs:element ref="BaselineLevelAntiholeDist" minOccurs="4" maxOccurs="4"/>
-				<xs:element ref="BaselineLevelAntimirrorDist" minOccurs="4" maxOccurs="4"/>
-				<xs:element ref="BaselineLevelFiducialDist" minOccurs="4" maxOccurs="4"/>
-				<xs:element ref="SpectralDiagRRDist" minOccurs="4" maxOccurs="4"/>
-				<xs:element ref="MaxPauseFractionVsT" minOccurs="1" maxOccurs="1"/>
-				<xs:element ref="TMaxPauseFraction" minOccurs="1" maxOccurs="1"/>
-				<xs:element ref="MaxSlopePauseFractionVsT" minOccurs="1" maxOccurs="1"/>
-				<xs:element ref="TMaxSlopePauseFraction" minOccurs="1" maxOccurs="1"/>
-				<xs:element ref="MaxBaseRateRatioVsT" minOccurs="1" maxOccurs="1"/>
-				<xs:element ref="TMaxBaseRateRatio" minOccurs="1" maxOccurs="1"/>
-				<xs:element ref="MaxSlopeBaseRateRatioVsT" minOccurs="1" maxOccurs="1"/>
-				<xs:element ref="TMaxSlopeBaseRateRatio" minOccurs="1" maxOccurs="1"/>
-				<xs:element ref="SgnMaxSlopeBaseRateRatio" minOccurs="1" maxOccurs="1"/>
-				<xs:element ref="BaseRateChngStrtToEnd" minOccurs="1" maxOccurs="1"/>
-				<xs:element ref="YieldCvOverRegions" minOccurs="1" maxOccurs="1"/>
-				<xs:element ref="YieldChngCntrToEdge" minOccurs="1" maxOccurs="1"/>
-				<xs:element ref="SnrRatioEdgeToCntr_0" minOccurs="1" maxOccurs="1"/>
-				<xs:element ref="SnrRatioEdgeToCntr_2" minOccurs="1" maxOccurs="1"/>
-				<xs:element ref="PauseFractionVsT" minOccurs="1" maxOccurs="1"/>
-				<xs:element ref="BaseRateRatioVsT" minOccurs="1" maxOccurs="1"/>
-			</xs:sequence>
-			<xs:attribute name="Version" type="xs:string" use="optional">
-				<xs:annotation>
-					<xs:documentation>An optional identifier denoting the revision of this particular entity</xs:documentation>
-				</xs:annotation>
-			</xs:attribute>
-		</xs:complexType>
-	</xs:element>
+  <xs:element name="PipeStats">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="MovieName" minOccurs="1" maxOccurs="1"/>
+        <xs:element ref="MovieLength" minOccurs="1" maxOccurs="1"/>
+        <xs:element ref="NumFramesDropped" minOccurs="1" maxOccurs="1"/>
+        <xs:element ref="NumSequencingZmws" minOccurs="1" maxOccurs="1"/>
+        <xs:element ref="NumFailedSnrFilterZmws" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="NumFailedDmeZmws" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="TraceFileSize" minOccurs="1" maxOccurs="1"/>
+        <xs:element ref="PulseFileSize" minOccurs="1" maxOccurs="1"/>
+        <xs:element ref="BaseFileSize" minOccurs="1" maxOccurs="1"/>
+        <xs:element ref="AdapterDimerFraction" minOccurs="1" maxOccurs="1"/>
+        <xs:element ref="ShortInsertFraction" minOccurs="1" maxOccurs="1"/>
+        <xs:element ref="IsReadsFraction" minOccurs="1" maxOccurs="1"/>
+        <xs:element ref="FailedZmwClippedLowFraction" minOccurs="1" maxOccurs="1"/>
+        <xs:element ref="FailedZmwClippedHighFraction" minOccurs="1" maxOccurs="1"/>
+        <xs:element ref="ControlReadLenDist" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="ControlReadQualDist" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="ProdDist" minOccurs="1" maxOccurs="1"/>
+        <xs:element ref="ReadTypeDist" minOccurs="1" maxOccurs="1"/>
+        <xs:element ref="TotalBaseFractionPerChannel" minOccurs="4" maxOccurs="4"/>
+        <xs:element ref="PkMidCVPerChannel" minOccurs="4" maxOccurs="4"/>
+        <xs:element ref="BaselineLevelDist" minOccurs="4" maxOccurs="4"/>
+        <xs:element ref="BaselineStdDist" minOccurs="4" maxOccurs="4"/>
+        <xs:element ref="MovieReadQualDist" minOccurs="1" maxOccurs="1"/>
+        <xs:element ref="PulseRateDist" minOccurs="1" maxOccurs="1"/>
+        <xs:element ref="PulseWidthDist" minOccurs="1" maxOccurs="1"/>
+        <xs:element ref="BaseRateDist" minOccurs="1" maxOccurs="1"/>
+        <xs:element ref="BaseWidthDist" minOccurs="1" maxOccurs="1"/>
+        <xs:element ref="BaseIpdDist" minOccurs="1" maxOccurs="1"/>
+        <xs:element ref="LocalBaseRateDist" minOccurs="1" maxOccurs="1"/>
+        <xs:element ref="NumUnfilteredBasecallsDist" minOccurs="1" maxOccurs="1"/>
+        <xs:element ref="ReadLenDist" minOccurs="1" maxOccurs="1"/>
+        <xs:element ref="ReadQualDist" minOccurs="1" maxOccurs="1"/>
+        <xs:element ref="HqBaseFractionDist" minOccurs="1" maxOccurs="1"/>
+        <xs:element ref="RmBasQvDist" minOccurs="1" maxOccurs="1"/>
+        <xs:element ref="InsertReadLenDist" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="InsertReadQualDist" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="LocalYieldDist" minOccurs="1" maxOccurs="1"/>
+        <xs:element ref="LocalSnrDist" minOccurs="4" maxOccurs="4"/>
+        <xs:element ref="TraceClippedFractionDist" minOccurs="4" maxOccurs="4"/>
+        <xs:element ref="TraceLowClippedFractionDist" minOccurs="4" maxOccurs="4"/>
+        <xs:element ref="TraceHighClippedFractionDist" minOccurs="4" maxOccurs="4"/>
+        <xs:element ref="PausinessDist" minOccurs="1" maxOccurs="1"/>
+        <xs:element ref="MedianInsertDist" minOccurs="1" maxOccurs="1"/>
+        <xs:element ref="SnrDist" minOccurs="4" maxOccurs="4"/>
+        <xs:element ref="HqRegionSnrDist" minOccurs="4" maxOccurs="4"/>
+        <xs:element ref="HqBasPkMidDist" minOccurs="4" maxOccurs="4"/>
+        <xs:element ref="BaselineLevelSequencingDist" minOccurs="4" maxOccurs="4"/>
+        <xs:element ref="BaselineLevelAntiholeDist" minOccurs="4" maxOccurs="4"/>
+        <xs:element ref="BaselineLevelAntimirrorDist" minOccurs="4" maxOccurs="4"/>
+        <xs:element ref="BaselineLevelFiducialDist" minOccurs="4" maxOccurs="4"/>
+        <xs:element ref="DmeAngleEstDist" minOccurs="4" maxOccurs="4"/>
+        <xs:element ref="BaselineLevelScatteringMetrologyDist" minOccurs="4" maxOccurs="4"/>
+        <xs:element ref="SpectralDiagRRDist" minOccurs="4" maxOccurs="4"/>
+        <xs:element ref="MaxPauseFractionVsT" minOccurs="1" maxOccurs="1"/>
+        <xs:element ref="TMaxPauseFraction" minOccurs="1" maxOccurs="1"/>
+        <xs:element ref="MaxSlopePauseFractionVsT" minOccurs="1" maxOccurs="1"/>
+        <xs:element ref="TMaxSlopePauseFraction" minOccurs="1" maxOccurs="1"/>
+        <xs:element ref="MaxBaseRateRatioVsT" minOccurs="1" maxOccurs="1"/>
+        <xs:element ref="TMaxBaseRateRatio" minOccurs="1" maxOccurs="1"/>
+        <xs:element ref="MaxSlopeBaseRateRatioVsT" minOccurs="1" maxOccurs="1"/>
+        <xs:element ref="TMaxSlopeBaseRateRatio" minOccurs="1" maxOccurs="1"/>
+        <xs:element ref="SgnMaxSlopeBaseRateRatio" minOccurs="1" maxOccurs="1"/>
+        <xs:element ref="BaseRateChngStrtToEnd" minOccurs="1" maxOccurs="1"/>
+        <xs:element ref="YieldCvOverRegions" minOccurs="1" maxOccurs="1"/>
+        <xs:element ref="YieldChngCntrToEdge" minOccurs="1" maxOccurs="1"/>
+        <xs:element ref="SnrRatioEdgeToCntr_0" minOccurs="1" maxOccurs="1"/>
+        <xs:element ref="SnrRatioEdgeToCntr_2" minOccurs="1" maxOccurs="1"/>
+        <xs:element ref="PauseFractionVsT" minOccurs="1" maxOccurs="1"/>
+        <xs:element ref="BaseRateRatioVsT" minOccurs="1" maxOccurs="1"/>
+      </xs:sequence>
+      <xs:attribute name="Version" type="xs:string" use="optional">
+        <xs:annotation>
+          <xs:documentation>An optional identifier denoting the revision of this particular entity</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
 </xs:schema>

@@ -2,372 +2,372 @@
 <!-- edited with XMLSpy v2015 rel. 3 (x64) (http://www.altova.com) by efayad@pacificbiosciences.com (Pacific Biosciences) -->
 <?xml-stylesheet type="text/xsl" href="xs3p.xsl"?>
 <xs:schema xmlns="http://pacificbiosciences.com/PacBioRightsAndRoles.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pbbase="http://pacificbiosciences.com/PacBioBaseDataModel.xsd" targetNamespace="http://pacificbiosciences.com/PacBioRightsAndRoles.xsd" elementFormDefault="qualified" id="PacBioRightsAndRoles">
-	<xs:import namespace="http://pacificbiosciences.com/PacBioBaseDataModel.xsd" schemaLocation="PacBioBaseDataModel.xsd"/>
-	<xs:element name="RnR">
-		<xs:annotation>
-			<xs:documentation>Rights and Roles root element</xs:documentation>
-		</xs:annotation>
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element ref="Roles" minOccurs="0"/>
-				<xs:element ref="AccessRights" minOccurs="0"/>
-				<xs:element ref="UserIdentities" minOccurs="0"/>
-				<xs:element ref="Projects" minOccurs="0">
-					<xs:annotation>
-						<xs:documentation>A project is of type AccessRight and can be defined the same way, defined by a URI (ResoureId attribute) and access controlled by using the AccessDisabled attribute, set to 'false' to grant users access.
+  <xs:import namespace="http://pacificbiosciences.com/PacBioBaseDataModel.xsd" schemaLocation="PacBioBaseDataModel.xsd"/>
+  <xs:element name="RnR">
+    <xs:annotation>
+      <xs:documentation>Rights and Roles root element</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="Roles" minOccurs="0"/>
+        <xs:element ref="AccessRights" minOccurs="0"/>
+        <xs:element ref="UserIdentities" minOccurs="0"/>
+        <xs:element ref="Projects" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>A project is of type AccessRight and can be defined the same way, defined by a URI (ResoureId attribute) and access controlled by using the AccessDisabled attribute, set to 'false' to grant users access.
 
 A user (with a role, which has access rights) has one more projects with which they are associated.  Via this association, one or more users may own a project, and one or more users may be granted access to a project, simply by being associated with it.</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-				<xs:element ref="AuditableEvents" minOccurs="0"/>
-			</xs:sequence>
-			<xs:attribute name="CFRp11Enabled" type="xs:boolean" use="optional" default="false">
-				<xs:annotation>
-					<xs:documentation>Define whether or not 21CFRp11 capabilities are turned on or off (default)</xs:documentation>
-				</xs:annotation>
-			</xs:attribute>
-			<xs:attribute name="LDAPUri" type="xs:anyURI">
-				<xs:annotation>
-					<xs:documentation>LDAP server URI used to authenticate users.  If none is specified, local user/password information is used to determine access.</xs:documentation>
-				</xs:annotation>
-			</xs:attribute>
-		</xs:complexType>
-	</xs:element>
-	<xs:complexType name="UserIdentityType">
-		<xs:complexContent>
-			<xs:extension base="pbbase:StrictEntityType">
-				<xs:sequence>
-					<xs:element ref="Person">
-						<xs:annotation>
-							<xs:documentation>An entity to store persons' names and contact info, to associate to users</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element ref="UserPassword">
-						<xs:annotation>
-							<xs:documentation>An entity storing hashed password and salt - cached here in case LDAP is not availabel to authenticate, or the user does not exist in LDAP (i.e. adhoc user).</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element ref="ProjectReferences" minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>List of projects that the user has access to</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-				</xs:sequence>
-				<xs:attribute name="UserName" use="required">
-					<xs:simpleType>
-						<xs:restriction base="xs:string">
-							<xs:maxLength value="50"/>
-							<xs:minLength value="1"/>
-						</xs:restriction>
-					</xs:simpleType>
-				</xs:attribute>
-				<xs:attribute name="TokenId" type="xs:string">
-					<xs:annotation>
-						<xs:documentation>A token to use for authentication, instead of constantly pinging LDAP with user name/password</xs:documentation>
-					</xs:annotation>
-				</xs:attribute>
-				<xs:attribute name="UseLDAPUri" type="xs:boolean">
-					<xs:annotation>
-						<xs:documentation>If the LDAP server is specified at the root element, we use the UserName to authenticate against that - i.e. no password info is necessary to be stored.</xs:documentation>
-					</xs:annotation>
-				</xs:attribute>
-				<xs:attribute name="Email">
-					<xs:simpleType>
-						<xs:restriction base="xs:string">
-							<xs:maxLength value="96"/>
-						</xs:restriction>
-					</xs:simpleType>
-				</xs:attribute>
-				<xs:attribute name="MessageAddress">
-					<xs:annotation>
-						<xs:documentation>e.g. a phone number to text a message, a twitter handle...</xs:documentation>
-					</xs:annotation>
-					<xs:simpleType>
-						<xs:restriction base="xs:string">
-							<xs:maxLength value="255"/>
-						</xs:restriction>
-					</xs:simpleType>
-				</xs:attribute>
-				<xs:attribute name="AccessGrantDate" use="required">
-					<xs:simpleType>
-						<xs:restriction base="xs:dateTime">
-							<xs:minInclusive value="1000-01-01T00:00:00"/>
-							<xs:maxInclusive value="9999-12-31T23:59:59"/>
-							<xs:pattern value="\p{Nd}{4}-\p{Nd}{2}-\p{Nd}{2}T\p{Nd}{2}:\p{Nd}{2}:\p{Nd}{2}"/>
-						</xs:restriction>
-					</xs:simpleType>
-				</xs:attribute>
-				<xs:attribute name="RoleReference" type="xs:IDREF"/>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="RoleType">
-		<xs:complexContent>
-			<xs:extension base="pbbase:StrictEntityType"/>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="AccessRightType">
-		<xs:complexContent>
-			<xs:extension base="pbbase:StrictEntityType">
-				<xs:attribute name="InternalResourceAddress" use="required">
-					<xs:annotation>
-						<xs:documentation>e.g. svc://admin
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="AuditableEvents" minOccurs="0"/>
+      </xs:sequence>
+      <xs:attribute name="CFRp11Enabled" type="xs:boolean" use="optional" default="false">
+        <xs:annotation>
+          <xs:documentation>Define whether or not 21CFRp11 capabilities are turned on or off (default)</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="LDAPUri" type="xs:anyURI">
+        <xs:annotation>
+          <xs:documentation>LDAP server URI used to authenticate users.  If none is specified, local user/password information is used to determine access.</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="UserIdentityType">
+    <xs:complexContent>
+      <xs:extension base="pbbase:StrictEntityType">
+        <xs:sequence>
+          <xs:element ref="Person">
+            <xs:annotation>
+              <xs:documentation>An entity to store persons' names and contact info, to associate to users</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element ref="UserPassword">
+            <xs:annotation>
+              <xs:documentation>An entity storing hashed password and salt - cached here in case LDAP is not availabel to authenticate, or the user does not exist in LDAP (i.e. adhoc user).</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element ref="ProjectReferences" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>List of projects that the user has access to</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute name="UserName" use="required">
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:maxLength value="50"/>
+              <xs:minLength value="1"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="TokenId" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A token to use for authentication, instead of constantly pinging LDAP with user name/password</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="UseLDAPUri" type="xs:boolean">
+          <xs:annotation>
+            <xs:documentation>If the LDAP server is specified at the root element, we use the UserName to authenticate against that - i.e. no password info is necessary to be stored.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="Email">
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:maxLength value="96"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="MessageAddress">
+          <xs:annotation>
+            <xs:documentation>e.g. a phone number to text a message, a twitter handle...</xs:documentation>
+          </xs:annotation>
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:maxLength value="255"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="AccessGrantDate" use="required">
+          <xs:simpleType>
+            <xs:restriction base="xs:dateTime">
+              <xs:minInclusive value="1000-01-01T00:00:00"/>
+              <xs:maxInclusive value="9999-12-31T23:59:59"/>
+              <xs:pattern value="\p{Nd}{4}-\p{Nd}{2}-\p{Nd}{2}T\p{Nd}{2}:\p{Nd}{2}:\p{Nd}{2}"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="RoleReference" type="xs:IDREF"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="RoleType">
+    <xs:complexContent>
+      <xs:extension base="pbbase:StrictEntityType"/>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="AccessRightType">
+    <xs:complexContent>
+      <xs:extension base="pbbase:StrictEntityType">
+        <xs:attribute name="InternalResourceAddress" use="required">
+          <xs:annotation>
+            <xs:documentation>e.g. svc://admin
 This should support a wildcard specification, such that an entire hierarchy can be disabled via http://*/Analysis/*</xs:documentation>
-					</xs:annotation>
-					<xs:simpleType>
-						<xs:restriction base="xs:string">
-							<xs:maxLength value="50"/>
-							<xs:minLength value="1"/>
-						</xs:restriction>
-					</xs:simpleType>
-				</xs:attribute>
-				<xs:attribute name="ComponentName">
-					<xs:annotation>
-						<xs:documentation>e.g. System Administration</xs:documentation>
-					</xs:annotation>
-					<xs:simpleType>
-						<xs:restriction base="xs:string">
-							<xs:maxLength value="255"/>
-							<xs:minLength value="1"/>
-						</xs:restriction>
-					</xs:simpleType>
-				</xs:attribute>
-				<xs:attribute name="AccessDisabled" type="xs:boolean" use="optional" default="false">
-					<xs:annotation>
-						<xs:documentation>When the object is created, by default it is to disable access to a function.  This should be set to 'false' in order to explicitly enable a function.</xs:documentation>
-					</xs:annotation>
-				</xs:attribute>
-				<xs:attribute name="Operation" type="xs:string">
-					<xs:annotation>
-						<xs:documentation>Define an optional operation to the resource identifier, e.g. GET, PUT, POST</xs:documentation>
-					</xs:annotation>
-				</xs:attribute>
-				<xs:attribute name="RequiresAudit" type="xs:boolean" use="required"/>
-				<xs:attribute name="RequiresESig" type="xs:boolean" use="required">
-					<xs:annotation>
-						<xs:documentation>An ESig may only be required, if an audit is required.</xs:documentation>
-					</xs:annotation>
-				</xs:attribute>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="AuditableEventType">
-		<xs:complexContent>
-			<xs:extension base="pbbase:StrictEntityType">
-				<xs:sequence>
-					<xs:element ref="EventToken">
-						<xs:annotation>
-							<xs:documentation>A handoff event token to be used between system components - maybe superceded by the user's tokenId</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-				</xs:sequence>
-				<xs:attribute name="DateCreated" use="required">
-					<xs:simpleType>
-						<xs:restriction base="xs:dateTime">
-							<xs:minInclusive value="1000-01-01T00:00:00"/>
-							<xs:maxInclusive value="9999-12-31T23:59:59"/>
-							<xs:pattern value="\p{Nd}{4}-\p{Nd}{2}-\p{Nd}{2}T\p{Nd}{2}:\p{Nd}{2}:\p{Nd}{2}"/>
-						</xs:restriction>
-					</xs:simpleType>
-				</xs:attribute>
-				<xs:attribute name="AuditEventType" use="required">
-					<xs:annotation>
-						<xs:documentation>e.g. NewUserCreated</xs:documentation>
-					</xs:annotation>
-					<xs:simpleType>
-						<xs:restriction base="xs:string">
-							<xs:maxLength value="255"/>
-							<xs:minLength value="1"/>
-						</xs:restriction>
-					</xs:simpleType>
-				</xs:attribute>
-				<xs:attribute name="OldValue">
-					<xs:simpleType>
-						<xs:restriction base="xs:base64Binary">
-							<xs:maxLength value="2147483647"/>
-						</xs:restriction>
-					</xs:simpleType>
-				</xs:attribute>
-				<xs:attribute name="NewValue" use="required">
-					<xs:simpleType>
-						<xs:restriction base="xs:base64Binary">
-							<xs:maxLength value="2147483647"/>
-							<xs:minLength value="1"/>
-						</xs:restriction>
-					</xs:simpleType>
-				</xs:attribute>
-				<xs:attribute name="Reason">
-					<xs:simpleType>
-						<xs:restriction base="xs:string">
-							<xs:maxLength value="255"/>
-						</xs:restriction>
-					</xs:simpleType>
-				</xs:attribute>
-				<xs:attribute name="ESig">
-					<xs:simpleType>
-						<xs:restriction base="xs:base64Binary">
-							<xs:maxLength value="2147483647"/>
-						</xs:restriction>
-					</xs:simpleType>
-				</xs:attribute>
-				<xs:attribute name="UserIdentityReference" type="xs:IDREF"/>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="ProjectReferenceType">
-		<xs:attribute name="ProjectId" type="xs:IDREF" use="required">
-			<xs:annotation>
-				<xs:documentation>Reference to a project ID</xs:documentation>
-			</xs:annotation>
-		</xs:attribute>
-		<xs:attribute name="IsOwner" type="xs:boolean">
-			<xs:annotation>
-				<xs:documentation>Designate if the user has ownership of this project; note that multiple users may have ownership of the same project.</xs:documentation>
-			</xs:annotation>
-		</xs:attribute>
-	</xs:complexType>
-	<xs:element name="UserIdentity" type="UserIdentityType">
-		<xs:annotation>
-			<xs:documentation>A user entity relating to a person (optional) and role;</xs:documentation>
-		</xs:annotation>
-	</xs:element>
-	<xs:element name="Role">
-		<xs:annotation>
-			<xs:documentation>The role a user would play in the system, e.g. Admin, tech</xs:documentation>
-		</xs:annotation>
-		<xs:complexType>
-			<xs:complexContent>
-				<xs:extension base="RoleType">
-					<xs:sequence>
-						<xs:element ref="AccessRightReferences" minOccurs="0"/>
-						<xs:element ref="UserIdentityReferences" minOccurs="0"/>
-					</xs:sequence>
-				</xs:extension>
-			</xs:complexContent>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="AccessRight">
-		<xs:annotation>
-			<xs:documentation>Define the functions that a role is capable of accessing</xs:documentation>
-		</xs:annotation>
-		<xs:complexType>
-			<xs:complexContent>
-				<xs:extension base="AccessRightType">
-					<xs:sequence>
-						<xs:element ref="RoleReferences"/>
-						<xs:element ref="AuditableEventReferences" minOccurs="0"/>
-					</xs:sequence>
-				</xs:extension>
-			</xs:complexContent>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="AuditableEvent" type="AuditableEventType">
-		<xs:annotation>
-			<xs:documentation>An auditable record is created if required for an access right</xs:documentation>
-		</xs:annotation>
-	</xs:element>
-	<xs:element name="Project" type="AccessRightType">
-		<xs:annotation>
-			<xs:documentation>A project is of type AccessRight and can be defined the same way, defined by a URI (ResoureId attribute) and access controlled by using the AccessDisabled attribute, set to 'false' to grant users access.
+          </xs:annotation>
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:maxLength value="50"/>
+              <xs:minLength value="1"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="ComponentName">
+          <xs:annotation>
+            <xs:documentation>e.g. System Administration</xs:documentation>
+          </xs:annotation>
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:maxLength value="255"/>
+              <xs:minLength value="1"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="AccessDisabled" type="xs:boolean" use="optional" default="false">
+          <xs:annotation>
+            <xs:documentation>When the object is created, by default it is to disable access to a function.  This should be set to 'false' in order to explicitly enable a function.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="Operation" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>Define an optional operation to the resource identifier, e.g. GET, PUT, POST</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="RequiresAudit" type="xs:boolean" use="required"/>
+        <xs:attribute name="RequiresESig" type="xs:boolean" use="required">
+          <xs:annotation>
+            <xs:documentation>An ESig may only be required, if an audit is required.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="AuditableEventType">
+    <xs:complexContent>
+      <xs:extension base="pbbase:StrictEntityType">
+        <xs:sequence>
+          <xs:element ref="EventToken">
+            <xs:annotation>
+              <xs:documentation>A handoff event token to be used between system components - maybe superceded by the user's tokenId</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute name="DateCreated" use="required">
+          <xs:simpleType>
+            <xs:restriction base="xs:dateTime">
+              <xs:minInclusive value="1000-01-01T00:00:00"/>
+              <xs:maxInclusive value="9999-12-31T23:59:59"/>
+              <xs:pattern value="\p{Nd}{4}-\p{Nd}{2}-\p{Nd}{2}T\p{Nd}{2}:\p{Nd}{2}:\p{Nd}{2}"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="AuditEventType" use="required">
+          <xs:annotation>
+            <xs:documentation>e.g. NewUserCreated</xs:documentation>
+          </xs:annotation>
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:maxLength value="255"/>
+              <xs:minLength value="1"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="OldValue">
+          <xs:simpleType>
+            <xs:restriction base="xs:base64Binary">
+              <xs:maxLength value="2147483647"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="NewValue" use="required">
+          <xs:simpleType>
+            <xs:restriction base="xs:base64Binary">
+              <xs:maxLength value="2147483647"/>
+              <xs:minLength value="1"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="Reason">
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:maxLength value="255"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="ESig">
+          <xs:simpleType>
+            <xs:restriction base="xs:base64Binary">
+              <xs:maxLength value="2147483647"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="UserIdentityReference" type="xs:IDREF"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ProjectReferenceType">
+    <xs:attribute name="ProjectId" type="xs:IDREF" use="required">
+      <xs:annotation>
+        <xs:documentation>Reference to a project ID</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="IsOwner" type="xs:boolean">
+      <xs:annotation>
+        <xs:documentation>Designate if the user has ownership of this project; note that multiple users may have ownership of the same project.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:element name="UserIdentity" type="UserIdentityType">
+    <xs:annotation>
+      <xs:documentation>A user entity relating to a person (optional) and role;</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="Role">
+    <xs:annotation>
+      <xs:documentation>The role a user would play in the system, e.g. Admin, tech</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="RoleType">
+          <xs:sequence>
+            <xs:element ref="AccessRightReferences" minOccurs="0"/>
+            <xs:element ref="UserIdentityReferences" minOccurs="0"/>
+          </xs:sequence>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AccessRight">
+    <xs:annotation>
+      <xs:documentation>Define the functions that a role is capable of accessing</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="AccessRightType">
+          <xs:sequence>
+            <xs:element ref="RoleReferences"/>
+            <xs:element ref="AuditableEventReferences" minOccurs="0"/>
+          </xs:sequence>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AuditableEvent" type="AuditableEventType">
+    <xs:annotation>
+      <xs:documentation>An auditable record is created if required for an access right</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="Project" type="AccessRightType">
+    <xs:annotation>
+      <xs:documentation>A project is of type AccessRight and can be defined the same way, defined by a URI (ResoureId attribute) and access controlled by using the AccessDisabled attribute, set to 'false' to grant users access.
 
-A user (with a role, which has access rights) has one more projects with which they’re associated.  Via this association, one or more users may own a project, and one or more users may be granted access to a project, simply by being associated with it.
+A user (with a role, which has access rights) has one more projects with which they are associated.  Via this association, one or more users may own a project, and one or more users may be granted access to a project, simply by being associated with it.
 </xs:documentation>
-		</xs:annotation>
-	</xs:element>
-	<xs:element name="EventToken">
-		<xs:annotation>
-			<xs:documentation>A handoff event token to be used between system components o</xs:documentation>
-		</xs:annotation>
-		<xs:complexType>
-			<xs:attribute name="Token">
-				<xs:simpleType>
-					<xs:restriction base="xs:base64Binary">
-						<xs:maxLength value="255"/>
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:attribute>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="Person">
-		<xs:annotation>
-			<xs:documentation>a table to store persons' full names, to associate to users</xs:documentation>
-		</xs:annotation>
-		<xs:complexType>
-			<xs:attribute name="FirstName">
-				<xs:simpleType>
-					<xs:restriction base="xs:string">
-						<xs:maxLength value="50"/>
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:attribute>
-			<xs:attribute name="MiddleName">
-				<xs:simpleType>
-					<xs:restriction base="xs:string">
-						<xs:maxLength value="50"/>
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:attribute>
-			<xs:attribute name="LastName" use="required">
-				<xs:simpleType>
-					<xs:restriction base="xs:string">
-						<xs:maxLength value="50"/>
-						<xs:minLength value="1"/>
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:attribute>
-			<xs:attribute name="PhoneNumber" type="xs:string"/>
-			<xs:attribute name="EMail" type="xs:string"/>
-			<xs:attribute name="NotifyBySMS" type="xs:boolean"/>
-			<xs:attribute name="NotifyByEmail" type="xs:boolean"/>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="UserPassword">
-		<xs:annotation>
-			<xs:documentation>a table storing hashed password and salt</xs:documentation>
-		</xs:annotation>
-		<xs:complexType>
-			<xs:attribute name="PasswordHash" use="required">
-				<xs:simpleType>
-					<xs:restriction base="xs:string">
-						<xs:maxLength value="255"/>
-						<xs:minLength value="1"/>
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:attribute>
-			<xs:attribute name="Salt" use="required">
-				<xs:simpleType>
-					<xs:restriction base="xs:string">
-						<xs:maxLength value="255"/>
-						<xs:minLength value="1"/>
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:attribute>
-			<xs:attribute name="Expired" type="xs:boolean" use="required"/>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="Roles">
-		<xs:annotation>
-			<xs:documentation>An aggregation of one or more Role elements</xs:documentation>
-		</xs:annotation>
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element ref="Role" maxOccurs="unbounded">
-					<xs:annotation>
-						<xs:documentation>The role a user would play in the system, e.g. Admin, tech, scientist, PI, etc.</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-			</xs:sequence>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="AccessRights">
-		<xs:annotation>
-			<xs:documentation>An aggregation of one or more AccessRight elements</xs:documentation>
-		</xs:annotation>
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element ref="AccessRight" maxOccurs="unbounded">
-					<xs:annotation>
-						<xs:documentation>Define the functions that a role is capable of accessing
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="EventToken">
+    <xs:annotation>
+      <xs:documentation>A handoff event token to be used between system components o</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:attribute name="Token">
+        <xs:simpleType>
+          <xs:restriction base="xs:base64Binary">
+            <xs:maxLength value="255"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Person">
+    <xs:annotation>
+      <xs:documentation>a table to store persons' full names, to associate to users</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:attribute name="FirstName">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="50"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="MiddleName">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="50"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="LastName" use="required">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="50"/>
+            <xs:minLength value="1"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="PhoneNumber" type="xs:string"/>
+      <xs:attribute name="EMail" type="xs:string"/>
+      <xs:attribute name="NotifyBySMS" type="xs:boolean"/>
+      <xs:attribute name="NotifyByEmail" type="xs:boolean"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UserPassword">
+    <xs:annotation>
+      <xs:documentation>a table storing hashed password and salt</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:attribute name="PasswordHash" use="required">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="255"/>
+            <xs:minLength value="1"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="Salt" use="required">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="255"/>
+            <xs:minLength value="1"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="Expired" type="xs:boolean" use="required"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Roles">
+    <xs:annotation>
+      <xs:documentation>An aggregation of one or more Role elements</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="Role" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>The role a user would play in the system, e.g. Admin, tech, scientist, PI, etc.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AccessRights">
+    <xs:annotation>
+      <xs:documentation>An aggregation of one or more AccessRight elements</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="AccessRight" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>Define the functions that a role is capable of accessing
 
 The name attribute should be used to define the Access Right's name.  The Component Name is the right's parent, in the hierarchy of functional access.
 
@@ -375,112 +375,112 @@ The ResourceId, in this case, e.g. svc://admin, should support a wildcard specif
 
 The AccessDisabled attribute may be used to allow/restrict (default) functionality.
 </xs:documentation>
-					</xs:annotation>
-				</xs:element>
-			</xs:sequence>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="UserIdentities">
-		<xs:annotation>
-			<xs:documentation>An aggregation of one or more UserIdentity elements</xs:documentation>
-		</xs:annotation>
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element ref="UserIdentity" maxOccurs="unbounded"/>
-			</xs:sequence>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="AuditableEvents">
-		<xs:annotation>
-			<xs:documentation>An aggregation of one or more AuditableEvent elements</xs:documentation>
-		</xs:annotation>
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element ref="AuditableEvent" maxOccurs="unbounded"/>
-			</xs:sequence>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="Projects">
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element ref="Project" maxOccurs="unbounded">
-					<xs:annotation>
-						<xs:documentation>An grouping of datasets and analysis jobs, with user access controls
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UserIdentities">
+    <xs:annotation>
+      <xs:documentation>An aggregation of one or more UserIdentity elements</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="UserIdentity" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AuditableEvents">
+    <xs:annotation>
+      <xs:documentation>An aggregation of one or more AuditableEvent elements</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="AuditableEvent" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Projects">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="Project" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>An grouping of datasets and analysis jobs, with user access controls
 
 The Project type extends AccessRight, allowing a project to be defined by a URI (ResoureId attribute) and access controlled by using the AccessDisabled attribute, set to 'false' to grant users access.</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-			</xs:sequence>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="AccessRightReferences">
-		<xs:annotation>
-			<xs:documentation>List of IDREFs to AccessRight element UUIDs</xs:documentation>
-		</xs:annotation>
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element name="AccessRightReference" type="xs:IDREF" maxOccurs="unbounded">
-					<xs:annotation>
-						<xs:documentation>IDREF to an AccessRight element UUID</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-			</xs:sequence>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="UserIdentityReferences">
-		<xs:annotation>
-			<xs:documentation>List of IDREFs to UserIdentity element UUIDs</xs:documentation>
-		</xs:annotation>
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element name="UserIdentityReference" type="xs:IDREF" maxOccurs="unbounded">
-					<xs:annotation>
-						<xs:documentation>IDREF to a UserIdentity element UUID</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-			</xs:sequence>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="AuditableEventReferences">
-		<xs:annotation>
-			<xs:documentation>List of IDREFs to AuditableEvent element UUIDs</xs:documentation>
-		</xs:annotation>
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element name="AuditableEventReference" type="xs:IDREF" maxOccurs="unbounded">
-					<xs:annotation>
-						<xs:documentation>IDREF to an AuditableEvent element UUID</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-			</xs:sequence>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="RoleReferences">
-		<xs:annotation>
-			<xs:documentation>List of IDREFs to Role element UUIDs</xs:documentation>
-		</xs:annotation>
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element name="RoleReference" type="xs:IDREF" maxOccurs="unbounded">
-					<xs:annotation>
-						<xs:documentation>IDREF to a Role element UUID</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-			</xs:sequence>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="ProjectReferences">
-		<xs:annotation>
-			<xs:documentation>List of IDREFs to DataUserGroup element UUIDs</xs:documentation>
-		</xs:annotation>
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element name="ProjectReference" type="ProjectReferenceType" maxOccurs="unbounded">
-					<xs:annotation>
-						<xs:documentation>List of 1 or more projects that the user has access to, or owndership of.</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-			</xs:sequence>
-		</xs:complexType>
-	</xs:element>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AccessRightReferences">
+    <xs:annotation>
+      <xs:documentation>List of IDREFs to AccessRight element UUIDs</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="AccessRightReference" type="xs:IDREF" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>IDREF to an AccessRight element UUID</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UserIdentityReferences">
+    <xs:annotation>
+      <xs:documentation>List of IDREFs to UserIdentity element UUIDs</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="UserIdentityReference" type="xs:IDREF" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>IDREF to a UserIdentity element UUID</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AuditableEventReferences">
+    <xs:annotation>
+      <xs:documentation>List of IDREFs to AuditableEvent element UUIDs</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="AuditableEventReference" type="xs:IDREF" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>IDREF to an AuditableEvent element UUID</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RoleReferences">
+    <xs:annotation>
+      <xs:documentation>List of IDREFs to Role element UUIDs</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="RoleReference" type="xs:IDREF" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>IDREF to a Role element UUID</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ProjectReferences">
+    <xs:annotation>
+      <xs:documentation>List of IDREFs to DataUserGroup element UUIDs</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="ProjectReference" type="ProjectReferenceType" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>List of 1 or more projects that the user has access to, or owndership of.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
 </xs:schema>

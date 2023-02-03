@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 # This script creates rst snippets from example xmls files.
 
@@ -17,7 +17,5 @@ for xml_filename in glob.glob("*.xsd"):
     try:
         with open(rst_filename, "w") as rst_fh:
             rst_fh.write("".join(lines))
-    except Exception, e:
-        print "rst file: %s is not accessible: %s" % (rst_filename, e)
-
-        
+    except Exception as e:
+        print(f"rst file: {rst_filename} is not accessible: {e}")
