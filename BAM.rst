@@ -1,6 +1,6 @@
-===================================
+===============================
 PacBio BAM format specification
-===================================
+===============================
 
 .. moduleauthor:: Derek Barnett, David Seifert, James Drake, Jessica Mattick,
                   Martin Smith, Armin Toepfer
@@ -126,15 +126,15 @@ BAM filename conventions
 Since we will be using BAM format for different kinds of data, we will
 use a ``suffix.bam`` filename convention:
 
-  +------------------------------------+--------------------------------+
-  | Data type                          | Filename template              |
-  +====================================+================================+
-  | HiFi reads computed from movie     | *movieName*.hifi_reads.bam     |
-  +------------------------------------+--------------------------------+
-  | Aligned HiFi in a job              | *jobID*.aligned.hifi_reads.bam |
-  +------------------------------------+--------------------------------+
-  | Rejected CCS reads                 | *movieName*.fail_reads.bam     |
-  +------------------------------------+--------------------------------+
+  +------------------------------------+--------------------------------------------+
+  | Data type                          | Filename template                          |
+  +====================================+============================================+
+  | HiFi reads computed from movie     | *movieName*.hifi_reads.\ *barcode*.bam     |
+  +------------------------------------+--------------------------------------------+
+  | Aligned HiFi in a job              | *jobID*.aligned.hifi_reads.\ *barcode*.bam |
+  +------------------------------------+--------------------------------------------+
+  | Rejected CCS reads                 | *movieName*.fail_reads.\ *barcode*.bam     |
+  +------------------------------------+--------------------------------------------+
 
 BAM sorting conventions
 =======================
@@ -391,44 +391,17 @@ Use of read tags for fail per-read information
   +-----------+------------+-----------------------------------------------------------------------------+
 
 
-Use of read tags for per-read-base information
-==============================================
-
-The following read tags encode features measured/calculated
-per-basecall. Unlike ``SEQ`` and ``QUAL``, aligners will not orient
-these tags. They will be maintained in *native* orientation (in the
-same order and sense as collected from the instrument) even if the
-read record has been aligned to the reverse strand.
-
-
-  +-----------+---------------+----------------------------------------------------+
-  | **Tag**   | **Type**      |**Description**                                     |
-  +===========+===============+====================================================+
-  | ip        | B,C *or* B,S  | IPD (raw frames or codec V1)                       |
-  +-----------+---------------+----------------------------------------------------+
-  | pw        | B,C *or* B,S  | PulseWidth (raw frames or codec V1)                |
-  +-----------+---------------+----------------------------------------------------+
-
-
-Notes:
-
-- QV metrics are ASCII+33 encoded as strings
-- The IPD (interpulse duration) value associated with a base is the number of
-  frames *preceding* its incorporation, while the PW (pulse width) is the
-  number of frames during its incorporation.
-- Encoding of kinetics features (``ip``, ``pw``) is described below.
-
-
 Use of read tags for HiFi per-read-base kinetic information
 ===========================================================
 
-The following read tags contain averaged kinetic information (IPD/PulseWidth)
-from subreads when applying CCS to generate HiFi reads. These are computed
-and stored independently for both orientations of the insert. Forward is
-defined & stored with respect to the orientation represented in ``SEQ`` and is
-considered to be the native orientation. Reverse tags are stored in the opposite
-direction, e.g. from the last base to the first. As with other PacBio-specific
-tags, aligners will not re-orient these fields.
+The following read tags encode features measured/calculated per-basecall. Each
+contains averaged kinetic information (IPD/PulseWidth) from subreads when
+applying CCS to generate HiFi reads. These are computed and stored independently
+for both orientations of the insert, if possible. Forward is defined and stored
+with respect to the orientation represented in ``SEQ`` and is considered to be
+the native orientation. Reverse tags are stored in the opposite direction, e.g.
+from the last base to the first. As with other PacBio-specific tags, aligners
+will not re-orient these fields.
 
 
   +-----------+---------------+----------------------------------------------------+
@@ -445,6 +418,17 @@ tags, aligners will not re-orient these fields.
   | fn        | i             | Forward number of complete passes (zero or more)   |
   +-----------+---------------+----------------------------------------------------+
   | rn        | i             | Reverse number of complete passes (zero or more)   |
+  +-----------+---------------+----------------------------------------------------+
+
+For single-stranded reads, HiFi kinetics are stored in *native* orientation in
+following tags:
+
+  +-----------+---------------+----------------------------------------------------+
+  | **Tag**   | **Type**      |**Description**                                     |
+  +===========+===============+====================================================+
+  | ip        | B,C *or* B,S  | IPD (raw frames or codec V1)                       |
+  +-----------+---------------+----------------------------------------------------+
+  | pw        | B,C *or* B,S  | PulseWidth (raw frames or codec V1)                |
   +-----------+---------------+----------------------------------------------------+
 
 The following clipping example illustrates the coordinate system for these tags,
@@ -466,19 +450,23 @@ shown as stored in the BAM file::
     fi/fp: f1, f2, f3
     ri/rp: r3, r2, r1
 
-Notes:
-
-- When CCS filtering is disabled, no averaging occurs with ZMWs that don't
-  have enough passes to generate HiFi reads. Instead, the pw/ip values are
-  passed as is from a representative subread.
-- Minor cases exist where a certain orientation may get filtered out entirely
-  from a ZMW, preventing valid values from being passed for that record. In
-  these cases, empty lists will be passed for the respective record/orientation
-  and number of passes will be set to zero.
-- Flanking zeroes in kinetics arrays should be ignored for the respective strand.
-  For instance, when ``SEQ`` is ``AAACGCGTTT`` and ``fp:B:C,0,0,0,3,4,5,6,0,0,0``,
-  then any downstream application should only use ``CGCG`` in its analysis, and
-  ignore the ``AAA`` and ``TTT`` stretches.
+.. note::
+  - The IPD (interpulse duration) value associated with a base is the number of
+    frames *preceding* its incorporation, while the PW (pulse width) is the
+    number of frames during its incorporation.
+  - Encoding of kinetics features (``ip``, ``pw``) is described below.
+  - When CCS filtering is disabled, no averaging occurs with ZMWs that don't
+    have enough passes to generate HiFi reads. Instead, the pw/ip values are
+    passed as is from a representative subread.
+  - Minor cases exist where a certain orientation may get filtered out entirely
+    from a ZMW, preventing valid values from being passed for that record. In
+    these cases, empty lists will be passed for the respective record/orientation
+    and number of passes will be set to zero.
+  - Flanking zeroes in kinetics arrays should be ignored for the respective strand.
+    For instance, when ``SEQ`` is ``AAACGCGTTT`` and ``fp:B:C,0,0,0,3,4,5,6,0,0,0``,
+    then any downstream application should only use ``CGCG`` in its analysis, and
+    ignore the ``AAA`` and ``TTT`` stretches.
+  - Unlike ``SEQ`` and ``QUAL``, aligners will not orient these tags.
 
 
 Use of read tags for per-read-base base modifications
@@ -688,6 +676,10 @@ internal analysis use cases:
 
 A reference implementation of this encoding/decoding scheme can be
 found in `pbcore`.
+
+.. note::
+  Revio with SMRT Link 12.0 generates raw frames for HiFi kinetics, earlier and
+  later versions will generate V1 codec encoded HiFi kinetics.
 
 
 Segmented reads
