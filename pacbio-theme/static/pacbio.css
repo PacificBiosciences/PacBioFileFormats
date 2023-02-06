@@ -69,7 +69,6 @@ div.related {
 div.related ul {
     background: url(logo-pacbio.svg) 10px no-repeat;
     padding: 0 0 0 200px;
-    border: none;
 }
 
 div.related a {
@@ -129,6 +128,10 @@ div.sphinxsidebar input {
 
 div.sphinxsidebar input[type=text] {
     margin-left: 20px;
+}
+
+div.sphinxsidebar #searchbox input[type="text"] {
+    width: 140px;
 }
 
 

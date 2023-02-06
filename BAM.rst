@@ -1,5 +1,5 @@
 ===================================
-BAM format specification for PacBio
+PacBio BAM format specification
 ===================================
 
 .. moduleauthor:: Derek Barnett, David Seifert, James Drake, Jessica Mattick,
