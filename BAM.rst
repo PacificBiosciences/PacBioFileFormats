@@ -479,16 +479,16 @@ encoded according to the `SAM tags specifications`_ and any conflict is unintent
   +-----------+---------------+----------------------------------------------------+
   | **Tag**   | **Type**      |**Description**                                     |
   +===========+===============+====================================================+
-  | Mm        | Z             | Base modifications / methylation                   |
+  | MM        | Z             | Base modifications / methylation                   |
   +-----------+---------------+----------------------------------------------------+
-  | Ml        | B,C           | Base modification probabilities                    |
+  | ML        | B,C           | Base modification probabilities                    |
   +-----------+---------------+----------------------------------------------------+
 
 
 Notes:
 
 - For informational purposes only: The continuous probability range of 0.0 to 1.0 is
-  remapped to the discrete integers 0 to 255 inclusively in the ``Ml`` tag.
+  remapped to the discrete integers 0 to 255 inclusively in the ``ML`` tag.
   The probability range corresponding to an integer *N* is *N/256* to *(N + 1)/256*.
 
 
