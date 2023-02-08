@@ -84,8 +84,18 @@ the alignment (as found in the CIGAR).
 
 HiFi reads
 ==========
-HiFi reads are defined as consensus reads with a QV >=20. These are treated in
+HiFi reads are defined as consensus reads with a QV ≥20. These are treated in
 the same manner as CCS reads in PacBio BAM files, unless noted otherwise.
+
+Fail reads
+==========
+Fail reads are CCS reads that did not pass all HiFi criteria that are
+going to be expanded over subsequent software releases. If one of the following
+criteria is violated, the CCS read is moved to the `fail_reads.barcode.bam` file::
+
+ * Predicted accuracy is between QV 10-19 (≥v12.0), or
+ * A residual SMRTbell adapter is found in the sequence (≥v12.0), or
+ * Read is single-stranded (≥v12.0).
 
 QNAME convention
 ================
