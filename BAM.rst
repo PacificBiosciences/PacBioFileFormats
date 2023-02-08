@@ -216,8 +216,8 @@ SAM/BAM spec, we encode special information as follows.
       contains ``"PACBIO"``.
 
   ``PM`` tag ("platform model"):
-      contains ``"ASTRO"``, ``"RS"``, or ``"SEQUEL"``, reflecting the
-      PacBio instrument series.
+      contains ``"ASTRO"``, ``"RS"``, ``"SEQUEL"``, or ``"REVIO"``, reflecting
+      the PacBio instrument series.
 
   ``PU`` tag ("platform unit"):
       contains the PacBio movie name.
