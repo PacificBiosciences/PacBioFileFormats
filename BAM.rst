@@ -144,7 +144,7 @@ fashion as done by ``samtools sort``. The BAM ``@HD::SO`` tag shall
 be set to ``coordinate``.
 
 *Unaligned* PacBio reads are grouped by ZMW hole number, but since SMRT Link
-v11.0 no longer sorted by hole number. Reads from a ZMW are stored contiguously
+v12.0 no longer sorted by hole number. Reads from a ZMW are stored contiguously
 in a BAM file. Within a ZMW subreads are stored first, sorted numerically by
 ``{qStart}_{qEnd}``, followed by CCS reads, and finally segmented CCS reads,
 sorted numerically by ``{qStart}_{qEnd}``. This is similar to sorting by
