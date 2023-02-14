@@ -297,6 +297,22 @@ SAM/BAM spec, we encode special information as follows.
          CCS, and SEGMENT. The remaining READTYPE values will only be
          encountered in intermediate steps before secondary analysis.
 
+      **Optional items:**
+
+      .. tabularcolumns:: |l|p{5cm}|l|
+
+      +-------------------+-------------------------------------+------------------------+
+      | Key               | Value spec                          | Value example          |
+      +===================+=====================================+========================+
+      | SMRTCELLKIT       | SMRT cell part number               | 102-202-200            |
+      +-------------------+-------------------------------------+------------------------+
+      | SMRTCELLID        | SMRT cell identifier                | EA005414               |
+      +-------------------+-------------------------------------+------------------------+
+      | RUNID             | Run identifier                      | r84026_20221130_001601 |
+      +-------------------+-------------------------------------+------------------------+
+      | ICSVERSION        | ICS version                         | 12.0.0.172107          |
+      +-------------------+-------------------------------------+------------------------+
+
       **Base feature manifest---absent item  means feature absent from reads:**
 
 
