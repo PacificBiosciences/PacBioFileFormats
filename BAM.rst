@@ -97,8 +97,10 @@ be expanded over subsequent software releases. If one of the following criteria
 is violated, the CCS read is moved to the .fail_reads.\ *barcode*.bam file::
 
  * Predicted accuracy is between QV 10-19 (≥v12.0), or
- * A residual SMRTbell adapter is found in the sequence (≥v12.0).
-
+ * a residual SMRTbell adapter is found in the read (≥v12.0), or
+ * the read is a control sequence (≥v12.1), or
+ * the read is single-stranded (≥v12.1), or
+ * the read has a long GA stretch (≥v12.1).
 
 QNAME convention
 ================
@@ -411,13 +413,17 @@ Use of read tags for fail per-read information
 +-----------+------------+-----------------------------------------------------------------------------+
 | **Tag**   | **Type**   | **Description**                                                             |
 +===========+============+=============================================================================+
-| af        | i          | Adapter found in CCS read. The stored value indicates the pattern:          |
+| ff        | i          | Fail flag indicating the failed HiFi criteria:                              |
 |           |            |                                                                             |
-|           |            | * ``1`` for CCS reads which are a concatenation of the adapter, with        |
+|           |            | * ``0x1`` for CCS reads with predicted accuracy between QV 10-19            |
+|           |            | * ``0x2`` for control CCS reads                                             |
+|           |            | * ``0x4`` for single-stranded CCS reads                                     |
+|           |            | * ``0x8`` for subreads with a long GA stretch                               |
+|           |            | * ``0x10`` for CCS reads which are a concatenation of the adapter, with     |
 |           |            |     possible short non-adapter sequence in between                          |
-|           |            | * ``2`` for CCS reads with miscalled adapter which is enclosed by a         |
+|           |            | * ``0x20`` for CCS reads with miscalled adapter which is enclosed by a      |
 |           |            |     sequence and its reverse complement, either spanning to the end         |
-|           |            | * ``3`` for CCS reads that have one or more adapters close to either end    |
+|           |            | * ``0x40`` for CCS reads that have one or more adapters close to either end |
 +-----------+------------+-----------------------------------------------------------------------------+
 
 
