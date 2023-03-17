@@ -593,28 +593,6 @@ The following (optional) tags describe clipped barcode sequences:
   +-----------+----------+-------------------------------------------------------+
 
 
-Alignment: the contract for a mapper
-====================================
-
-An aligner is expected to accept BAM input and produce aligned BAM
-output, where each aligned BAM record in the output preserves intact
-all tags present in the original record. The aligner should not
-attempt to orient or complement any of the tags.
-
-(Note that this contrasts with the handling of `SEQ` and `QUAL`, which
-are mandated by the BAM/SAM specification to be (respectively)
-reverse-complemented, and reversed, for reverse strand alignments.)
-
-
-Alignment: soft-clipping
-========================
-
-In the standard production configuration, PacBio's aligners will be
-used to align either subreads or CCS reads. In either case, we will
-use *soft clipping* to preserve the unaligned bases at either end of
-the query in the aligned BAM file.
-
-
 Encoding of kinetics pulse features
 ===================================
 
@@ -702,6 +680,28 @@ These sequences are excised from segmented reads stored in the BAM file.
   | ds        | B,C        | Supplemental data enabling reconstitution of the source read |
   |           |            | Binary representation, for internal use only                 |
   +-----------+------------+--------------------------------------------------------------+
+
+
+Alignment: the contract for a mapper
+====================================
+
+An aligner is expected to accept BAM input and produce aligned BAM
+output, where each aligned BAM record in the output preserves intact
+all tags present in the original record. The aligner should not
+attempt to orient or complement any of the tags.
+
+(Note that this contrasts with the handling of `SEQ` and `QUAL`, which
+are mandated by the BAM/SAM specification to be (respectively)
+reverse-complemented, and reversed, for reverse strand alignments.)
+
+
+Alignment: soft-clipping
+========================
+
+In the standard production configuration, PacBio's aligners will be
+used to align either subreads or CCS reads. In either case, we will
+use *soft clipping* to preserve the unaligned bases at either end of
+the query in the aligned BAM file.
 
 
 .. _specifications for BAM/SAM: http://samtools.github.io/hts-specs/SAMv1.pdf
