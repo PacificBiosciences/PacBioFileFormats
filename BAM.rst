@@ -97,8 +97,7 @@ going to be expanded over subsequent software releases. If one of the following
 criteria is violated, the CCS read is moved to the `fail_reads.barcode.bam` file::
 
  * Predicted accuracy is between QV 10-19 (≥v12.0), or
- * A residual SMRTbell adapter is found in the sequence (≥v12.0), or
- * Read is single-stranded (≥v12.0).
+ * A residual SMRTbell adapter is found in the sequence (≥v12.0).
 
 
 QNAME convention
