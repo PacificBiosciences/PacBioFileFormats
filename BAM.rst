@@ -141,15 +141,15 @@ BAM filename conventions
 Since we will be using BAM format for different kinds of data, we will
 use a ``suffix.bam`` filename convention:
 
-  +------------------------------------+--------------------------------------------+
-  | Data type                          | Filename template                          |
-  +====================================+============================================+
-  | HiFi reads computed from movie     | *movieName*.hifi_reads.\ *barcode*.bam     |
-  +------------------------------------+--------------------------------------------+
-  | Aligned HiFi in a job              | *jobID*.aligned.hifi_reads.\ *barcode*.bam |
-  +------------------------------------+--------------------------------------------+
-  | Rejected CCS reads                 | *movieName*.fail_reads.\ *barcode*.bam     |
-  +------------------------------------+--------------------------------------------+
++------------------------------------+--------------------------------------------+
+| Data type                          | Filename template                          |
++====================================+============================================+
+| HiFi reads computed from movie     | *movieName*.hifi_reads.\ *barcode*.bam     |
++------------------------------------+--------------------------------------------+
+| Aligned HiFi in a job              | *jobID*.aligned.hifi_reads.\ *barcode*.bam |
++------------------------------------+--------------------------------------------+
+| Rejected CCS reads                 | *movieName*.fail_reads.\ *barcode*.bam     |
++------------------------------------+--------------------------------------------+
 
 
 BAM sorting conventions
@@ -362,48 +362,48 @@ Use of read tags for per-read information
   reads are clipped or extracted, tags `qs` and `qe` are with respect to the
   **original** read. The length of a CCS read is `len = qe - qs`.
 
-  +-----------+------------+-------------------------------------------------------------------------+
-  | **Tag**   | **Type**   | **Description**                                                         |
-  +===========+============+=========================================================================+
-  | qs        | i          | For CCS reads, the 0-based start of the query in its original CCS read. |
-  +-----------+------------+-------------------------------------------------------------------------+
-  | qe        | i          | For CCS reads, the 0-based end of the query in its original CCS read.   |
-  +-----------+------------+-------------------------------------------------------------------------+
-  | ws        | i          | For CCS reads, the start of the first base of the first incorporated    |
-  |           |            | subread in approximate raw frame count since start of movie.            |
-  +-----------+------------+-------------------------------------------------------------------------+
-  | we        | i          | For CCS reads, the start of the last base of the first incorporated     |
-  |           |            | subread in approximate raw frame count since start of movie.            |
-  +-----------+------------+-------------------------------------------------------------------------+
-  | zm        | i          | ZMW hole number.                                                        |
-  +-----------+------------+-------------------------------------------------------------------------+
-  | np        | i          | Number of passes. 1 for subreads, variable for CCS reads - encodes      |
-  |           |            | number of *complete* passes of the insert.                              |
-  +-----------+------------+-------------------------------------------------------------------------+
-  | ec        | f          | Effective coverage. The average subread coverage across all windows     |
-  |           |            | (only present in CCS reads).                                            |
-  +-----------+------------+-------------------------------------------------------------------------+
-  | rq        | f          | Float in [0, 1] encoding predicted accuracy.                            |
-  +-----------+------------+-------------------------------------------------------------------------+
-  | sn        | B,f        | 4 floats for the average signal-to-noise ratio of A, C, G, and T        |
-  |           |            | (in that order) over the HQRegion.                                      |
-  +-----------+------------+-------------------------------------------------------------------------+
++-----------+------------+-------------------------------------------------------------------------+
+| **Tag**   | **Type**   | **Description**                                                         |
++===========+============+=========================================================================+
+| qs        | i          | For CCS reads, the 0-based start of the query in its original CCS read. |
++-----------+------------+-------------------------------------------------------------------------+
+| qe        | i          | For CCS reads, the 0-based end of the query in its original CCS read.   |
++-----------+------------+-------------------------------------------------------------------------+
+| ws        | i          | For CCS reads, the start of the first base of the first incorporated    |
+|           |            | subread in approximate raw frame count since start of movie.            |
++-----------+------------+-------------------------------------------------------------------------+
+| we        | i          | For CCS reads, the start of the last base of the first incorporated     |
+|           |            | subread in approximate raw frame count since start of movie.            |
++-----------+------------+-------------------------------------------------------------------------+
+| zm        | i          | ZMW hole number.                                                        |
++-----------+------------+-------------------------------------------------------------------------+
+| np        | i          | Number of passes. 1 for subreads, variable for CCS reads - encodes      |
+|           |            | number of *complete* passes of the insert.                              |
++-----------+------------+-------------------------------------------------------------------------+
+| ec        | f          | Effective coverage. The average subread coverage across all windows     |
+|           |            | (only present in CCS reads).                                            |
++-----------+------------+-------------------------------------------------------------------------+
+| rq        | f          | Float in [0, 1] encoding predicted accuracy.                            |
++-----------+------------+-------------------------------------------------------------------------+
+| sn        | B,f        | 4 floats for the average signal-to-noise ratio of A, C, G, and T        |
+|           |            | (in that order) over the HQRegion.                                      |
++-----------+------------+-------------------------------------------------------------------------+
 
 
 Use of read tags for fail per-read information
 ==============================================
 
-  +-----------+------------+-----------------------------------------------------------------------------+
-  | **Tag**   | **Type**   | **Description**                                                             |
-  +===========+============+=============================================================================+
-  | af        | i          | Adapter found in CCS read. The stored value indicates the pattern:          |
-  |           |            |                                                                             |
-  |           |            | * ``1`` for CCS reads which are a concatenation of the adapter, with        |
-  |           |            |     possible short non-adapter sequence in between                          |
-  |           |            | * ``2`` for CCS reads with miscalled adapter which is enclosed by a         |
-  |           |            |     sequence and its reverse complement, either spanning to the end         |
-  |           |            | * ``3`` for CCS reads that have one or more adapters close to either end    |
-  +-----------+------------+-----------------------------------------------------------------------------+
++-----------+------------+-----------------------------------------------------------------------------+
+| **Tag**   | **Type**   | **Description**                                                             |
++===========+============+=============================================================================+
+| af        | i          | Adapter found in CCS read. The stored value indicates the pattern:          |
+|           |            |                                                                             |
+|           |            | * ``1`` for CCS reads which are a concatenation of the adapter, with        |
+|           |            |     possible short non-adapter sequence in between                          |
+|           |            | * ``2`` for CCS reads with miscalled adapter which is enclosed by a         |
+|           |            |     sequence and its reverse complement, either spanning to the end         |
+|           |            | * ``3`` for CCS reads that have one or more adapters close to either end    |
++-----------+------------+-----------------------------------------------------------------------------+
 
 
 Use of read tags for HiFi per-read-base kinetic information
@@ -419,32 +419,32 @@ from the last base to the first. As with other PacBio-specific tags, aligners
 will not re-orient these fields.
 
 
-  +-----------+---------------+----------------------------------------------------+
-  | **Tag**   | **Type**      |**Description**                                     |
-  +===========+===============+====================================================+
-  | fi        | B,C           | Forward IPD (codec V1)                             |
-  +-----------+---------------+----------------------------------------------------+
-  | ri        | B,C           | Reverse IPD (codec V1)                             |
-  +-----------+---------------+----------------------------------------------------+
-  | fp        | B,C           | Forward PulseWidth (codec V1)                      |
-  +-----------+---------------+----------------------------------------------------+
-  | rp        | B,C           | Reverse PulseWidth (codec V1)                      |
-  +-----------+---------------+----------------------------------------------------+
-  | fn        | i             | Forward number of complete passes (zero or more)   |
-  +-----------+---------------+----------------------------------------------------+
-  | rn        | i             | Reverse number of complete passes (zero or more)   |
-  +-----------+---------------+----------------------------------------------------+
++-----------+---------------+----------------------------------------------------+
+| **Tag**   | **Type**      |**Description**                                     |
++===========+===============+====================================================+
+| fi        | B,C           | Forward IPD (codec V1)                             |
++-----------+---------------+----------------------------------------------------+
+| ri        | B,C           | Reverse IPD (codec V1)                             |
++-----------+---------------+----------------------------------------------------+
+| fp        | B,C           | Forward PulseWidth (codec V1)                      |
++-----------+---------------+----------------------------------------------------+
+| rp        | B,C           | Reverse PulseWidth (codec V1)                      |
++-----------+---------------+----------------------------------------------------+
+| fn        | i             | Forward number of complete passes (zero or more)   |
++-----------+---------------+----------------------------------------------------+
+| rn        | i             | Reverse number of complete passes (zero or more)   |
++-----------+---------------+----------------------------------------------------+
 
 For single-stranded reads, HiFi kinetics are stored in *native* orientation in
 following tags:
 
-  +-----------+---------------+----------------------------------------------------+
-  | **Tag**   | **Type**      |**Description**                                     |
-  +===========+===============+====================================================+
-  | ip        | B,C *or* B,S  | IPD (raw frames or codec V1)                       |
-  +-----------+---------------+----------------------------------------------------+
-  | pw        | B,C *or* B,S  | PulseWidth (raw frames or codec V1)                |
-  +-----------+---------------+----------------------------------------------------+
++-----------+---------------+----------------------------------------------------+
+| **Tag**   | **Type**      |**Description**                                     |
++===========+===============+====================================================+
+| ip        | B,C *or* B,S  | IPD (raw frames or codec V1)                       |
++-----------+---------------+----------------------------------------------------+
+| pw        | B,C *or* B,S  | PulseWidth (raw frames or codec V1)                |
++-----------+---------------+----------------------------------------------------+
 
 The following clipping example illustrates the coordinate system for these tags,
 shown as stored in the BAM file::
@@ -491,13 +491,13 @@ The following read tags encode base modification information. Base modifications
 encoded according to the `SAM tags specifications`_ and any conflict is unintentional.
 
 
-  +-----------+---------------+----------------------------------------------------+
-  | **Tag**   | **Type**      |**Description**                                     |
-  +===========+===============+====================================================+
-  | MM        | Z             | Base modifications / methylation                   |
-  +-----------+---------------+----------------------------------------------------+
-  | ML        | B,C           | Base modification probabilities                    |
-  +-----------+---------------+----------------------------------------------------+
++-----------+---------------+----------------------------------------------------+
+| **Tag**   | **Type**      |**Description**                                     |
++===========+===============+====================================================+
+| MM        | Z             | Base modifications / methylation                   |
++-----------+---------------+----------------------------------------------------+
+| ML        | B,C           | Base modification probabilities                    |
++-----------+---------------+----------------------------------------------------+
 
 
 Notes:
@@ -530,21 +530,21 @@ read is missing a SMRTbell adapter on its left/start or right/end. The tags are
 produced by CCS version 6.3.0 and newer based on the ``ADAPTER_BEFORE_BAD`` and
 ``ADAPTER_AFTER_BAD`` information in the subread ``cx`` tag.
 
-  +-----------+---------------+-------------------------------------------------------------------+
-  | **Tag**   | **Type**      |**Description**                                                    |
-  +===========+===============+===================================================================+
-  | ac        | B,i           | Array containing four counts, in order:                           |
-  |           |               | - detected adapters on left/start                                 |
-  |           |               | - missing adapters on left/start                                  |
-  |           |               | - detected adapters on right/end                                  |
-  |           |               | - missing adapter on right/end                                    |
-  +-----------+---------------+-------------------------------------------------------------------+
-  | ma        | i             | Bitmask storing if an adapter is missing on either side of the    |
-  |           |               | molecule. A value of 0 indicates neither end has a confirmed      |
-  |           |               | missing adapter.                                                  |
-  |           |               | - 0x1 if adapter is missing on left/start                         |
-  |           |               | - 0x2 if adapter is missing on right/end                          |
-  +-----------+---------------+-------------------------------------------------------------------+
++-----------+---------------+-------------------------------------------------------------------+
+| **Tag**   | **Type**      |**Description**                                                    |
++===========+===============+===================================================================+
+| ac        | B,i           | Array containing four counts, in order:                           |
+|           |               | - detected adapters on left/start                                 |
+|           |               | - missing adapters on left/start                                  |
+|           |               | - detected adapters on right/end                                  |
+|           |               | - missing adapter on right/end                                    |
++-----------+---------------+-------------------------------------------------------------------+
+| ma        | i             | Bitmask storing if an adapter is missing on either side of the    |
+|           |               | molecule. A value of 0 indicates neither end has a confirmed      |
+|           |               | missing adapter.                                                  |
+|           |               | - 0x1 if adapter is missing on left/start                         |
+|           |               | - 0x2 if adapter is missing on right/end                          |
++-----------+---------------+-------------------------------------------------------------------+
 
 
 Barcode analysis
@@ -556,13 +556,13 @@ data used to inform the barcode calls---the barcode sequences and associated
 features---will be retained in a separate tag to enable restoring of the source
 read.
 
-  +-----------+---------------+-------------------------------------------+
-  | **Tag**   | **Type**      |**Description**                            |
-  +===========+===============+===========================================+
-  | bc        | B,S           | Barcode Calls                             |
-  +-----------+---------------+-------------------------------------------+
-  | bq        | i             | Barcode Quality                           |
-  +-----------+---------------+-------------------------------------------+
++-----------+---------------+-------------------------------------------+
+| **Tag**   | **Type**      |**Description**                            |
++===========+===============+===========================================+
+| bc        | B,S           | Barcode Calls                             |
++-----------+---------------+-------------------------------------------+
+| bq        | i             | Barcode Quality                           |
++-----------+---------------+-------------------------------------------+
 
 - The ``bc`` tag contains the *barcode call*, a ``uint16[2]`` representing the
   inferred forward and reverse barcodes sequences (as determined by their
@@ -580,23 +580,23 @@ read.
 
 The following (optional) tags describe clipped barcode sequences:
 
-  +-----------+----------+-------------------------------------------------------+
-  | **Tag**   | **Type** | **Description**                                       |
-  +===========+==========+=======================================================+
-  | bl        | Z        | Barcode sequence clipped from leading end             |
-  +-----------+----------+-------------------------------------------------------+
-  | bt        | Z        | Barcode sequence clipped from trailing end            |
-  +-----------+----------+-------------------------------------------------------+
-  | ls        | B,C      | Binary blob storing data that is clipped off.         |
-  +-----------+----------+-------------------------------------------------------+
-  | ql        | Z        | Qualities of barcode bases clipped from leading end,  |
-  |           |          | stored as a FASTQ string                              |
-  +-----------+----------+-------------------------------------------------------+
-  | qt        | Z        | Qualities of barcode bases clipped from trailing end, |
-  |           |          | stored as a FASTQ string                              |
-  +-----------+----------+-------------------------------------------------------+
-  | bx        | B,i      | Pair of clipped barcode sequence lengths              |
-  +-----------+----------+-------------------------------------------------------+
++-----------+----------+-------------------------------------------------------+
+| **Tag**   | **Type** | **Description**                                       |
++===========+==========+=======================================================+
+| bl        | Z        | Barcode sequence clipped from leading end             |
++-----------+----------+-------------------------------------------------------+
+| bt        | Z        | Barcode sequence clipped from trailing end            |
++-----------+----------+-------------------------------------------------------+
+| ls        | B,C      | Binary blob storing data that is clipped off.         |
++-----------+----------+-------------------------------------------------------+
+| ql        | Z        | Qualities of barcode bases clipped from leading end,  |
+|           |          | stored as a FASTQ string                              |
++-----------+----------+-------------------------------------------------------+
+| qt        | Z        | Qualities of barcode bases clipped from trailing end, |
+|           |          | stored as a FASTQ string                              |
++-----------+----------+-------------------------------------------------------+
+| bx        | B,i      | Pair of clipped barcode sequence lengths              |
++-----------+----------+-------------------------------------------------------+
 
 
 Encoding of kinetics pulse features
@@ -622,17 +622,17 @@ features.
 The lossy encoding for IPD and pulsewidth values into the available 256
 codepoints is as follows (**codec v1**):
 
-  +---------------------+-----------------+
-  | Frames              | Encoding        |
-  +---------------------+-----------------+
-  | 0 .. 63             | 0, 1, .. 63     |
-  +---------------------+-----------------+
-  | 64, 66, .. 190      | 64, 65, .. 127  |
-  +---------------------+-----------------+
-  | 192, 196 .. 444     | 128, 129 .. 191 |
-  +---------------------+-----------------+
-  | 448, 456, .. 952    | 192, 193 .. 255 |
-  +---------------------+-----------------+
++---------------------+-----------------+
+| Frames              | Encoding        |
++---------------------+-----------------+
+| 0 .. 63             | 0, 1, .. 63     |
++---------------------+-----------------+
+| 64, 66, .. 190      | 64, 65, .. 127  |
++---------------------+-----------------+
+| 192, 196 .. 444     | 128, 129 .. 191 |
++---------------------+-----------------+
+| 448, 456, .. 952    | 192, 193 .. 255 |
++---------------------+-----------------+
 
 In other words, we use the first 64 codepoints to encode frame counts
 at single frame resolution, the next 64 to encode the frame counts at
@@ -671,21 +671,21 @@ The segment adapter sequences provide markers for splitting the source read
 and their expected sequential order allows the detection of malformed reads.
 These sequences are excised from segmented reads stored in the BAM file.
 
-  +-----------+------------+--------------------------------------------------------------+
-  | **Tag**   | **Type**   | **Description**                                              |
-  +===========+============+==============================================================+
-  | di        | i          | Index of this segment [0, N), denoting its position within   |
-  |           |            | the original CCS read                                        |
-  +-----------+------------+--------------------------------------------------------------+
-  | dl        | i          | 0-based segment adapter index matching the left flank        |
-  |           |            | -1 if not applicable                                         |
-  +-----------+------------+--------------------------------------------------------------+
-  | dr        | i          | 0-based segment adapter index matching the right flank       |
-  |           |            | -1 if not applicable                                         |
-  +-----------+------------+--------------------------------------------------------------+
-  | ds        | B,C        | Supplemental data enabling reconstitution of the source read |
-  |           |            | Binary representation, for internal use only                 |
-  +-----------+------------+--------------------------------------------------------------+
++-----------+------------+--------------------------------------------------------------+
+| **Tag**   | **Type**   | **Description**                                              |
++===========+============+==============================================================+
+| di        | i          | Index of this segment [0, N), denoting its position within   |
+|           |            | the original CCS read                                        |
++-----------+------------+--------------------------------------------------------------+
+| dl        | i          | 0-based segment adapter index matching the left flank        |
+|           |            | -1 if not applicable                                         |
++-----------+------------+--------------------------------------------------------------+
+| dr        | i          | 0-based segment adapter index matching the right flank       |
+|           |            | -1 if not applicable                                         |
++-----------+------------+--------------------------------------------------------------+
+| ds        | B,C        | Supplemental data enabling reconstitution of the source read |
+|           |            | Binary representation, for internal use only                 |
++-----------+------------+--------------------------------------------------------------+
 
 Molecular Inversion Probes CCS reads
 ====================================
@@ -694,21 +694,21 @@ The `mimux` tool identifies the two probes (genomic hybridization sequences),
 removes outside sequences and the probes. It annotates the output file with
 following tags:
 
-  +-----------+------------+--------------------------------------------------------------+
-  | **Tag**   | **Type**   | **Description**                                              |
-  +===========+============+==============================================================+
-  | ie        | i          | Index of the leading probe.                                  |
-  +-----------+------------+--------------------------------------------------------------+
-  | il        | i          | Index of the trailing probe.                                 |
-  +-----------+------------+--------------------------------------------------------------+
-  | lu        | Z          | Unique molecular identifier (UMI) sequence for leading end.  |
-  +-----------+------------+--------------------------------------------------------------+
-  | tu        | Z          | Unique molecular identifier (UMI) sequence for trailing end. |
-  +-----------+------------+--------------------------------------------------------------+
-  | lm        | i          | Leading score of probe.                                      |
-  +-----------+------------+--------------------------------------------------------------+
-  | tm        | i          | Leading score of probe.                                      |
-  +-----------+------------+--------------------------------------------------------------+
++-----------+------------+--------------------------------------------------------------+
+| **Tag**   | **Type**   | **Description**                                              |
++===========+============+==============================================================+
+| ie        | i          | Index of the leading probe.                                  |
++-----------+------------+--------------------------------------------------------------+
+| il        | i          | Index of the trailing probe.                                 |
++-----------+------------+--------------------------------------------------------------+
+| lu        | Z          | Unique molecular identifier (UMI) sequence for leading end.  |
++-----------+------------+--------------------------------------------------------------+
+| tu        | Z          | Unique molecular identifier (UMI) sequence for trailing end. |
++-----------+------------+--------------------------------------------------------------+
+| lm        | i          | Leading score of probe.                                      |
++-----------+------------+--------------------------------------------------------------+
+| tm        | i          | Leading score of probe.                                      |
++-----------+------------+--------------------------------------------------------------+
 
 
 Iso-Seq CCS reads
