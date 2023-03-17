@@ -92,9 +92,9 @@ the same manner as CCS reads in PacBio BAM files, unless noted otherwise.
 
 Fail reads
 ==========
-Fail reads are CCS reads that did not pass all HiFi criteria that are
-going to be expanded over subsequent software releases. If one of the following
-criteria is violated, the CCS read is moved to the `fail_reads.barcode.bam` file::
+Fail reads are CCS reads that did not pass all HiFi criteria that are going to
+be expanded over subsequent software releases. If one of the following criteria
+is violated, the CCS read is moved to the .fail_reads.\ *barcode*.bam file::
 
  * Predicted accuracy is between QV 10-19 (≥v12.0), or
  * A residual SMRTbell adapter is found in the sequence (≥v12.0).
