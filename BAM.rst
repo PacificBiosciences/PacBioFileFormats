@@ -338,10 +338,9 @@ SAM/BAM spec, we encode special information as follows.
       |                     | Barcode File                            |                                  |
       +---------------------+-----------------------------------------+----------------------------------+
       | BarcodeMode         | Experimental design of the barcodes     | Symmetric                        |
-      |                     | Must be Symmetric/Asymmetric/Tailed or  |                                  |
-      |                     | None                                    |                                  |
+      |                     | Must be Symmetric/Asymmetric or None    |                                  |
       +---------------------+-----------------------------------------+----------------------------------+
-      | BarcodeQuality      | The type of value encoded by the bq tag | Probability                      |
+      | BarcodeQuality      | The type of value encoded by the bq tag | Score                            |
       |                     | Must be Score/Probability/None          |                                  |
       +---------------------+-----------------------------------------+----------------------------------+
 
@@ -545,69 +544,53 @@ produced by CCS version 6.3.0 and newer based on the ``ADAPTER_BEFORE_BAD`` and
 Barcode analysis
 ================
 
-In multiplexed workflows, we record per-subread tags representing the
-barcode call and a score representing the confidence of that call.
-The actual data used to inform the barcode calls---the barcode
-sequences and associated pulse features---will be retained in the
-associated ``scraps.bam`` file.
+In multiplexed workflows, we record per-read tags representing the barcode call
+and a score representing the confidence of that call. For CCS reads, the actual
+data used to inform the barcode calls---the barcode sequences and associated
+features---will be retained in a separate tag to enable restoring of the source
+read.
 
-  +-----------+---------------+----------------------------------------------------+
-  | **Tag**   | **Type**      |**Description**                                     |
-  +===========+===============+====================================================+
-  | bc        | B,S           | Barcode Calls (per-ZMW)                            |
-  +-----------+---------------+----------------------------------------------------+
-  | bq        | i             | Barcode Quality (per-ZMW)                          |
-  +-----------+---------------+----------------------------------------------------+
+  +-----------+---------------+-------------------------------------------+
+  | **Tag**   | **Type**      |**Description**                            |
+  +===========+===============+===========================================+
+  | bc        | B,S           | Barcode Calls                             |
+  +-----------+---------------+-------------------------------------------+
+  | bq        | i             | Barcode Quality                           |
+  +-----------+---------------+-------------------------------------------+
 
-- Both the ``bc`` and ``bq`` tags are calculated ``per-ZMW``, so every
-  subread belonging to a given ZMW should share identical ``bc`` and
-  ``bq`` values. The tags are also inter-depedent, so if a subread
-  has the ``bc`` tag, it must also have a ``bq`` tag and vise-versa.
-  If the tags are present for any subread in a ZMW, they must be present
-  for all of them. In the absence of barcodes, both the ``bc`` and
-  ``bq`` tags will be absent
+- The ``bc`` tag contains the *barcode call*, a ``uint16[2]`` representing the
+  inferred forward and reverse barcodes sequences (as determined by their
+  ordering in the Barcode FASTA), or more succinctly, it contains the integer
+  pair :math:`B_F, B_R`. Integer codes represent 0-based position in the FASTA
+  file of barcodes.
 
-- The ``bc`` tag contains the *barcode call*, a ``uint16[2]``
-  representing the inferred forward and reverse barcodes sequences (as
-  determined by their ordering in the Barcode FASTA), or more
-  succinctly, it contains the integer pair :math:`B_F, B_R`. Integer
-  codes represent 0-based position in the FASTA file of barcodes.
+- The integer (``int``) ``bq`` tag contains the barcode call confidence. The tag
+  represents the mean normalized sum of the calculated Smith-Waterman scores
+  that support the call in the ``bc`` tag across all subreads. For each barcode,
+  the sum of the Smith-Waterman score is normalized by the length of the barcode
+  times the match score, then multiplied by 100 and rounded; this provides an
+  integer value between 0 - 100.
 
-- The integer (``int``) ``bq`` tag contains the barcode call confidence.
-  If the ``BarcodeQuality`` element of the header is set to ``Score``,
-  then the tag represents the mean normalized sum of the calculated
-  Smith-Waterman scores that support the call in the ``bc`` tag across all
-  subreads. For each barcode, the sum of the Smith-Waterman score is normalized
-  by the length of the barcode times the match score, then multiplied by 100
-  and rounded; this provides an integer value between 0 - 100.
-  On the other hand, if the value of the header-tag is ``Probability`` instead,
-  then the tag value is a the Phred-scaled posterior probability that the
-  barcode call in ``bc`` is correct.
-  In both cases, the value will never exceed the ``int8`` range, but for
-  backward-compatibility reasons we keep the BAM ``bq`` as ``int``.
-  This contract allows the PBI to store ``bq`` as a much smaller ``int8``.
 
 The following (optional) tags describe clipped barcode sequences:
 
-  +-----------+---------------+-------------------------------------------------------+
-  | **Tag**   | **Type**      | **Description**                                       |
-  +===========+===============+=======================================================+
-  | bl        | Z             | Barcode sequence clipped from leading end             |
-  +-----------+---------------+-------------------------------------------------------+
-  | bt        | Z             | Barcode sequence clipped from trailing end            |
-  +-----------+---------------+-------------------------------------------------------+
-  | ql        | Z             | Qualities of barcode bases clipped from leading end,  |
-  |           |               | stored as a FASTQ string                              |
-  +-----------+---------------+-------------------------------------------------------+
-  | qt        | Z             | Qualities of barcode bases clipped from trailing end, |
-  |           |               | stored as a FASTQ string                              |
-  +-----------+---------------+-------------------------------------------------------+
-  | bx        | B,i           | Pair of clipped barcode sequence lengths              |
-  +-----------+---------------+-------------------------------------------------------+
-
-
-Barcode information will follow the same convention in CCS output
-(``ccs.bam`` files).
+  +-----------+----------+-------------------------------------------------------+
+  | **Tag**   | **Type** | **Description**                                       |
+  +===========+==========+=======================================================+
+  | bl        | Z        | Barcode sequence clipped from leading end             |
+  +-----------+----------+-------------------------------------------------------+
+  | bt        | Z        | Barcode sequence clipped from trailing end            |
+  +-----------+----------+-------------------------------------------------------+
+  | ls        | B,C      | Binary blob storing data that is clipped off.         |
+  +-----------+----------+-------------------------------------------------------+
+  | ql        | Z        | Qualities of barcode bases clipped from leading end,  |
+  |           |          | stored as a FASTQ string                              |
+  +-----------+----------+-------------------------------------------------------+
+  | qt        | Z        | Qualities of barcode bases clipped from trailing end, |
+  |           |          | stored as a FASTQ string                              |
+  +-----------+----------+-------------------------------------------------------+
+  | bx        | B,i      | Pair of clipped barcode sequence lengths              |
+  +-----------+----------+-------------------------------------------------------+
 
 
 Alignment: the contract for a mapper
