@@ -711,6 +711,57 @@ following tags:
   +-----------+------------+--------------------------------------------------------------+
 
 
+Iso-Seq CCS reads
+=================
+
+Iso-Seq contains various tools to identify, annotate, and process transcripts
+from CCS reads. These tools add following tags (more details on
+`isoseq.how<https://isoseq.how/isoseq-tags.html>`_):
+
++---------+----------+---------------------------------------------------------------------------+
+| **Tag** | **Type** |                              **Description**                              |
++=========+==========+===========================================================================+
+| CB      | Z        | Corrected cell barcode.                                                   |
++---------+----------+---------------------------------------------------------------------------+
+| CR      | Z        | Raw (uncorrected) cell barcode.                                           |
++---------+----------+---------------------------------------------------------------------------+
+| XA      | Z        | Order of tags names.                                                      |
++---------+----------+---------------------------------------------------------------------------+
+| XC      | Z        | Raw cell barcode.                                                         |
++---------+----------+---------------------------------------------------------------------------+
+| XG      | Z        | PacBio's GGG UMI suffix tag.                                              |
++---------+----------+---------------------------------------------------------------------------+
+| XM      | Z        | Raw (after `tag`) or corrected (after `correct`) UMI.                     |
++---------+----------+---------------------------------------------------------------------------+
+| XO      | Z        | Overhang sequence tag.                                                    |
++---------+----------+---------------------------------------------------------------------------+
+| gp      | i        | Flag specifying whether or not the barcode for the given read passes      |
++---------+----------+---------------------------------------------------------------------------+
+| ic      | i        | Number of reads used to generate consensus. If less than `is`, this means |
+|         |          | that reads were down-sampled when consensus-calling.                      |
++---------+----------+---------------------------------------------------------------------------+
+| im      | Z        | List of names of input reads used in generating consensus.                |
++---------+----------+---------------------------------------------------------------------------+
+| is      | i        | Number of reads associated with isoform.                                  |
++---------+----------+---------------------------------------------------------------------------+
+| it      | Z        | List of barcodes / UMIs clipped during tag.                               |
++---------+----------+---------------------------------------------------------------------------+
+| iz      | i        | Maximum number of subreads used for polishing.                            |
++---------+----------+---------------------------------------------------------------------------+
+| nb      | i        | Edit distance from the barcode for the read to the barcode to which       |
+|         |          | it was reassigned. This is 0 if the barcode matches exactly,              |
+|         |          | -1 if the barcode could not be rescued, and the edit distance otherwise.  |
++---------+----------+---------------------------------------------------------------------------+
+| nc      | i        | Number of candidate barcodes.                                             |
++---------+----------+---------------------------------------------------------------------------+
+| oc      | Z        | String representation of other potential barcodes / choices.              |
+|         |          | filters. 1 for passing, 0 for failing.                                    |
++---------+----------+---------------------------------------------------------------------------+
+| rc      | i        | Predicted real cell. This is 1 if a read is predicted to come from a real |
+|         |          | cell and 0 if predicted to be a non-real cell.                            |
++---------+----------+---------------------------------------------------------------------------+
+
+
 Alignment: the contract for a mapper
 ====================================
 
