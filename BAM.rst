@@ -50,6 +50,7 @@ intervals are closed.
 
          \newpage
 
+
 *Query* versus *aligned query* terminology
 ==========================================
 
@@ -82,10 +83,12 @@ In our BAM files, the qStart, qEnd are contained in the ``qs`` and
 ``qs`` and ``qe`` by the number of soft-clipped bases at the ends of
 the alignment (as found in the CIGAR).
 
+
 HiFi reads
 ==========
 HiFi reads are defined as consensus reads with a QV ≥20. These are treated in
 the same manner as CCS reads in PacBio BAM files, unless noted otherwise.
+
 
 Fail reads
 ==========
@@ -96,6 +99,7 @@ criteria is violated, the CCS read is moved to the `fail_reads.barcode.bam` file
  * Predicted accuracy is between QV 10-19 (≥v12.0), or
  * A residual SMRTbell adapter is found in the sequence (≥v12.0), or
  * Read is single-stranded (≥v12.0).
+
 
 QNAME convention
 ================
@@ -121,6 +125,7 @@ represents a span within the source read::
   {movieName}/{holeNumber}/ccs/fwd/{qStart}_{qEnd}
   {movieName}/{holeNumber}/ccs/rev/{qStart}_{qEnd}
 
+
 CIGAR conventions
 =================
 
@@ -145,6 +150,7 @@ use a ``suffix.bam`` filename convention:
   +------------------------------------+--------------------------------------------+
   | Rejected CCS reads                 | *movieName*.fail_reads.\ *barcode*.bam     |
   +------------------------------------+--------------------------------------------+
+
 
 BAM sorting conventions
 =======================
