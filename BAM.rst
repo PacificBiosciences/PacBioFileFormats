@@ -687,6 +687,29 @@ These sequences are excised from segmented reads stored in the BAM file.
   |           |            | Binary representation, for internal use only                 |
   +-----------+------------+--------------------------------------------------------------+
 
+Molecular Inversion Probes CCS reads
+====================================
+
+The `mimux` tool identifies the two probes (genomic hybridization sequences),
+removes outside sequences and the probes. It annotates the output file with
+following tags:
+
+  +-----------+------------+--------------------------------------------------------------+
+  | **Tag**   | **Type**   | **Description**                                              |
+  +===========+============+==============================================================+
+  | ie        | i          | Index of the leading probe.                                  |
+  +-----------+------------+--------------------------------------------------------------+
+  | il        | i          | Index of the trailing probe.                                 |
+  +-----------+------------+--------------------------------------------------------------+
+  | lu        | Z          | Unique molecular identifier (UMI) sequence for leading end.  |
+  +-----------+------------+--------------------------------------------------------------+
+  | tu        | Z          | Unique molecular identifier (UMI) sequence for trailing end. |
+  +-----------+------------+--------------------------------------------------------------+
+  | lm        | i          | Leading score of probe.                                      |
+  +-----------+------------+--------------------------------------------------------------+
+  | tm        | i          | Leading score of probe.                                      |
+  +-----------+------------+--------------------------------------------------------------+
+
 
 Alignment: the contract for a mapper
 ====================================
