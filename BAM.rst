@@ -140,15 +140,15 @@ BAM filename conventions
 Since we will be using BAM format for different kinds of data, we will
 use a ``suffix.bam`` filename convention:
 
-+------------------------------------+--------------------------------------------+
-| Data type                          | Filename template                          |
-+====================================+============================================+
-| HiFi reads computed from movie     | *movieName*.hifi_reads.\ *barcode*.bam     |
-+------------------------------------+--------------------------------------------+
-| Aligned HiFi in a job              | *jobID*.aligned.hifi_reads.\ *barcode*.bam |
-+------------------------------------+--------------------------------------------+
-| Rejected CCS reads                 | *movieName*.fail_reads.\ *barcode*.bam     |
-+------------------------------------+--------------------------------------------+
++--------------------+-------------------------------------+
+| Data type          | Filename template                   |
++====================+=====================================+
+| HiFi reads         | .hifi_reads.\ *barcode*.bam         |
++--------------------+-------------------------------------+
+| Aligned HiFi reads | .aligned.hifi_reads.\ *barcode*.bam |
++--------------------+-------------------------------------+
+| Fail reads         | .fail_reads.\ *barcode*.bam         |
++--------------------+-------------------------------------+
 
 
 BAM sorting conventions
