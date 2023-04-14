@@ -319,6 +319,8 @@ SAM/BAM spec, we encode special information as follows.
       +-------------------+-------------------------------------+------------------------+
       | ICSVERSION        | ICS version                         | 12.0.0.172107          |
       +-------------------+-------------------------------------+------------------------+
+      | MOVIELENGTH       | Movie length, in minutes            | 1440.0                 |
+      +-------------------+-------------------------------------+------------------------+
 
       **Base feature manifest---absent item  means feature absent from reads:**
 
