@@ -507,6 +507,24 @@ shown as stored in the BAM file::
   - Unlike ``SEQ`` and ``QUAL``, aligners will not orient these tags.
 
 
+Use of read tags for HiFi per-read-base pileup summary
+======================================================
+
+The following (optional) read tags encode the alignment pileup of subreads to the
+consensus read.
+
++-----------+---------------+----------------------------------------------------+
+| **Tag**   | **Type**      |**Description**                                     |
++===========+===============+====================================================+
+| sa        | B,I           | Run-length encoded per-base coverage by subread    |
+|           |               | alignments in form of <length>,<coverage>,...      |
++-----------+---------------+----------------------------------------------------+
+| sm        | B,C           | Per-base number of aligned matches                 |
++-----------+---------------+----------------------------------------------------+
+| sx        | B,C           | Per-base number of aligned mismatches              |
++-----------+---------------+----------------------------------------------------+
+
+
 Use of read tags for per-read-base base modifications
 =====================================================
 
