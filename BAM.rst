@@ -96,7 +96,7 @@ Fail reads are CCS reads that did not pass all HiFi criteria that are going to
 be expanded over subsequent software releases. If one of the following criteria
 is violated, the CCS read is moved to the .fail_reads.\ *barcode*.bam file::
 
- * Predicted accuracy is between QV 10-19 (≥v12.0), or
+ * Predicted accuracy is below QV 20 (≥v13.0; QV 10-19 ≥v12.0), or
  * a residual SMRTbell adapter is found in the read (≥v12.0), or
  * the read is a control sequence (≥v12.1), or
  * the read is single-stranded (≥v12.1), or
@@ -417,7 +417,7 @@ Use of read tags for fail per-read information
 +===========+============+=============================================================================+
 | ff        | i          | Fail flag indicating the failed HiFi criteria:                              |
 |           |            |                                                                             |
-|           |            | * ``0x1`` for CCS reads with predicted accuracy between QV 10-19            |
+|           |            | * ``0x1`` for CCS reads with predicted accuracy below QV 20                 |
 |           |            | * ``0x2`` for control CCS reads                                             |
 |           |            | * ``0x4`` for single-stranded CCS reads                                     |
 |           |            | * ``0x8`` for subreads with a long GA stretch                               |
