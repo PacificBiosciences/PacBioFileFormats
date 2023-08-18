@@ -96,11 +96,12 @@ Fail reads are CCS reads that did not pass all HiFi criteria that are going to
 be expanded over subsequent software releases. If one of the following criteria
 is violated, the CCS read is moved to the .fail_reads.\ *barcode*.bam file::
 
- * Predicted accuracy is below QV 20 (≥v13.0; QV 10-19 ≥v12.0), or
- * a residual SMRTbell adapter is found in the read (≥v12.0), or
- * the read is a control sequence (≥v12.1), or
- * the read is single-stranded (≥v12.1), or
- * the read has a long GA stretch (≥v12.1).
+ * the consensus read has predicted quality below QV 20 (≥v13.0; QV 10-19 ≥v12.0), or
+ * the read contains a residual SMRTbell adapter (≥v12.0), or
+ * the read is a control sequence (≥v13.0), or
+ * the read is single-stranded (≥v13.0), or
+ * the read is a subread (the median full-length one) from a ZMW that does not
+ produce a consensus but has at least one full pass (≥v13.0).
 
 QNAME convention
 ================
@@ -420,7 +421,8 @@ Use of read tags for fail per-read information
 |           |            | * ``0x1`` for CCS reads with predicted accuracy below QV 20                 |
 |           |            | * ``0x2`` for control CCS reads                                             |
 |           |            | * ``0x4`` for single-stranded CCS reads                                     |
-|           |            | * ``0x8`` for subreads with a long GA stretch                               |
+|           |            | * ``0x8`` for the median full-length subread from molecules that do not     |
+|           |            |     produce a CCS read but have at least one full pass                      |
 |           |            | * ``0x10`` for CCS reads which are a concatenation of the adapter, with     |
 |           |            |     possible short non-adapter sequence in between                          |
 |           |            | * ``0x20`` for CCS reads with miscalled adapter which is enclosed by a      |
