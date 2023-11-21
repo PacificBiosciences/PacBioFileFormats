@@ -169,6 +169,11 @@ sorted numerically by ``{qStart}_{qEnd}``. This is similar to sorting by
 ``QNAME`` but not strictly alphabetical, so the BAM ``@HD:SO`` header tag is set
 to ``unknown``.
 
+Prior to Revio ICS v13.0 and SMRT Link v13.0, the BAM ``@HD:SO`` header tag is
+set to ``unknown``.
+
+In Revio ICS v13.0 and SMRT Link v13.0, the reads are grouped by minimizer and
+the ``@HD:SO`` header tag is set to ``coordinate``.
 
 Use of headers for file-level information
 =========================================
