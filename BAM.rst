@@ -279,7 +279,8 @@ SAM/BAM spec, we encode special information as follows.
       | Key               | Value spec                                | Value example    |
       +===================+===========================================+==================+
       | READTYPE          | One of SUBREAD, CCS, SEGMENT,             | SUBREAD          |
-      |                   | ZMW, HQREGION, SCRAP, or UNKNOWN          |                  |
+      |                   | ZMW, HQREGION, SCRAP, TRANSCRIPT, or      |                  |
+      |                   | UNKNOWN                                   |                  |
       +-------------------+-------------------------------------------+------------------+
       | SOURCE            | For segmented reads, the READTYPE of its  | CCS              |
       |                   | source read. Key is present for segmented |                  |
