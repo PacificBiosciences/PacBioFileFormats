@@ -434,6 +434,8 @@ Use of read tags for fail per-read information
 |           |            | * ``0x20`` for CCS reads with miscalled adapter which is enclosed by a      |
 |           |            |     sequence and its reverse complement, either spanning to the end         |
 |           |            | * ``0x40`` for CCS reads that have one or more adapters close to either end |
+|           |            | * ``0x80`` for SEGMENT reads without segmentation adapters in sequential    |
+|           |            |     order                                                                   |
 +-----------+------------+-----------------------------------------------------------------------------+
 
 
