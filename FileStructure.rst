@@ -1,11 +1,12 @@
-Revio file structure
-====================
+===========================
+Revio & Vega file structure
+===========================
 
-The Revio platform has a different output file structure than Sequel II and
-Sequel IIe.
+The Revio and Vega platforms have a different output file structure than Sequel
+II and Sequel IIe.
 
 Directory structure
--------------------
+===================
 
 .. code-block::
 
@@ -32,7 +33,10 @@ in particular::
    sN     - stage number (Revio has four)
 
 File structure
---------------
+==============
+
+Barcoded data example (from Revio)
+----------------------------------
 
 In the following example, one barcode ('bc2001') has been used. If
 you see the 'default' file infix, this is the standard, unbarcoded TC6 SMRTbell
@@ -90,3 +94,48 @@ adapter.
           ├─ m84001_220722_134701_s1.hifi_reads.lima_report.txt
           ├─ m84001_220722_134701_s1.hifi_reads.lima_summary.txt
           └─ m84001_220722_134701_s1.zmw_metrics.json.gz
+
+
+Non-barcoded data example (from Vega)
+-------------------------------------
+
+.. code-block::
+
+  Transfer_Scheme_Path/
+  └─r21012_20241030_183049
+    └─1_A01
+      ├─ fail_reads
+      |  ├─ m21012_241030_210509.fail_reads.bam
+      │  └─ m21012_241030_210509.fail_reads.bam.pbi
+      ├─ hifi_reads
+      │  ├─ m21012_241030_210509.hifi_reads.bam
+      │  └─ m21012_241030_210509.hifi_reads.bam.pbi
+      ├─ metadata
+      │  ├─ m21012_241030_210509.basecaller.log
+      │  ├─ m21012_241030_210509.baz2bam.log
+      │  ├─ m21012_241030_210509.ccs.log
+      │  ├─ m21012_241030_210509.combined_baz2bam.log
+      │  ├─ m21012_241030_210509.fail_reads.jasmine.log
+      │  ├─ m21012_241030_210509.fail_reads.samtools.log
+      │  ├─ m21012_241030_210509.fail_reads.trim.log
+      │  ├─ m21012_241030_210509.finalize-dataset.log
+      │  ├─ m21012_241030_210509.hifi_reads.jasmine.log
+      │  ├─ m21012_241030_210509.hifi_reads.samtools.log
+      │  ├─ m21012_241030_210509.hifi_reads.trim.log
+      │  ├─ m21012_241030_210509.metadata.xml
+      │  ├─ m21012_241030_210509.sts.xml
+      │  ├─ m21012_241030_210509.transferdone
+      │  └─ m21012_241030_210509.transferfail
+      ├─ pb_formats
+      │  └─ m21012_241030_210509.hifi_reads.consensusreadset.xml
+      └─ statistics
+         ├─ m21012_241030_210509.ccs_report.json
+         ├─ m21012_241030_210509.ccs_report.txt
+         ├─ m21012_241030_210509.fail_reads.5mc_report.json
+         ├─ m21012_241030_210509.hifi_reads.5mc_report.json
+         ├─ m21012_241030_210509.pbreports.log
+         ├─ m21012_241030_210509.report.pdf
+         ├─ m21012_241030_210509.reports.zip
+         ├─ m21012_241030_210509.summary.json
+         ├─ m21012_241030_210509.zmw_metrics.csv.gz
+         └─ m21012_241030_210509.zmw_metrics.json.gz
